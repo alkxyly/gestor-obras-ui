@@ -1,0 +1,159 @@
+.star-icon .pi-star {
+    color: #FFD700; 
+    font-size: 1.5rem;
+    margin-right: 4px; 
+    text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700; 
+    animation: pulsate 1.5s infinite; 
+}
+
+@keyframes pulsate {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}  
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+  
+  p-dropdown {
+    width: 200px;
+  }
+  
+  .calendar-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .calendar-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .selected-date{
+    font-size: 16px;    
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer; 
+}
+
+.card-custom {
+  position: relative;
+  cursor: pointer;
+}
+
+.custom-tooltip {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  top: 100%; 
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap; 
+  margin-top: 8px; 
+}
+
+.card-custom:hover .custom-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+:host ::ng-deep {
+    .p-button.p-button-text {
+        background: transparent;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        padding: 0.5rem;
+        color: var(--text-color);
+        width: 200px;
+        justify-content: space-between;
+        
+        &:hover {
+            background: rgba(0,0,0,.04);
+            border-color: #ced4da;
+        }
+
+        .pi-chevron-down {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+    }
+
+    .month-year-only {
+        .p-datepicker-calendar {
+            display: none !important;
+        }
+        
+        .p-datepicker-header {
+            border-bottom: none;
+            background-color: #4c399e;
+            padding: 1rem;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+
+            .p-datepicker-title {
+                .p-datepicker-month, .p-datepicker-year {
+                    color: #fafafa;
+                    font-weight: 600;
+                    font-size: 1rem;
+                }
+            }
+
+            .p-datepicker-prev, .p-datepicker-next {
+                color: #ffffff;
+                &:hover {
+                    color: #fafafa;
+                    background: rgba(0,0,0,.04);
+                }
+            }
+        }
+    }
+
+    .p-dropdown-panel {
+        .p-dropdown-items-empty-message {
+            display: none !important;
+        }
+    }
+}

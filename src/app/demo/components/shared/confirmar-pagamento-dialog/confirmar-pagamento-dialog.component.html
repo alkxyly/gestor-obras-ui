@@ -1,0 +1,62 @@
+<p-dialog
+  header="Dejesa confirmar o pagamento?"
+  [(visible)]="exibirModal"
+  [modal]="true"
+  [style]="{width: '40vw', height: '30vh'}"
+>
+<div class="grid p-fluid">
+
+  <div class="col-12 md:col-12">
+    <span>Ao efetivar será adicionado o valor na Receita/Despesa</span>
+  </div>
+  <div class="col-12 md:col-12">
+    <div class="field">
+      <label for="dataPagamento">Data de Pagamento</label>
+      <p-calendar
+        id="dataPagamento"
+        [(ngModel)]="dataSelecionada"
+        [showIcon]="true"
+        appendTo="body"
+        touchUI="true"
+        dateFormat="dd/mm/yy"
+      ></p-calendar>
+    </div>
+   
+    <div class="flex gap-2 mb-4 justify-content-center align-items-center">
+      <p-button 
+        label="Hoje" 
+        [rounded]="true" 
+        class="p-button-success" 
+        (click)="selecionarData('hoje')">
+      </p-button>
+      <p-button 
+        label="Ontem" 
+        [rounded]="true" 
+        class="p-button-info" 
+        (click)="selecionarData('ontem')">
+      </p-button>
+    </div>
+
+   
+    <div class="mt-3" *ngIf="dataSelecionada">
+      <strong>Data selecionada:</strong> {{ dataSelecionada | date: 'dd/MM/yyyy' }}
+    </div>
+  </div>
+</div>
+<p-footer>
+  <button
+    pButton
+    type="button"
+    label="Confirmar"
+    (click)="onConfirmar()"
+    [disabled]="!dataSelecionada"
+  ></button>
+  <button
+    pButton
+    type="button"
+    label="Cancelar"
+    (click)="onCancelar()"
+    class="p-button-secondary"
+  ></button>
+</p-footer>
+</p-dialog>

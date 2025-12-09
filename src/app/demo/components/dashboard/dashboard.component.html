@@ -1,0 +1,214 @@
+<div class="grid"> 
+        <div class="container">
+            <div class="dropdown-container">
+                <p-button 
+                    (onClick)="abrirCalendario()"
+                    styleClass="p-button-text">
+                    <div *ngIf="dataSelecionada" class="selected-date">
+                        {{ dataSelecionada | date:'MMMM yyyy' | titlecase }}   
+                    </div>
+                    <i class="pi pi-chevron-down"></i>
+                </p-button>
+                <div  *ngIf="displayCalendar"  class="calendar-container"  [ngClass]="{ 'visible': displayCalendar }">
+                    <p-calendar 
+                        [(ngModel)]="dataSelecionada" 
+                        [inline]="true" 
+                        [showWeek]="false"
+                        selectionMode="month"
+                        [monthNavigator]="true"
+                        [yearNavigator]="true"
+                        [showIcon]="false"
+                        [showButtonBar]="false"
+                        [showOtherMonths]="false"
+                        [showOnFocus]="false"
+                        [readonlyInput]="true"
+                        [view]="'month'"
+                        dateFormat="mm/yy"
+                        (onSelect)="onDateSelect($event)"
+                        styleClass="month-year-only"
+                    ></p-calendar>
+                </div>
+            </div>        
+        </div>
+    
+        <div class="col-12 lg:col-12 xl:col-12 flex justify-content-end">
+            <button pButton icon="pi pi-eye" (click)="mostrarValoresDashboard()"></button>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card card-custom mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                <span class="block text-900 font-bold mb-3">{{ resumoDashboard.totalVeiculos }} Veículos</span>
+                <div class="text-900 font-medium text-xl">
+                    <span class="text-green-500">{{ resumoDashboard.veiculosDisponiveis }} disponíveis</span>
+                    <span class="text-blue-500 font-medium"> {{ resumoDashboard.veiculosAlugados }} alugados</span>
+                </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-green-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                <i class="pi pi-car text-green-500 text-xl"></i>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div class="col-12 lg:col-6 xl:col-3" (click)="onRedirecionarReceitas()">
+            <div class="card card-custom mb-0" style="cursor: pointer;">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-900 font-bold mb-3">Receitas</span>
+                        <div class="text-900 font-medium text-xl">
+                            <ng-container *ngIf="mostrarValores; else stars">
+                                <span class="text-2xl font-bold">{{ resumoDashboard.totalReceitas | currency:'BRL':'symbol':'1.2-2' }}</span>
+                            </ng-container>
+                            <ng-template #stars>
+                                <span class="star-icon">
+                                    <label style="font-size: xx-large;">*</label>
+                                    <label style="font-size: xx-large;">*</label>
+                                    <label style="font-size: xx-large;">*</label>
+                                    <label style="font-size: xx-large;">*</label>
+                                </span>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-wallet text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+                <div class="custom-tooltip">
+                    Valor total de receitas no mês
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 lg:col-6 xl:col-3"  (click)="onRedirecionarDespesas()"> 
+            <div class="card card-custom mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-900 font-bold mb-3">Despesas</span>
+                        <div class="text-900 font-medium text-xl"><ng-container *ngIf="mostrarValores; else stars">
+                            <span class="text-2xl font-bold">{{ resumoDashboard.totalDespesas | currency:'BRL':'symbol':'1.2-2' }}</span>
+                        </ng-container>
+                        <ng-template #stars>
+                            <span class="star-icon">
+                                <label style="font-size: xx-large;">*</label>
+                                <label style="font-size: xx-large;">*</label>
+                                <label style="font-size: xx-large;">*</label>
+                                <label style="font-size: xx-large;">*</label>
+                            </span>
+                        </ng-template>
+                    </div>
+                </div>
+                    <div class="flex align-items-center justify-content-center bg-teal-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-money-bill text-teal-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>      
+        </div>
+        
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card card-custom mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-900 font-bold mb-3">Lucro</span>
+                        <div class="text-900 font-medium text-xl">
+                            <ng-container *ngIf="mostrarValores; else stars">
+                                <span class="text-2xl font-bold">{{ resumoDashboard.totalReceitas - resumoDashboard.totalDespesas | currency:'BRL':'symbol':'1.2-2' }}</span> 
+                            </ng-container>
+                            <ng-template #stars>
+                                <span class="star-icon">
+                                    <label style="font-size: xx-large;">*</label>
+                                    <label style="font-size: xx-large;">*</label>
+                                    <label style="font-size: xx-large;">*</label>
+                                    <label style="font-size: xx-large;">*</label>
+                                </span>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-chart-line text-blue-500 text-xl"></i>
+                    </div> 
+               </div>
+            </div>
+        </div>
+        
+
+
+        <div class="col-12 xl:col-12">
+            <div class="card">
+                <h5>Pagamentos da semana</h5>
+                <p-table [value]="pagamentosSemana" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="diaSemana">Dia da Semana <p-sortIcon field="diaSemana"></p-sortIcon></th>
+                            <th pSortableColumn="diaSemana">Data <p-sortIcon field="dataPagamentoPrevisto"></p-sortIcon></th>
+                            <th>Placa</th>
+                            <th>Locatário</th>
+                            <th>Vencimento CNH</th>
+                            <th>Status CNH</th>
+                            <th pSortableColumn="valor">Valor <p-sortIcon field="valor"></p-sortIcon></th>
+                            <th pSortableColumn="situacao">Situação Pagamento <p-sortIcon field="situacao"></p-sortIcon></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-pagamento>
+                        <tr>
+                            <td style="width: 10%; min-width: 8rem;">{{ pagamento.diaSemana | uppercase }}</td>
+                            <td style="width: 10%; min-width: 8rem;">{{ pagamento.dataPagamentoPrevisto | date: 'dd/MM/YYYY' }}</td>
+                            <td style="width: 10%; min-width: 5rem;">
+                                {{ pagamento.veiculo }}
+                            </td>
+                            <td style="width: 20%; min-width: 7rem;">{{ pagamento.locatario  | uppercase }}</td>
+                            <td style="width: 15%; min-width: 7rem;">{{ pagamento.dataVencimentoCnh | date: 'dd/MM/YYYY' }}</td>
+                            <td style="width: 15%; min-width: 7rem;">
+                                <p-tag 
+                                    [icon]="getStatusCnhIcon(pagamento.statusCnh)" 
+                                    [severity]="getStatusCnhSeverity(pagamento.statusCnh)" 
+                                    [value]="pagamento.statusCnh | uppercase" />
+                            </td>
+                            <td style="width: 15%; min-width: 7rem;">{{ pagamento.valor | currency:'BRL':'symbol':'1.2-2' }}</td>
+                            <td style="width: 15%; min-width: 7rem;"><p-tag [icon]="pagamento.situacao === 'PAGO' ? 'pi pi-check' : 'pi pi-times'" severity="{{ pagamento.situacao === 'PAGO' ? 'success' : 'danger' }}" value="{{ pagamento.situacao }}" /></td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <tr>
+                          <td colspan="6">Total</td>
+                          <td style="font-weight: bold;">
+                            {{ totalValorVisivel | currency:'BRL':'symbol':'1.2-2' }}
+                          </td>
+                          <td></td>
+                        </tr>
+                      </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <div class="col-12 xl:col-6">
+            <div class="card">
+                <h5>Despesas x Receitas</h5>
+                <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
+            </div>
+        </div>
+  
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card">
+            <h5>Despesa por moto</h5>
+            <ng-container *ngIf="despesaPorMoto.datasets[0].data.length > 0; else noData">   
+                <p-chart type="doughnut" [data]="despesaPorMoto" [options]="options" />
+            </ng-container>
+            <ng-template #noData>
+                <p>Nenhum dado disponível</p>
+            </ng-template>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card">
+            <h5>Receita por moto</h5>
+                <ng-container *ngIf="receitaPorMoto.datasets[0].data.length > 0; else noData">
+                    <p-chart type="doughnut" [data]="receitaPorMoto" [options]="options" />
+                </ng-container>
+                <ng-template #noData>
+                    <p>Nenhum dado disponível</p>
+                </ng-template>
+            </div>
+        </div>
+</div>

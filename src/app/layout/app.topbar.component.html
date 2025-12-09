@@ -1,0 +1,58 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg"
+            alt="logo">
+        <span>Locador</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+    <div #topbarmenu class="layout-topbar-menu"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}"
+        style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+
+        <div>
+            <label
+                style="background-color: #f0f0f5; color: #012241;font-weight: bold; padding: 8px 12px; border-radius: 8px; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                {{ nome }}
+            </label>
+        </div>
+        <div class="notification-container">
+            <button class="p-link layout-topbar-button" (click)="op.toggle($event)">
+                <i class="pi pi-bell"></i>
+                <span>Notificações</span>
+            </button>
+            <p-overlayPanel #op>
+                <div class="flex flex-column gap-3 w-25rem">
+                    <div>
+                        <span class="font-medium text-900 block mb-2">Notificações</span>
+                        <ul class="list-none p-0 m-0 flex flex-column gap-3">
+                            <li *ngFor="let member of members" class="flex align-items-center gap-2">
+                                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/avatar/' + member.image" style="width: 32px" />
+                                <div>
+                                    <span class="font-medium">{{ member.name }}</span>
+                                    <div class="text-sm text-color-secondary">{{ member.email }}</div>
+                                </div>
+                                <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
+                                    
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </p-overlayPanel>
+        </div>
+
+        <button class="p-link layout-topbar-button" (click)="logout()">
+            <i class="pi pi-power-off"></i>
+            <span>Logout</span>
+        </button>
+    </div>
+
+</div>
