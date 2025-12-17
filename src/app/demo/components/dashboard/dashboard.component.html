@@ -1,214 +1,208 @@
-<div class="grid"> 
-        <div class="container">
-            <div class="dropdown-container">
-                <p-button 
-                    (onClick)="abrirCalendario()"
-                    styleClass="p-button-text">
-                    <div *ngIf="dataSelecionada" class="selected-date">
-                        {{ dataSelecionada | date:'MMMM yyyy' | titlecase }}   
-                    </div>
-                    <i class="pi pi-chevron-down"></i>
-                </p-button>
-                <div  *ngIf="displayCalendar"  class="calendar-container"  [ngClass]="{ 'visible': displayCalendar }">
-                    <p-calendar 
-                        [(ngModel)]="dataSelecionada" 
-                        [inline]="true" 
-                        [showWeek]="false"
-                        selectionMode="month"
-                        [monthNavigator]="true"
-                        [yearNavigator]="true"
-                        [showIcon]="false"
-                        [showButtonBar]="false"
-                        [showOtherMonths]="false"
-                        [showOnFocus]="false"
-                        [readonlyInput]="true"
-                        [view]="'month'"
-                        dateFormat="mm/yy"
-                        (onSelect)="onDateSelect($event)"
-                        styleClass="month-year-only"
-                    ></p-calendar>
+<div class="grid">
+
+
+
+    <!-- Total de Contratos -->
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between align-items-start p-4">
+                <div class="flex flex-column flex-1">
+                    <span class="block text-500 font-medium mb-2 text-sm">Total de Contratos</span>
+                    <div class="text-900 font-bold text-4xl value-highlight">{{ totalContratos }}</div>
                 </div>
-            </div>        
+                <div class="flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem">
+                    <i class="pi pi-file text-4xl icon-blue"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total de Funcionários -->
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between align-items-start p-4">
+                <div class="flex flex-column flex-1">
+                    <span class="block text-500 font-medium mb-2 text-sm">Total de Funcionários</span>
+                    <div class="text-900 font-bold text-4xl value-highlight">{{ totalFuncionarios }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem">
+                    <i class="pi pi-users text-4xl icon-orange"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total de Obras -->
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between align-items-start p-4">
+                <div class="flex flex-column flex-1">
+                    <span class="block text-500 font-medium mb-2 text-sm">Total de Obras</span>
+                    <div class="text-900 font-bold text-4xl value-highlight">{{ totalObras }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem">
+                    <i class="pi pi-building text-4xl icon-cyan"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Valor Total Gasto no Mês -->
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between align-items-start p-4">
+                <div class="flex flex-column flex-1">
+                    <span class="block text-500 font-medium mb-2 text-sm">Valor Total Gasto no Mês</span>
+                    <div class="text-900 font-bold text-3xl value-highlight">{{ valorTotalGastoMes | currency:'BRL':'symbol':'1.2-2' }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem">
+                    <i class="pi pi-money-bill text-4xl icon-green"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <div class="col-6">
+            <div class="card h-100">
+                <h5>6 Meses</h5>
+                <p-chart 
+                    type="bar" 
+                    [data]="gastosMensaisData" 
+                    [options]="gastosMensaisOptions"
+                    height="300px"> </p-chart>
+            </div>
         </div>
     
-        <div class="col-12 lg:col-12 xl:col-12 flex justify-content-end">
-            <button pButton icon="pi pi-eye" (click)="mostrarValoresDashboard()"></button>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card card-custom mb-0">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                <span class="block text-900 font-bold mb-3">{{ resumoDashboard.totalVeiculos }} Veículos</span>
-                <div class="text-900 font-medium text-xl">
-                    <span class="text-green-500">{{ resumoDashboard.veiculosDisponiveis }} disponíveis</span>
-                    <span class="text-blue-500 font-medium"> {{ resumoDashboard.veiculosAlugados }} alugados</span>
-                </div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-green-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                <i class="pi pi-car text-green-500 text-xl"></i>
-                </div>
-            </div>
+        <div class="col-6">
+            <div class="card h-100">
+                <h5>Valor Gasto por Obra</h5>
+                <p-chart 
+                    type="pie" 
+                    [data]="gastosPorObraData" 
+                    [options]="gastosPorObraOptions"
+                    height="300px">
+                </p-chart>
             </div>
         </div>
-        
-        <div class="col-12 lg:col-6 xl:col-3" (click)="onRedirecionarReceitas()">
-            <div class="card card-custom mb-0" style="cursor: pointer;">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-900 font-bold mb-3">Receitas</span>
-                        <div class="text-900 font-medium text-xl">
-                            <ng-container *ngIf="mostrarValores; else stars">
-                                <span class="text-2xl font-bold">{{ resumoDashboard.totalReceitas | currency:'BRL':'symbol':'1.2-2' }}</span>
-                            </ng-container>
-                            <ng-template #stars>
-                                <span class="star-icon">
-                                    <label style="font-size: xx-large;">*</label>
-                                    <label style="font-size: xx-large;">*</label>
-                                    <label style="font-size: xx-large;">*</label>
-                                    <label style="font-size: xx-large;">*</label>
-                                </span>
-                            </ng-template>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-wallet text-purple-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="custom-tooltip">
-                    Valor total de receitas no mês
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-12 lg:col-6 xl:col-3"  (click)="onRedirecionarDespesas()"> 
-            <div class="card card-custom mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-900 font-bold mb-3">Despesas</span>
-                        <div class="text-900 font-medium text-xl"><ng-container *ngIf="mostrarValores; else stars">
-                            <span class="text-2xl font-bold">{{ resumoDashboard.totalDespesas | currency:'BRL':'symbol':'1.2-2' }}</span>
-                        </ng-container>
-                        <ng-template #stars>
-                            <span class="star-icon">
-                                <label style="font-size: xx-large;">*</label>
-                                <label style="font-size: xx-large;">*</label>
-                                <label style="font-size: xx-large;">*</label>
-                                <label style="font-size: xx-large;">*</label>
-                            </span>
-                        </ng-template>
-                    </div>
-                </div>
-                    <div class="flex align-items-center justify-content-center bg-teal-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-money-bill text-teal-500 text-xl"></i>
-                    </div>
-                </div>
-            </div>      
-        </div>
-        
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card card-custom mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-900 font-bold mb-3">Lucro</span>
-                        <div class="text-900 font-medium text-xl">
-                            <ng-container *ngIf="mostrarValores; else stars">
-                                <span class="text-2xl font-bold">{{ resumoDashboard.totalReceitas - resumoDashboard.totalDespesas | currency:'BRL':'symbol':'1.2-2' }}</span> 
-                            </ng-container>
-                            <ng-template #stars>
-                                <span class="star-icon">
-                                    <label style="font-size: xx-large;">*</label>
-                                    <label style="font-size: xx-large;">*</label>
-                                    <label style="font-size: xx-large;">*</label>
-                                    <label style="font-size: xx-large;">*</label>
-                                </span>
-                            </ng-template>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-chart-line text-blue-500 text-xl"></i>
-                    </div> 
-               </div>
-            </div>
-        </div>
-        
+    
 
 
-        <div class="col-12 xl:col-12">
-            <div class="card">
-                <h5>Pagamentos da semana</h5>
-                <p-table [value]="pagamentosSemana" responsiveLayout="scroll">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th pSortableColumn="diaSemana">Dia da Semana <p-sortIcon field="diaSemana"></p-sortIcon></th>
-                            <th pSortableColumn="diaSemana">Data <p-sortIcon field="dataPagamentoPrevisto"></p-sortIcon></th>
-                            <th>Placa</th>
-                            <th>Locatário</th>
-                            <th>Vencimento CNH</th>
-                            <th>Status CNH</th>
-                            <th pSortableColumn="valor">Valor <p-sortIcon field="valor"></p-sortIcon></th>
-                            <th pSortableColumn="situacao">Situação Pagamento <p-sortIcon field="situacao"></p-sortIcon></th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-pagamento>
-                        <tr>
-                            <td style="width: 10%; min-width: 8rem;">{{ pagamento.diaSemana | uppercase }}</td>
-                            <td style="width: 10%; min-width: 8rem;">{{ pagamento.dataPagamentoPrevisto | date: 'dd/MM/YYYY' }}</td>
-                            <td style="width: 10%; min-width: 5rem;">
-                                {{ pagamento.veiculo }}
-                            </td>
-                            <td style="width: 20%; min-width: 7rem;">{{ pagamento.locatario  | uppercase }}</td>
-                            <td style="width: 15%; min-width: 7rem;">{{ pagamento.dataVencimentoCnh | date: 'dd/MM/YYYY' }}</td>
-                            <td style="width: 15%; min-width: 7rem;">
-                                <p-tag 
-                                    [icon]="getStatusCnhIcon(pagamento.statusCnh)" 
-                                    [severity]="getStatusCnhSeverity(pagamento.statusCnh)" 
-                                    [value]="pagamento.statusCnh | uppercase" />
-                            </td>
-                            <td style="width: 15%; min-width: 7rem;">{{ pagamento.valor | currency:'BRL':'symbol':'1.2-2' }}</td>
-                            <td style="width: 15%; min-width: 7rem;"><p-tag [icon]="pagamento.situacao === 'PAGO' ? 'pi pi-check' : 'pi pi-times'" severity="{{ pagamento.situacao === 'PAGO' ? 'success' : 'danger' }}" value="{{ pagamento.situacao }}" /></td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="footer">
-                        <tr>
-                          <td colspan="6">Total</td>
-                          <td style="font-weight: bold;">
-                            {{ totalValorVisivel | currency:'BRL':'symbol':'1.2-2' }}
-                          </td>
-                          <td></td>
-                        </tr>
-                      </ng-template>
-                </p-table>
+   
+    <div class="col-12">
+        <div class="card">
+            <div class="flex justify-content-center align-items-center gap-3">
+                <label for="dataSelecao" class="font-medium">Selecionar Data:</label>
+                <p-calendar [(ngModel)]="dataSelecionada" 
+                           [showIcon]="true" 
+                           dateFormat="dd/mm/yy" 
+                           [showButtonBar]="true"
+                           inputId="dataSelecao"
+                           styleClass="w-full md:w-auto"
+                           (onSelect)="onDateSelect($event)"></p-calendar>
             </div>
         </div>
-
-        <div class="col-12 xl:col-6">
-            <div class="card">
-                <h5>Despesas x Receitas</h5>
-                <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
-            </div>
-        </div>
-  
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card">
-            <h5>Despesa por moto</h5>
-            <ng-container *ngIf="despesaPorMoto.datasets[0].data.length > 0; else noData">   
-                <p-chart type="doughnut" [data]="despesaPorMoto" [options]="options" />
-            </ng-container>
-            <ng-template #noData>
-                <p>Nenhum dado disponível</p>
-            </ng-template>
-            </div>
-        </div>
-
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card">
-            <h5>Receita por moto</h5>
-                <ng-container *ngIf="receitaPorMoto.datasets[0].data.length > 0; else noData">
-                    <p-chart type="doughnut" [data]="receitaPorMoto" [options]="options" />
-                </ng-container>
-                <ng-template #noData>
-                    <p>Nenhum dado disponível</p>
+    </div>
+    <!-- Tabela de Obras em Andamento -->
+    <div class="col-12">
+        <div class="card">
+            <h5>Obras em Andamento</h5>
+            <p-table [value]="relatoriosDiarios" dataKey="obra" [expandedRowKeys]="expandedRows" responsiveLayout="scroll" 
+                     [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]" styleClass="p-datatable-gridlines" [rowHover]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem"></th>
+                        <th>Obra</th>
+                        <th>Total de Funcionários</th>
+                        <th>Status</th>
+                    </tr>
                 </ng-template>
-            </div>
+                <ng-template pTemplate="body" let-obra let-expanded="expanded">
+                    <tr>
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="obra" 
+                                    class="p-button-text p-button-rounded expand-button" 
+                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                                    [pTooltip]="expanded ? 'Ocultar detalhes' : 'Ver detalhes'"
+                                    tooltipPosition="right"></button>
+                        </td>
+                        <td>
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-building text-500"></i>
+                                <span class="font-medium">{{ obra.obra }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="font-medium">{{ obra.todosFuncionarios.length }}</span>
+                        </td>
+                        <td>
+                            <p-tag value="Em Andamento" severity="info" [rounded]="true"></p-tag>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-obra>
+                    <tr>
+                        <td colspan="4">
+                            <div class="p-3">
+                                <h6 class="mb-3">Funcionários da Obra</h6>
+                                <p-table [value]="obra.todosFuncionarios" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Funcionário</th>
+                                            <th>Status do Relatório</th>
+                                            <th>Data/Hora do Envio</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-funcionario>
+                                        <tr>
+                                            <td>
+                                                <div class="flex align-items-center gap-2">
+                                                    <i class="pi pi-user text-500"></i>
+                                                    <span class="font-medium">{{ funcionario.nome }}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex align-items-center gap-2">
+                                                    <i *ngIf="funcionario.enviou" class="pi pi-check-circle text-green-600 text-xl"></i>
+                                                    <i *ngIf="!funcionario.enviou" class="pi pi-times-circle text-red-600 text-xl"></i>
+                                                    <span [ngClass]="funcionario.enviou ? 'text-green-600' : 'text-red-600'" class="font-medium">
+                                                        {{ funcionario.enviou ? 'Enviado' : 'Não Enviado' }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span *ngIf="funcionario.enviou" class="text-500">
+                                                    {{ funcionario.dataEnvio | date:'dd/MM/yyyy HH:mm' }}
+                                                </span>
+                                                <span *ngIf="!funcionario.enviou" class="text-500">-</span>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage">
+                                        <tr>
+                                            <td colspan="3" class="text-center py-3">
+                                                <span class="text-500">Nenhum funcionário encontrado.</span>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+                            <div class="flex flex-column align-items-center gap-2">
+                                <i class="pi pi-inbox text-4xl text-400"></i>
+                                <span class="text-500">Nenhuma obra em andamento encontrada.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
+    </div>
 </div>
+

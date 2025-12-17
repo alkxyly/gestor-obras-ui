@@ -1,8 +1,10 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg"
-            alt="logo">
-        <span>Locador</span>
+    <a class="layout-topbar-logo" routerLink="/">
+        <img 
+            src="assets/layout/images/logo_svg.svg" 
+            alt="Essencial Group Home" 
+            height="40"
+        >
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">

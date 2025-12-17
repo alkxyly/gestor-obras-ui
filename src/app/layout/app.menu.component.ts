@@ -17,48 +17,48 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Inicio',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-chart-line', routerLink: ['/'] }
                 ]
             },
             
             {
-                label: 'Veículo',
+                label: 'Contratos',
                 items: [
-                    { label: 'Cadastrar Veículo', icon: 'pi pi-fw pi-car', routerLink: ['/veiculo'] },
-                    { label: 'Meus Veículos', icon: 'pi pi-fw pi-star-fill', routerLink: ['/veiculo/meus-veiculos'] },
-                    { label: 'Troca de Óleo', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/veiculo/acompanhar-oleo'] }                  
+                    { label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-file-o', routerLink: ['/veiculo'] },
+                    { label: 'Meus Contratos', icon: 'pi pi-fw pi-list', routerLink: ['/veiculo/meus-veiculos'] },
+                                   
                 ]
             },
             {
-                label: 'Manutenção',
+                label: 'Obras',
                 items: [
-                    { label: 'Manutenções', icon: 'pi pi-fw pi-home', routerLink: ['/manutencao'] },
-                    { label: 'Oficina Parceira', icon: 'pi pi-fw pi-home', routerLink: ['/manutencao/oficina-parceira'] },
-                    { label: 'Peças', icon: 'pi pi-fw pi-home', routerLink: ['/manutencao/pecas'] },
-                    { label: 'Serviços', icon: 'pi pi-fw pi-home', routerLink: ['/manutencao/servicos'] },
+                    { label: 'Cadastrar Obra', icon: 'pi pi-fw pi-building', routerLink: ['/manutencao'] },
+                    { label: 'Minhas Obras', icon: 'pi pi-fw pi-building', routerLink: ['/manutencao/oficina-parceira'] },
                 ]
             },
             {
-                label: 'Locatário',
+                label: 'Ocorrências',
                 items: [
-                    { label: 'Meus Locatários', icon: 'pi pi-fw pi-users', routerLink: ['/locatario/meus-locatarios'] },
-                    { label: 'Cadastrar Locatário', icon: 'pi pi-fw pi-user-plus', routerLink: ['/locatario'] }
+                    { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/locatario/meus-locatarios'] },
+                    { label: 'Minhas Ocorrências', icon: 'pi pi-fw pi-list', routerLink: ['/locatario'] }
                 ]
             },
             {
-                label: 'Locação',
+                label: 'Usuários',
                 items: [
-                    { label: 'Cadastrar Locação', icon: 'pi pi-fw pi-dollar', routerLink: ['/locacao'] },
-                    { label: 'Minhas Locações', icon: 'pi pi-fw pi-th-large', routerLink: ['/locacao/minhas-locacoes'] },
+                    { label: 'Cadastrar Usuário', icon: 'pi pi-fw pi-user-plus', routerLink: ['/locacao'] },
+                    { label: 'Meus Usuários', icon: 'pi pi-fw pi-users', routerLink: ['/locacao/minhas-locacoes'] },
                 ]
             },
             
             {
                 label: 'Relatórios',
                 items: [
-                    { label: 'Despesas por Veículo', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/relatorio/despesas-veiculo'] },
-                    { label: 'Despesas por Mês', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorio/despesas-mes'] },
                     { label: 'Balanço Mensal', icon: 'pi pi-fw pi-chart-pie', routerLink: ['/relatorio/balanco-mensal'] },
+                    { label: 'Balanço Anual', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorio/balanco-anual'] },
+                    { label: 'Despesa por Obra', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/relatorio/despesas-veiculo'] },
+                    { label: 'Despesas por Contrato', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorio/despesas-mes'] },
+                    { label: 'Despesas por Usuário', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/relatorio/despesas-veiculo'] },
                 ]
             },
             // {

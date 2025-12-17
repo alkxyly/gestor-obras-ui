@@ -1,3 +1,7 @@
+.layout-topbar-logo img {
+    display: block; /* Remove espaços fantasmas abaixo da imagem */
+    width: auto;    /* Mantém a proporção baseada na altura */
+}
 .notification-container {
     position: relative;
 }

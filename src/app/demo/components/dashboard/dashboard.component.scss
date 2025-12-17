@@ -156,4 +156,112 @@
             display: none !important;
         }
     }
+
+    // Estilos para os ícones coloridos dos cards
+    .icon-blue {
+        color: #667eea !important;
+    }
+
+    .icon-orange {
+        color: #f5576c !important;
+    }
+
+    .icon-cyan {
+        color: #00f2fe !important;
+    }
+
+    .icon-green {
+        color: #43e97b !important;
+    }
+
+    // Estilo para destacar os valores
+    .value-highlight {
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+
+    // Estilos para a tabela de relatórios
+    .p-datatable {
+        .p-datatable-tbody > tr > td {
+            padding: 1rem;
+            vertical-align: top;
+        }
+
+        .p-datatable-thead > tr > th {
+            padding: 1rem;
+            background: var(--surface-50);
+            font-weight: 600;
+        }
+
+        // Estilo para os cards de funcionários
+        .border-round {
+            transition: all 0.2s ease;
+            
+            &:hover {
+                background: var(--surface-100) !important;
+            }
+        }
+
+        // Responsividade - títulos de coluna em mobile
+        .p-column-title {
+            display: none;
+        }
+
+        // Estilo para o resumo abaixo de cada linha
+        .border-top-1 {
+            border-top: 1px solid var(--surface-border);
+        }
+
+        @media screen and (max-width: 960px) {
+            .p-datatable-tbody > tr > td {
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                border: 0 none;
+                width: 100% !important;
+                float: left;
+                clear: left;
+
+                .p-column-title {
+                    padding: 0.4rem;
+                    min-width: 30%;
+                    display: inline-block;
+                    margin: -0.4rem 1rem -0.4rem -0.4rem;
+                    font-weight: 600;
+                }
+            }
+
+            .p-datatable-tbody > tr > td:last-child {
+                border-bottom: 1px solid var(--surface-border);
+            }
+        }
+    }
+
+    // Estilo minimalista para o botão de expansão - apenas ícone
+    .expand-button {
+        width: auto !important;
+        height: auto !important;
+        min-width: auto !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        transition: color 0.2s ease;
+        color: var(--text-color-secondary);
+
+        &:hover {
+            background: transparent !important;
+            color: var(--primary-color);
+        }
+
+        &:focus {
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        .p-button-icon {
+            font-size: 0.875rem;
+        }
+    }
 }

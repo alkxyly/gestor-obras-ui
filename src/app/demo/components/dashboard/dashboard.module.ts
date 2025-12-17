@@ -24,6 +24,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { SharedModule } from '../shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
     declarations: [
@@ -52,6 +53,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         SharedModule,
         TooltipModule,
         DialogModule,
+        CardModule,
         DashboardsRoutingModule
     ]
 })
