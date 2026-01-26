@@ -11,6 +11,9 @@ import { AuthGuard } from './demo/components/auth/auth.guard';
                 path: '', component: AppLayoutComponent,
                 children: [
                     { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule), canActivate:[AuthGuard] },
+                    { path: 'contratos', loadChildren: () => import('./demo/components/contratos/contratos.module').then(m => m.ContratosModule) },
+                    { path: 'relatorio-diario', loadChildren: ()=> import('./demo/components/relatorio-diario/relatorio-diario.module').then(m => m.RelatorioDiarioModule)},
+                    { path: 'ocorrencias', loadChildren: () => import('./demo/components/ocorrencias/ocorrencias.module').then(m => m.OcorrenciasModule) },
                     { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule) },
                     { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule) },
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },

@@ -13,6 +13,9 @@ import { PhotoService } from './demo/service/photo.service';
 import { CoreModule } from './demo/components/core/core.module';
 import { AuthModule } from './demo/components/auth/auth.module';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { ToastModule } from 'primeng/toast';
+
 
 
 
@@ -22,7 +25,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         CoreModule,
         AppRoutingModule, 
         AppLayoutModule,
-        AuthModule
+        AuthModule,
+        ToastModule
     ],
     providers: [
         CountryService,
@@ -32,7 +36,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         NodeService,
         PhotoService, 
         ProductService,
-        ConfirmationService,
+        ConfirmationService, 
+        provideAnimations(),
         MessageService
     ],
     bootstrap: [AppComponent],

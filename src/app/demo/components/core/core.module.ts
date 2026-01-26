@@ -4,9 +4,10 @@ import localePt from '@angular/common/locales/pt';
 
 import { ToastModule } from 'primeng/toast';
 import { LoadingComponent } from './loading/loading.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { ProgressSpinnerModule  } from 'primeng/progressspinner';
+import { errorInterceptor } from './interceptor/global-error.interceptor';
 
 
 registerLocaleData(localePt, 'pt-BR');
@@ -22,6 +23,7 @@ registerLocaleData(localePt, 'pt-BR');
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    provideHttpClient(withInterceptors([errorInterceptor]))
   ]
 })
 export class CoreModule { }

@@ -1,0 +1,28 @@
+## Stack Tecnológica
+- Framework: Angular
+- UI: PrimeNG
+- Estilização: PrimeFlex / Css
+
+## Padrões de Desenvolvimento
+1. Sempre que possível, crie componentes reutilizáveis.
+2. Não utilize any , defina interfaces para todos os modelos de dados.
+3. Siga a estrutura de pastas `core/`, `shared/`, `features/`.
+4. **RxJS**: Evite `.subscribe()` manual em componentes. Prefira `| async` no template. Se necessário o subscribe, use `takeUntilDestroyed()` ou limpe a inscrição no `ngOnDestroy`
+
+## Integrações
+- Ao criar tabelas, use sempre o componente `<p-table>`.
+- Utilize os ícones da biblioteca `primeicons`.
+- Mantenha a consistência visual com o template Sakai. 
+
+## Documentação
+- Comente funções complexas usando JSDoc.
+- Mantenha a documentação atualizada.
+
+## Convenções de Arquivos
+- Components: `nome-componente.component.ts`
+- Services: `nome-servico.service.ts`
+- Models: centralizado em `core/model.ts`.
+
+## Tratamento de Erros e Dados
+- Use `catchError` nos Services para tratar erros de HTTP antes de chegar ao Componente.
+- Evite lógica de negócios complexa no template HTML.

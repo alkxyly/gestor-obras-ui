@@ -29,7 +29,9 @@ export class FilterHttpInterceptor implements HttpInterceptor{
     
                 req = req.clone({
                   setHeaders: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                   }
                 });
     

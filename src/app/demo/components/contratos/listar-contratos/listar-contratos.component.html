@@ -1,0 +1,94 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Gestão de Contratos</h5>
+            
+            <p-table 
+                #dt 
+                [value]="contratos" 
+                [columns]="cols" 
+                responsiveLayout="stack" 
+                [breakpoint]="'960px'"
+                [rows]="10" 
+                [paginator]="true" 
+                [rowsPerPageOptions]="[5,10,20]"
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar contrato..." />
+                        </span>
+                        <button pButton label="Novo Contrato" icon="pi pi-plus" class="p-button-success mr-2"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th pSortableColumn="nome">Nome <p-sortIcon field="nome"></p-sortIcon></th>
+                        <th pSortableColumn="descricao">Descrição <p-sortIcon field="descricao"></p-sortIcon></th>
+                        <th pSortableColumn="nomeResponsavel">Engenheiro Responsável <p-sortIcon field="descricao"></p-sortIcon></th>
+                        <th pSortableColumn="dataInicio">Início <p-sortIcon field="dataInicio"></p-sortIcon></th>
+                        <th pSortableColumn="dataFim">Fim <p-sortIcon field="dataFim"></p-sortIcon></th>
+                        <th>Ações</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-contrato>
+                    <tr>
+                        <td>
+                            <span class="p-column-title">Nome</span>
+                            {{contrato.nome}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Descrição</span>
+                            {{contrato.descricao}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Engenheiro Responsável</span>
+                            {{contrato.nomeResponsavel}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Início</span>
+                            {{contrato.dataInicio | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Fim</span>
+                            {{contrato.dataFim | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button 
+                                    pButton 
+                                    pRipple 
+                                    icon="pi pi-pencil" 
+                                    class="p-button-rounded p-button-text p-button-info" 
+                                    pTooltip="Editar Contrato" 
+                                    tooltipPosition="bottom">
+                                </button>
+                        
+                                <button 
+                                    pButton 
+                                    pRipple 
+                                    icon="pi pi-trash" 
+                                    class="p-button-rounded p-button-text p-button-danger" 
+                                    pTooltip="Excluir Contrato" 
+                                    tooltipPosition="bottom">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">Nenhum contrato encontrado.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

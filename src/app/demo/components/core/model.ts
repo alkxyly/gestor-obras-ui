@@ -393,3 +393,28 @@ export class CadastrarOficinaParceiraDTO{
     telefone: string;
     ativo: boolean;
 }
+
+export class OcorrenciaDTO{
+    id?: number; 
+    descricao: string;
+    valor: number;
+    unidade: string;
+}
+
+export class ContratoDTO{
+    id?: number; 
+    nome: string;
+    descricao: string;
+    dataInicio: string;
+    dataFim: string;
+    ocorrenciasId: number[] = []
+    responsavel: string;
+    nomeResponsavel?: string;
+}
+
+export class UsuarioDTO{
+    id?: string;
+    nome: string;
+    cpfCnpj: string;
+    email: string;
+}

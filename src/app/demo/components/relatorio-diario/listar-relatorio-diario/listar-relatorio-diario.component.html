@@ -1,0 +1,140 @@
+<form [formGroup]="reportForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+
+    <p-card header="Relatório Diário de Atividades">
+
+        <div class="p-fluid p-formgrid grid">
+
+
+            <div class="field  col-6">
+                <label for="contratos" class="block text-900 text-xl font-medium mb-2">Contrato</label>
+                <p-dropdown [options]="contratos" [(ngModel)]="constratoSelecionado" optionLabel="nome"
+                    placeholder="Selecione um contrato" (onChange)="onContratoChange($event)">
+                </p-dropdown>
+            </div>
+
+            <div class="field  col-6">
+                <label for="date" class="font-bold">Data do Relatório</label>
+                <p-calendar id="date" formControlName="date" [showIcon]="true" dateFormat="dd/mm/yy"
+                    placeholder="Selecione a data">
+                </p-calendar>
+            </div>
+
+            <div class="field col-12">
+                <label class="font-bold mb-2 block">Condição Climática</label>
+                <div class="weather-selector">
+                    <p-selectButton [options]="climaOptions" formControlName="clima" optionLabel="label"
+                        optionValue="value" styleClass="w-full">
+                        <ng-template let-item pTemplate="item">
+                            <i [class]="item.icon" class="mr-2 text-xl"></i>
+                            <span class="font-medium">{{ item.label }}</span>
+                        </ng-template>
+                    </p-selectButton>
+                </div>
+            </div>
+
+            <div class="field col-12">
+                <label for="endereco" class="font-bold">Endereço da Obra</label>
+                <input pInputText id="endereco" formControlName="endereco" placeholder="Digite o endereço da obra"
+                    class="w-full" />
+                <small *ngIf="reportForm.get('endereco')?.invalid && reportForm.get('endereco')?.touched"
+                    class="p-error block">
+                    O endereço é obrigatório.
+                </small>
+            </div>
+
+            <div class="field  col-12">
+                <label for="title" class="font-bold">Título da Atividade</label>
+                <input pInputText id="title" formControlName="title" placeholder="Ex: Relatório Diário" />
+            </div>
+
+            <div class="field  col-12">
+                <label for="description" class="font-bold">Descrição das Atividades</label>
+                <textarea pInputTextarea id="description" formControlName="description" rows="5" [autoResize]="true"
+                    placeholder="Descreva o que foi realizado hoje...">
+          </textarea>
+            </div>
+
+            <div class="col-12 flex flex-column gap-2 mb-3">
+                <label for="faltas" class="font-bold">Funcionários Ausentes</label>
+                <p-multiSelect id="faltas" [options]="funcionarios" formControlName="faltas" optionLabel="nome"
+                    placeholder="Selecione quem faltou hoje" [maxSelectedLabels]="100" display="chip" [filter]="true"
+                    emptyMessage="Nenhum funcionário encontrado" styleClass="w-full">
+
+                    <ng-template let-funcionario pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                            <i class="pi pi-user text-red-500"></i>
+                            <span>{{ funcionario.nome }}</span>
+                        </div>
+                    </ng-template>
+                </p-multiSelect>
+                <small class="text-gray-500">Se todos estiverem presentes, deixe em branco.</small>
+            </div>
+            <!-- 
+            <div class="field  col-6">
+                <label for="status" class="font-bold">Status de Conclusão</label>
+                <p-dropdown id="status" [options]="statusOptions" formControlName="status" optionLabel="label"
+                    optionValue="value" placeholder="Selecione o status">
+                </p-dropdown>
+            </div> -->
+
+
+            <div class="col-12 mt-4">
+                <div class="flex justify-content-between align-items-center mb-2">
+                    <h3 class="m-0 text-xl font-bold text-800">Ocorrências do Dia</h3>
+                    <p-button label="Adicionar Ocorrência" icon="pi pi-plus" size="small" severity="success"
+                        [outlined]="true" (onClick)="addOcorrencia()">
+                    </p-button>
+                </div>
+
+                <div formArrayName="ocorrencias">
+                    <div *ngFor="let item of ocorrencias.controls; let i = index" [formGroupName]="i"
+                        class="grid align-items-end mb-2 border-bottom-1 border-gray-200 pb-2">
+
+                        <div class="col-12 md:col-7 flex flex-column gap-2">
+                            <label class="font-bold text-sm">Tipo de Ocorrência</label>
+                            <p-dropdown formControlName="tipo" [options]="tiposOcorrencias" optionLabel="descricao"
+                                optionValue="id" placeholder="Selecione a ocorrência" [filter]="true" appendTo="body"
+                                styleClass="w-full">
+                            </p-dropdown>
+                        </div>
+
+                        <div class="col-8 md:col-3 flex flex-column gap-2">
+                            <label [for]="'qtd-' + i" class="text-sm font-semibold">Qtd.</label>
+                            <p-inputNumber [id]="'qtd-' + i" formControlName="quantidade" [showButtons]="true"
+                                buttonLayout="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus"
+                                decrementButtonIcon="pi pi-minus" [min]="1" styleClass="w-full">
+                            </p-inputNumber>
+                        </div>
+
+                        <div class="col-4 md:col-1 flex justify-content-center">
+                            <p-button icon="pi pi-trash" severity="danger" [text]="true"
+                                (onClick)="removeOcorrencia(i)">
+                            </p-button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div *ngIf="ocorrencias.length === 0"
+                    class="text-center p-4 border-1 border-dashed border-300 border-round bg-gray-50">
+                    <p class="text-gray-500 m-0">Nenhuma ocorrência registrada hoje.</p>
+                </div>
+
+                <div *ngIf="ocorrencias.length > 0"
+                    class="flex justify-content-between align-items-center mt-3 p-3 border-round total-card">
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-money-bill text-green-500 text-xl"></i>
+                        <span class="text-gray-600 font-medium">Valor Total</span>
+                    </div>
+                    <span class="text-xl font-bold text-900">{{ totalValorOcorrencias | currency:'BRL' }}</span>
+                </div>
+            </div>
+
+
+            <div class="field col-12">
+                <p-button label="Salvar" icon="pi pi-check" type="submit" [disabled]="reportForm.invalid">
+                </p-button>
+            </div>
+        </div>
+    </p-card>
+</form>

@@ -22,25 +22,25 @@ export class AppMenuComponent implements OnInit {
             },
             
             {
-                label: 'Contratos',
+                label: 'Relatório Diário',
                 items: [
-                    { label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-file-o', routerLink: ['/veiculo'] },
-                    { label: 'Meus Contratos', icon: 'pi pi-fw pi-list', routerLink: ['/veiculo/meus-veiculos'] },
-                                   
+                    { label: 'Cadastrar Relatório Diário', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/relatorio-diario'] },                
                 ]
             },
+
             {
-                label: 'Obras',
+                label: 'Contratos',
                 items: [
-                    { label: 'Cadastrar Obra', icon: 'pi pi-fw pi-building', routerLink: ['/manutencao'] },
-                    { label: 'Minhas Obras', icon: 'pi pi-fw pi-building', routerLink: ['/manutencao/oficina-parceira'] },
+                    { label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-file-o', routerLink: ['/contratos'] },
+                    { label: 'Meus Contratos', icon: 'pi pi-fw pi-list', routerLink: ['/contratos/meus-contratos'] },
+                                   
                 ]
             },
             {
                 label: 'Ocorrências',
                 items: [
-                    { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/locatario/meus-locatarios'] },
-                    { label: 'Minhas Ocorrências', icon: 'pi pi-fw pi-list', routerLink: ['/locatario'] }
+                    { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/ocorrencias'] },
+                    { label: 'Minhas Ocorrências', icon: 'pi pi-fw pi-list', routerLink: ['/ocorrencias/minhas-ocorrencias'] }
                 ]
             },
             {

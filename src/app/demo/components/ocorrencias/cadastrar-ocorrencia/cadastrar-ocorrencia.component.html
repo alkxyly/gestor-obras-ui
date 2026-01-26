@@ -1,0 +1,57 @@
+<div class="card p-fluid">
+    <h5>Cadastro de Ocorrência</h5>
+    <form [formGroup]="ocorrenciaForm" (ngSubmit)="onSubmit()" class="grid">
+      
+      <div class="col-12 md:col-6 field">
+        <label for="description">Descrição</label>
+        <input 
+          id="description" 
+          type="text" 
+          pInputText 
+          formControlName="descricao" 
+          placeholder="Ex: Substituição de Cadeia de Isolador e Ferragens" />
+        <small class="p-error" *ngIf="isFieldInvalid('description')">
+          A descrição é obrigatória.
+        </small>
+      </div>
+  
+      <div class="col-6 md:col-3 field">
+        <label for="unit">Unidade</label>
+        <p-dropdown 
+          id="unit" 
+          [options]="units" 
+          formControlName="unidade" 
+          placeholder="Selecione"
+          optionLabel="label"
+          optionValue="value">
+        </p-dropdown>
+      </div>
+  
+      <div class="col-6 md:col-3 field">
+        <label for="price">Preço</label>
+        <p-inputNumber 
+          id="price" 
+          formControlName="valor" 
+          mode="currency" 
+          currency="BRL" 
+          locale="pt-BR"
+          placeholder="R$ 0,00">
+        </p-inputNumber>
+      </div>
+  
+      <div class="col-12 flex justify-content-end mt-3">
+        <p-button 
+          label="Cancelar" 
+          icon="pi pi-times" 
+          styleClass="p-button-text mr-2">
+        </p-button>
+        <p-button 
+          label="Salvar" 
+          icon="pi pi-check" 
+          type="submit" 
+          [disabled]="ocorrenciaForm.invalid">
+        </p-button>
+      </div>
+  
+    </form>
+  </div>
