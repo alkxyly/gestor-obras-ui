@@ -33,13 +33,8 @@
             </div>
 
             <div class="field col-12">
-                <label for="endereco" class="font-bold">Endereço da Obra</label>
-                <input pInputText id="endereco" formControlName="endereco" placeholder="Digite o endereço da obra"
-                    class="w-full" />
-                <small *ngIf="reportForm.get('endereco')?.invalid && reportForm.get('endereco')?.touched"
-                    class="p-error block">
-                    O endereço é obrigatório.
-                </small>
+                <label class="font-bold">Localização</label>
+                <app-select-localidade formControlName="localizacao"></app-select-localidade>
             </div>
 
             <div class="field  col-12">

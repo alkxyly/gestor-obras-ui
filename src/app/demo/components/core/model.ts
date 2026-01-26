@@ -1,4 +1,4 @@
-export class Veiculo{
+export class Veiculo {
     id: number;
     tipo: TipoVeiculo;
     modelo: ModeloVeiculo;
@@ -15,7 +15,7 @@ export class Veiculo{
     dataCompra: Date;
 }
 
-export class BuscarVeiculoDTO{
+export class BuscarVeiculoDTO {
     id: number;
     tipo: TipoVeiculo;
     modelo: ModeloVeiculo;
@@ -32,23 +32,23 @@ export class BuscarVeiculoDTO{
     dataCompra: Date;
 }
 
-export class TipoVeiculo{
+export class TipoVeiculo {
     id: number;
     descricao: string;
 }
 
-export class MarcaVeiculo{
+export class MarcaVeiculo {
     id: number;
     descricao: string;
 }
 
-export class ModeloVeiculo{
+export class ModeloVeiculo {
     id: number;
     descricao: string;
 }
 
 
-export class ListarVeiculoDTO{
+export class ListarVeiculoDTO {
     veiculo: number;
     descricaoModelo: string;
     ano: number;
@@ -65,26 +65,26 @@ export class ListarVeiculoDTO{
 }
 
 
-export class ListarManutencaoDTO{
-    manutencaoId: number; 
-    descricao: string; 
-    dataManutencao: string; 
-    tipo: string; 
+export class ListarManutencaoDTO {
+    manutencaoId: number;
+    descricao: string;
+    dataManutencao: string;
+    tipo: string;
     valor: number;
-    responsavel: string; 
-    situacao: boolean; 
+    responsavel: string;
+    situacao: boolean;
     kilometragem: number;
     dataPagamento: string;
 }
 
-export class TiposManutencaoDTO{
+export class TiposManutencaoDTO {
     tipoId: number;
     descricao: string;
 }
 
 /**Manutenção */
 
-export class CadastrarManutencaoDTO{
+export class CadastrarManutencaoDTO {
     manutencaoId: number;
     descricao: string;
     valor: number;
@@ -98,7 +98,7 @@ export class CadastrarManutencaoDTO{
 
 }
 
-export class AlterarSituacaoDTO{
+export class AlterarSituacaoDTO {
     manutencaoId: number;
     veiculoId: number;
     situacao: boolean;
@@ -112,7 +112,7 @@ export class Endereco {
     cidade: string;
     estado: string;
     numero: number;
-    complemento?: string; 
+    complemento?: string;
     cep: string;
 }
 
@@ -129,7 +129,7 @@ export class CadastrarLocatarioDTO {
 }
 
 
-export class ListarLocatarioDTO{
+export class ListarLocatarioDTO {
     nome: string;
     email: string;
     celular: string;
@@ -142,18 +142,18 @@ export class ListarLocatarioDTO{
     dataCadastro: String;
 }
 
-export class Locatario{
+export class Locatario {
     id: number;
     nome: string;
     email: string;
 }
 
-export class ComboDTO{
+export class ComboDTO {
     id: number;
     descricao: string;
 }
 
-export class CadastrarLocacaoDTO{
+export class CadastrarLocacaoDTO {
     dataLocacao: string;
     valor: number;
     valorCaucao: number;
@@ -165,7 +165,7 @@ export class CadastrarLocacaoDTO{
     kilometragemAtual: number;
 }
 
-export class ListarLocacaoDTO{
+export class ListarLocacaoDTO {
     id: number;
     dataLocacao: string;
     valor: number;
@@ -183,7 +183,7 @@ export class ListarLocacaoDTO{
     situacao: boolean;
 }
 
-export class CadastrarPagamentoDTO{
+export class CadastrarPagamentoDTO {
     id: number;
     valor: number;
     juros: number = 0.0;
@@ -195,12 +195,12 @@ export class CadastrarPagamentoDTO{
 }
 
 
-export class ListarDetalheLocacaoDTO{
+export class ListarDetalheLocacaoDTO {
     locacao: ListarLocacaoDTO;
     pagamentos: ListarPagamentoDTO;
 }
 
-export class ListarPagamentoDTO{
+export class ListarPagamentoDTO {
     id: number;
     dataPagamento: Date;
     dataPagamentoPrevisto: Date;
@@ -210,19 +210,19 @@ export class ListarPagamentoDTO{
     pago: boolean;
 }
 
-export class AlterarSituacaoPagamentoDTO{
+export class AlterarSituacaoPagamentoDTO {
     pagamentoId: number;
     situacao: boolean;
     dataPagamento: Date;
 }
 
-export class ResponseReceitasDepesasAnualDTO{
+export class ResponseReceitasDepesasAnualDTO {
     receitas: number[];
     despesas: number[];
 }
 
 
-export class ResponsePagamentosSemanaDTO{
+export class ResponsePagamentosSemanaDTO {
     pagamentoId: number;
     dataPagamentoPrevisto: string;
     diaSemana: string;
@@ -234,7 +234,7 @@ export class ResponsePagamentosSemanaDTO{
     statusCnh: string;
 }
 
-export class ResponseResumoDashboardDTO{
+export class ResponseResumoDashboardDTO {
     totalVeiculos: number;
     veiculosAlugados: number;
     veiculosDisponiveis: number;
@@ -244,7 +244,7 @@ export class ResponseResumoDashboardDTO{
 }
 
 
-export class DespesaReceitaPorMotoDTO{
+export class DespesaReceitaPorMotoDTO {
     placasDespesas: string[];
     valoresDespesas: number[];
     placasReceitas: string[];
@@ -252,7 +252,7 @@ export class DespesaReceitaPorMotoDTO{
 }
 
 
-export class ReceitasDTO{
+export class ReceitasDTO {
     id: number;
     dataPagamento: Date;
     dataPagamentoPrevisto: Date;
@@ -263,7 +263,7 @@ export class ReceitasDTO{
     locacaoId: number;
 }
 
-export class ReceitasFiltro{
+export class ReceitasFiltro {
     descricao: string;
     dataInicio?: Date;
     dataFim?: Date;
@@ -273,7 +273,7 @@ export class ReceitasFiltro{
     veiculoId: number;
 }
 
-export class DespesasFiltro{
+export class DespesasFiltro {
     dataInicio: Date;
     dataFim: Date;
     situacao: boolean;
@@ -283,21 +283,21 @@ export class DespesasFiltro{
     itensPorPagina: number = 10;
 }
 
-export class PaginationReceitas{
+export class PaginationReceitas {
     currentPage: number;
     perPage: number;
     total: number;
     itens: ReceitasDTO[];
 }
 
-export class PaginationDespesas{
+export class PaginationDespesas {
     currentPage: number;
     perPage: number;
     total: number;
     itens: ListarDespesasDTO[];
 }
 
-export class ListarDespesasDTO{
+export class ListarDespesasDTO {
     id: number;
     situacao: boolean;
     placa: string;
@@ -305,7 +305,7 @@ export class ListarDespesasDTO{
     tipoManutencao: string;
 }
 
-export class ResumoReceitaDTO{
+export class ResumoReceitaDTO {
     totalRecebido: number;
     totalPendente: number;
     totalAtrasado: number;
@@ -313,13 +313,13 @@ export class ResumoReceitaDTO{
 }
 
 
-export class ResumoDespesaDTO{
+export class ResumoDespesaDTO {
     totalPago: number;
     totalPendente: number;
     total: number
 }
 
-export class ListarTrocaOleoDTO{
+export class ListarTrocaOleoDTO {
     id: number;
     placa: string;
     descricao: string;
@@ -329,7 +329,7 @@ export class ListarTrocaOleoDTO{
     dataTroca: Date;
 }
 
-export class ListarUltimasTrocasOleoDTO{
+export class ListarUltimasTrocasOleoDTO {
     trocaOleoId: number;
     dataTrocaOleo: Date;
     kmTrocaOleo: number;
@@ -344,7 +344,7 @@ export class ListarUltimasTrocasOleoDTO{
     diasDesdeTroca: number;
 }
 
-export class CadastrarTrocaOleoDTO{
+export class CadastrarTrocaOleoDTO {
     veiculoId: number;
     dataTroca: Date;
     kmTroca: number;
@@ -355,7 +355,7 @@ export class CadastrarTrocaOleoDTO{
     descricao: string;
 }
 
-export class ListarOleoDTO{
+export class ListarOleoDTO {
     id: number;
     marca: string;
     nome: string;
@@ -363,14 +363,14 @@ export class ListarOleoDTO{
     tipo: string;
 }
 
-export class ListarOficinaParceiraPaginadaDTO{
+export class ListarOficinaParceiraPaginadaDTO {
     currentPage: number;
     perPage: number;
     total: number;
     itens: ListarOficinaParceiraDTO[];
 }
 
-export class ListarOficinaParceiraDTO{
+export class ListarOficinaParceiraDTO {
     id: string;
     nome: string;
     endereco: string;
@@ -379,13 +379,13 @@ export class ListarOficinaParceiraDTO{
     ativo: boolean;
 }
 
-export class OficinaParceiraFiltroDTO{
+export class OficinaParceiraFiltroDTO {
     pagina: number = 0;
     porPagina: number = 10;
     nome?: string;
 }
 
-export class CadastrarOficinaParceiraDTO{
+export class CadastrarOficinaParceiraDTO {
     id: string;
     nome: string;
     endereco: string;
@@ -394,15 +394,15 @@ export class CadastrarOficinaParceiraDTO{
     ativo: boolean;
 }
 
-export class OcorrenciaDTO{
-    id?: number; 
+export class OcorrenciaDTO {
+    id?: number;
     descricao: string;
     valor: number;
     unidade: string;
 }
 
-export class ContratoDTO{
-    id?: number; 
+export class ContratoDTO {
+    id?: number;
     nome: string;
     descricao: string;
     dataInicio: string;
@@ -410,9 +410,10 @@ export class ContratoDTO{
     ocorrenciasId: number[] = []
     responsavel: string;
     nomeResponsavel?: string;
+    funcionariosIds?: string[];
 }
 
-export class UsuarioDTO{
+export class UsuarioDTO {
     id?: string;
     nome: string;
     cpfCnpj: string;

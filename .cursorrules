@@ -1,7 +1,8 @@
 ## Stack Tecnológica
 - Framework: Angular
-- UI: PrimeNG
-- Estilização: PrimeFlex / Css
+- UI: PrimeNG 17.2.0
+- Estilização: PrimeFlex ^3.3.1 / Css  
+- TypeScript: 5.5.2
 
 ## Padrões de Desenvolvimento
 1. Sempre que possível, crie componentes reutilizáveis.
@@ -11,7 +12,7 @@
 
 ## Integrações
 - Ao criar tabelas, use sempre o componente `<p-table>`.
-- Utilize os ícones da biblioteca `primeicons`.
+- Utilize os ícones da biblioteca `primeicons` 6.0.1.
 - Mantenha a consistência visual com o template Sakai. 
 
 ## Documentação

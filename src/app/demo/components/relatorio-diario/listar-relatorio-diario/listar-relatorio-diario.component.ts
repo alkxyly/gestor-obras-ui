@@ -79,7 +79,8 @@ export class ListarRelatorioDiarioComponent implements OnInit {
       status: ['in_progress', Validators.required],
       clima: ['sol', Validators.required],
       ocorrencias: this.fb.array([]),
-      faltas: [[]]
+      faltas: [[]],
+      localizacao: [null, Validators.required]
     });
   }
 

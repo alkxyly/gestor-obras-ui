@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RelatorioDiarioRoutingModule } from './relatorio-diario-rounting.module';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,8 +12,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
-
-
+import { RelatorioDiarioRoutingModule } from './relatorio-diario-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [ListarRelatorioDiarioComponent],
@@ -30,6 +30,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     MultiSelectModule,
     SelectButtonModule,
     ReactiveFormsModule,
+    SharedModule,
     RelatorioDiarioRoutingModule
   ]
 })

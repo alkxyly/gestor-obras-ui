@@ -12,6 +12,8 @@ import { TableModule } from 'primeng/table';
 import { ListarContratosComponent } from './listar-contratos/listar-contratos.component';
 import { PickListModule } from 'primeng/picklist';
 import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+
 
 
 
@@ -26,13 +28,14 @@ import { DropdownModule } from 'primeng/dropdown';
     CalendarModule,
     ButtonModule,
     ToastModule,
+    MultiSelectModule,
     TableModule,
     DropdownModule,
     PickListModule,
     ContratosRoutingModule
   ],
   providers: [
-  
+
   ]
 })
 export class ContratosModule { }

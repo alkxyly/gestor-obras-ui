@@ -12,16 +12,19 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CardValorComponent } from './card-valor/card-valor.component';
 import { CardModule } from 'primeng/card';
+import { CidadeEstadoComponent } from './cidade-estado/cidade-estado.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
   declarations: [
-    HeaderPaginaComponent, 
+    HeaderPaginaComponent,
     EnderecoComponent,
     ErrorMessageComponent,
     FormatarPlacaPipe,
     ConfirmarPagamentoDialogComponent,
-    CardValorComponent
+    CardValorComponent,
+    CidadeEstadoComponent
   ],
   imports: [
     CommonModule,
@@ -29,17 +32,19 @@ import { CardModule } from 'primeng/card';
     ReactiveFormsModule,
     InputTextModule,
     DialogModule,
+    DropdownModule,
     ButtonModule,
     CalendarModule,
     CardModule
   ],
-  exports:[
+  exports: [
     HeaderPaginaComponent,
     EnderecoComponent,
     ErrorMessageComponent,
     FormatarPlacaPipe,
     ConfirmarPagamentoDialogComponent,
-    CardValorComponent
+    CardValorComponent,
+    CidadeEstadoComponent
   ]
 })
 export class SharedModule { }

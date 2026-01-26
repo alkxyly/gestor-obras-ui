@@ -24,7 +24,9 @@ export class CadastrarContratosComponent implements OnInit {
     dataFim: null
   };
 
-  usuarios: UsuarioDTO[]  = []
+  usuarios: UsuarioDTO[] = []
+  funcionarios: UsuarioDTO[] = [];
+  funcionariosSelecionados: UsuarioDTO[] = [];
 
 
   usuarioSelecionado: UsuarioDTO | null = null;
@@ -40,17 +42,18 @@ export class CadastrarContratosComponent implements OnInit {
 
     this.listarOcorrencias();
     this.listarUsuarios();
-    
-    this.ocorrenciasTarget = []; 
+
+    this.ocorrenciasTarget = [];
   }
 
-  listarOcorrencias(){
-    this.ocorrenciaService.listarOcorrencia().subscribe( response => {this.ocorrencias = response;})
+  listarOcorrencias() {
+    this.ocorrenciaService.listarOcorrencia().subscribe(response => { this.ocorrencias = response; })
   }
 
-  listarUsuarios(){
+  listarUsuarios() {
     this.usuarioService.listar().subscribe(response => {
       this.usuarios = response;
+      this.funcionarios = response;
     })
   }
 
@@ -61,19 +64,20 @@ export class CadastrarContratosComponent implements OnInit {
       const contratoDTO: ContratoDTO = {
         nome: this.contrato.nome,
         descricao: this.contrato.descricao,
-        dataInicio: this.contrato.dataInicio ? new Date(this.contrato.dataInicio).toISOString().slice(0,10) : null,
-        dataFim: this.contrato.dataFim ? new Date(this.contrato.dataFim).toISOString().slice(0,10) : null,
+        dataInicio: this.contrato.dataInicio ? new Date(this.contrato.dataInicio).toISOString().slice(0, 10) : null,
+        dataFim: this.contrato.dataFim ? new Date(this.contrato.dataFim).toISOString().slice(0, 10) : null,
         ocorrenciasId: this.ocorrenciasTarget.map(o => o.id),
-        responsavel: this.usuarioSelecionado.id
+        responsavel: this.usuarioSelecionado.id,
+        funcionariosIds: this.funcionariosSelecionados.map(f => f.id)
       };
 
-      this.contratoService.cadastrar(contratoDTO).subscribe(response =>{
+      this.contratoService.cadastrar(contratoDTO).subscribe(response => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
           detail: 'Contrato salvo com sucesso!'
         });
-      });    
+      });
     }
   }
 }
