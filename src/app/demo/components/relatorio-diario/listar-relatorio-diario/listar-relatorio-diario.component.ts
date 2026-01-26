@@ -73,10 +73,8 @@ export class ListarRelatorioDiarioComponent implements OnInit {
   private initForm(): void {
     this.reportForm = this.fb.group({
       date: [new Date(), Validators.required],
-      endereco: ['', Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
-      status: ['in_progress', Validators.required],
       clima: ['sol', Validators.required],
       ocorrencias: this.fb.array([]),
       faltas: [[]],
@@ -88,7 +86,6 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     if (this.reportForm.valid) {
       const reportData = this.reportForm.value;
       console.log('Dados do Relatório:', reportData);
-      // Aqui integraria com um Service para salvar os dados
     }
   }
 
