@@ -14,9 +14,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { RelatorioDiarioRoutingModule } from './relatorio-diario-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { MeusRelatoriosComponent } from './meus-relatorios/meus-relatorios.component';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
-  declarations: [ListarRelatorioDiarioComponent],
+  declarations: [ListarRelatorioDiarioComponent, MeusRelatoriosComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -29,6 +31,7 @@ import { SharedModule } from '../shared/shared.module';
     InputNumberModule,
     MultiSelectModule,
     SelectButtonModule,
+    TableModule,
     ReactiveFormsModule,
     SharedModule,
     RelatorioDiarioRoutingModule

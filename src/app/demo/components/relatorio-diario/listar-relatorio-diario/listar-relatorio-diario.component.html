@@ -7,14 +7,15 @@
 
             <div class="field  col-6">
                 <label for="contratos" class="block text-900 text-xl font-medium mb-2">Contrato</label>
-                <p-dropdown [options]="contratos" [(ngModel)]="constratoSelecionado" optionLabel="nome"
-                    placeholder="Selecione um contrato" (onChange)="onContratoChange($event)">
+                <p-dropdown [options]="contratos" [(ngModel)]="contratoSelecionado" optionLabel="nome"
+                    [ngModelOptions]="{standalone: true}" placeholder="Selecione um contrato"
+                    (onChange)="onContratoChange($event)">
                 </p-dropdown>
             </div>
 
             <div class="field  col-6">
                 <label for="date" class="font-bold">Data do Relatório</label>
-                <p-calendar id="date" formControlName="date" [showIcon]="true" dateFormat="dd/mm/yy"
+                <p-calendar id="date" formControlName="dataCadastro" [showIcon]="true" dateFormat="dd/mm/yy"
                     placeholder="Selecione a data">
                 </p-calendar>
             </div>
@@ -22,7 +23,7 @@
             <div class="field col-12">
                 <label class="font-bold mb-2 block">Condição Climática</label>
                 <div class="weather-selector">
-                    <p-selectButton [options]="climaOptions" formControlName="clima" optionLabel="label"
+                    <p-selectButton [options]="climaOptions" formControlName="condicaoClimatica" optionLabel="label"
                         optionValue="value" styleClass="w-full">
                         <ng-template let-item pTemplate="item">
                             <i [class]="item.icon" class="mr-2 text-xl"></i>
@@ -38,13 +39,13 @@
             </div>
 
             <div class="field  col-12">
-                <label for="title" class="font-bold">Título da Atividade</label>
-                <input pInputText id="title" formControlName="title" placeholder="Ex: Relatório Diário" />
+                <label for="titulo" class="font-bold">Título da Atividade</label>
+                <input pInputText id="titulo" formControlName="titulo" placeholder="Ex: Relatório Diário" />
             </div>
 
             <div class="field  col-12">
-                <label for="description" class="font-bold">Descrição das Atividades</label>
-                <textarea pInputTextarea id="description" formControlName="description" rows="5" [autoResize]="true"
+                <label for="descricao" class="font-bold">Descrição das Atividades</label>
+                <textarea pInputTextarea id="descricao" formControlName="descricao" rows="5" [autoResize]="true"
                     placeholder="Descreva o que foi realizado hoje...">
           </textarea>
             </div>
@@ -64,14 +65,6 @@
                 </p-multiSelect>
                 <small class="text-gray-500">Se todos estiverem presentes, deixe em branco.</small>
             </div>
-            <!-- 
-            <div class="field  col-6">
-                <label for="status" class="font-bold">Status de Conclusão</label>
-                <p-dropdown id="status" [options]="statusOptions" formControlName="status" optionLabel="label"
-                    optionValue="value" placeholder="Selecione o status">
-                </p-dropdown>
-            </div> -->
-
 
             <div class="col-12 mt-4">
                 <div class="flex justify-content-between align-items-center mb-2">

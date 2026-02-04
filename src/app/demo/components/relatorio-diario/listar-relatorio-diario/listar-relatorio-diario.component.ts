@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ContratoDTO, OcorrenciaDTO } from '../../core/model';
+import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { OcorrenciaService } from 'src/app/demo/service/ocorrencia.service';
+import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
+import { MessageService } from 'primeng/api';
 
 interface StatusOption {
   label: string;
@@ -17,31 +19,22 @@ interface StatusOption {
 export class ListarRelatorioDiarioComponent implements OnInit {
 
   reportForm!: FormGroup;
-  statusOptions: StatusOption[] = [
-    { label: 'Concluído', value: 'completed' },
-    { label: 'Em Andamento', value: 'in_progress' },
-    { label: 'Impedido', value: 'blocked' }
-  ];
-
-
-  funcionarios: any[] = []; // Lista para o MultiSelect
-
+  funcionarios: any[] = [];
   contratos: ContratoDTO[] = [];
-  constratoSelecionado: ContratoDTO;
-
-  tiposOcorrencias: OcorrenciaDTO[] = []
-
+  contratoSelecionado: ContratoDTO;
+  tiposOcorrencias: OcorrenciaDTO[] = [];
   climaOptions: any[] = [
-    { label: 'Sol', value: 'sol', icon: 'pi pi-sun' },
-    { label: 'Nublado', value: 'nublado', icon: 'pi pi-cloud' },
-    { label: 'Chuva', value: 'chuva', icon: 'pi pi-align-justify' },
-    { label: 'Trovoada', value: 'trovoada', icon: 'pi pi-bolt' }
+    { label: 'Sol', value: 0, icon: 'pi pi-sun' },
+    { label: 'Nublado', value: 1, icon: 'pi pi-cloud' },
+    { label: 'Chuva', value: 2, icon: 'pi pi-align-justify' }
   ];
 
   constructor(
     private fb: FormBuilder,
     private contratoService: ContratoService,
-    private ocorrenciaService: OcorrenciaService
+    private ocorrenciaService: OcorrenciaService,
+    private relatorioDiarioService: relatorioDiarioService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -54,13 +47,12 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     ];
     this.initForm();
     this.listarPorResponsavel();
-
   }
 
 
   listarOcorrenciasPorContrato(contratoId: any) {
     this.ocorrenciaService.listarOcorrenciaPorContrato(contratoId).subscribe(response => {
-      this.tiposOcorrencias = response
+      this.tiposOcorrencias = response;
     })
   }
 
@@ -72,10 +64,10 @@ export class ListarRelatorioDiarioComponent implements OnInit {
 
   private initForm(): void {
     this.reportForm = this.fb.group({
-      date: [new Date(), Validators.required],
-      title: ['', [Validators.required, Validators.minLength(5)]],
-      description: ['', [Validators.required, Validators.maxLength(500)]],
-      clima: ['sol', Validators.required],
+      dataCadastro: [new Date(), Validators.required],
+      titulo: ['', [Validators.required, Validators.minLength(5)]],
+      descricao: ['', [Validators.required, Validators.maxLength(500)]],
+      condicaoClimatica: [0, Validators.required],
       ocorrencias: this.fb.array([]),
       faltas: [[]],
       localizacao: [null, Validators.required]
@@ -83,13 +75,39 @@ export class ListarRelatorioDiarioComponent implements OnInit {
   }
 
   onSubmit(): void {
+
     if (this.reportForm.valid) {
-      const reportData = this.reportForm.value;
-      console.log('Dados do Relatório:', reportData);
+      this.relatorioDiarioService.cadastrar(this.transformToDTO(this.reportForm.value)).subscribe(response => {
+        this.reportForm.reset();
+        this.contratoSelecionado = null;
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Relatório diário cadastrado com sucesso' });
+      });
     }
   }
 
-  // Dentro da sua classe
+  private transformToDTO(reportData: any): RelatorioDiarioDTO {
+    const dataCadastro = new Date(reportData.dataCadastro).toISOString().split('T')[0];
+
+    return {
+      dataCadastro: dataCadastro,
+      titulo: reportData.titulo,
+      descricao: reportData.descricao,
+      condicaoClimatica: reportData.condicaoClimatica,
+      estado: reportData.localizacao?.estado?.sigla || '',
+      cidade: reportData.localizacao?.cidade?.nome || '',
+      contratoId: this.contratoSelecionado?.id,
+      ocorrenciaItens: reportData.ocorrencias.map((item: any) => {
+        const ocorrenciaTipo = this.tiposOcorrencias.find(t => t.id === item.tipo);
+        return {
+          id: item.tipo,
+          quantidade: item.quantidade,
+          valor: ocorrenciaTipo ? ocorrenciaTipo.valor : 0
+        };
+      })
+    };
+  }
+
+
   get ocorrencias(): FormArray {
     return this.reportForm.get('ocorrencias') as FormArray;
   }
@@ -98,8 +116,9 @@ export class ListarRelatorioDiarioComponent implements OnInit {
 
   addOcorrencia(): void {
     const item = this.fb.group({
-      tipo: [null, Validators.required], // Agora é o valor do dropdown
-      quantidade: [1, [Validators.required, Validators.min(1)]]
+      tipo: [null, Validators.required],
+      quantidade: [1, [Validators.required, Validators.min(1)]], valor: [0, Validators.required],
+
     });
     this.ocorrencias.push(item);
   }
@@ -122,7 +141,6 @@ export class ListarRelatorioDiarioComponent implements OnInit {
 
 
   onContratoChange(event: any): void {
-    // O event.value contém o objeto selecionado (devido ao optionLabel)
     const contrato = event.value;
 
     console.log(contrato)
