@@ -9,6 +9,7 @@
 2. Não utilize any , defina interfaces para todos os modelos de dados.
 3. Siga a estrutura de pastas `core/`, `shared/`, `features/`.
 4. **RxJS**: Evite `.subscribe()` manual em componentes. Prefira `| async` no template. Se necessário o subscribe, use `takeUntilDestroyed()` ou limpe a inscrição no `ngOnDestroy`
+5. Implemente formulários utilizando ReactiveFormsModule.
 
 ## Integrações
 - Ao criar tabelas, use sempre o componente `<p-table>`.

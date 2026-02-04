@@ -13,6 +13,7 @@ import { ListarContratosComponent } from './listar-contratos/listar-contratos.co
 import { PickListModule } from 'primeng/picklist';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { CardModule } from 'primeng/card';
 
 
 
@@ -26,6 +27,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     InputTextareaModule,
     InputTextModule,
     CalendarModule,
+    CardModule,
     ButtonModule,
     ToastModule,
     MultiSelectModule,

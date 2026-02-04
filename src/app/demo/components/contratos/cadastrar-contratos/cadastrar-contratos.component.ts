@@ -4,6 +4,7 @@ import { OcorrenciaService } from 'src/app/demo/service/ocorrencia.service';
 import { ContratoDTO, OcorrenciaDTO, UsuarioDTO } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { UsuarioService } from 'src/app/demo/service/usuario.service';
+import { Route, Router } from '@angular/router';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class CadastrarContratosComponent implements OnInit {
     private messageService: MessageService,
     private ocorrenciaService: OcorrenciaService,
     private contratoService: ContratoService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +63,9 @@ export class CadastrarContratosComponent implements OnInit {
   salvar() {
     if (this.contrato.descricao && this.contrato.dataInicio) {
 
+
+      console.log(this.funcionariosSelecionados)
+
       const contratoDTO: ContratoDTO = {
         nome: this.contrato.nome,
         descricao: this.contrato.descricao,
@@ -68,10 +73,22 @@ export class CadastrarContratosComponent implements OnInit {
         dataFim: this.contrato.dataFim ? new Date(this.contrato.dataFim).toISOString().slice(0, 10) : null,
         ocorrenciasId: this.ocorrenciasTarget.map(o => o.id),
         responsavel: this.usuarioSelecionado.id,
-        funcionariosIds: this.funcionariosSelecionados.map(f => f.id)
+        funcionariosId: this.funcionariosSelecionados.map(f => f.id)
       };
 
+      console.log(contratoDTO)
+
       this.contratoService.cadastrar(contratoDTO).subscribe(response => {
+
+
+
+        this.router.navigate(['/contratos/meus-contratos']);
+
+        this.ocorrenciasTarget = [];
+        this.usuarioSelecionado = null;
+        this.funcionariosSelecionados = [];
+
+
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
