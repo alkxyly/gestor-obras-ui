@@ -13,7 +13,7 @@ export class ListarContratosComponent implements OnInit {
   cols: any[] = [];
 
 
-  constructor(private constratoService: ContratoService){
+  constructor(private constratoService: ContratoService) {
 
   }
 

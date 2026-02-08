@@ -121,6 +121,16 @@
 
 
             <div class="field col-12">
+                <label class="font-bold">Fotos do Dia</label>
+                <p-fileUpload mode="advanced" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="3000000"
+                    (onUpload)="onUpload($event)" [multiple]="true" [fileLimit]="3" chooseLabel="Escolher"
+                    uploadLabel="Enviar" cancelLabel="Cancelar"
+                    invalidFileLimitMessageDetail="Limite máximo de 3 fotos excedido."
+                    invalidFileLimitMessageSummary="Atenção:">
+                </p-fileUpload>
+            </div>
+
+            <div class="field col-12">
                 <p-button label="Salvar" icon="pi pi-check" type="submit" [disabled]="reportForm.invalid">
                 </p-button>
             </div>

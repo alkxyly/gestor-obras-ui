@@ -17,6 +17,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MeusRelatoriosComponent } from './meus-relatorios/meus-relatorios.component';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [ListarRelatorioDiarioComponent, MeusRelatoriosComponent],
@@ -34,6 +35,7 @@ import { TagModule } from 'primeng/tag';
     SelectButtonModule,
     TableModule,
     TagModule,
+    FileUploadModule,
     ReactiveFormsModule,
     SharedModule,
     RelatorioDiarioRoutingModule

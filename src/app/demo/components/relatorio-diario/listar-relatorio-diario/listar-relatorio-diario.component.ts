@@ -88,12 +88,13 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     }
   }
 
+  onUpload(event: any) {
+    console.log(event)
+    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+  }
+
   private transformToDTO(reportData: any): RelatorioDiarioDTO {
     const dataCadastro = new Date(reportData.dataCadastro).toISOString().split('T')[0];
-
-
-    console.log(reportData.funcionariosAusentesId)
-
     return {
       dataCadastro: dataCadastro,
       titulo: reportData.titulo,
@@ -111,9 +112,6 @@ export class ListarRelatorioDiarioComponent implements OnInit {
         };
       }),
       funcionariosAusentesId: reportData.funcionariosAusentesId ? reportData.funcionariosAusentesId.map((usuario: UsuarioDTO) => usuario.id) : []
-
-
-
     };
   }
 
