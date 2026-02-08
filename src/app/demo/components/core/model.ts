@@ -418,6 +418,7 @@ export class UsuarioDTO {
     nome: string;
     cpfCnpj: string;
     email: string;
+    celular?: string;
 }
 
 export class RelatorioDiarioDTO {
@@ -448,4 +449,5 @@ export class RelatorioDiarioDetalhadoDTO {
     dataCadastro: string;
     funcionariosAusentes: UsuarioDTO[];
     ocorrenciaItens: OcorrenciaItemDTO[];
+    relatadoPor: UsuarioDTO;
 }

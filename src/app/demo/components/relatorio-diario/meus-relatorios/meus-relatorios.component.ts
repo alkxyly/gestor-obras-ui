@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
 import { ContratoDTO, RelatorioDiarioDetalhadoDTO, RelatorioDiarioDTO } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
+
 
 @Component({
   selector: 'app-meus-relatorios',
@@ -16,6 +17,8 @@ export class MeusRelatoriosComponent {
   contratoSelecionado: ContratoDTO;
   expandedRows = {};
   relatorios: RelatorioDiarioDetalhadoDTO[] = [];
+
+  dataSelecionada: Date = new Date();
 
   constructor(private fb: FormBuilder,
     private relatorioService: relatorioDiarioService,
@@ -32,7 +35,18 @@ export class MeusRelatoriosComponent {
   }
 
   listarRelatorioDiarioDetalhado() {
-    this.relatorioService.listarRelatorioDiarioDetalhado(this.contratoSelecionado.id, "2026-01-01", "2026-01-10").subscribe(response => {
+    if (!this.contratoSelecionado?.id) return;
+
+    const year = this.dataSelecionada.getFullYear();
+    const month = this.dataSelecionada.getMonth();
+
+    // Primeiro dia do mês
+    const dataInicio = new Date(year, month, 1).toISOString().split('T')[0];
+
+    // Último dia do mês
+    const dataFim = new Date(year, month + 1, 0).toISOString().split('T')[0];
+
+    this.relatorioService.listarRelatorioDiarioDetalhado(this.contratoSelecionado.id, dataInicio, dataFim).subscribe(response => {
       this.relatorios = response;
     })
   }
@@ -43,7 +57,7 @@ export class MeusRelatoriosComponent {
     console.log(contrato)
 
     if (contrato && contrato.id) {
-
+      this.listarRelatorioDiarioDetalhado();
     } else {
 
     }
@@ -51,6 +65,14 @@ export class MeusRelatoriosComponent {
 
   onSubmit() {
 
+  }
+
+  abrirWhatsapp(celular: string) {
+    if (celular) {
+      const numeroLimpo = celular.replace(/\D/g, '');
+      const url = `https://api.whatsapp.com/send?phone=55${numeroLimpo}&text=Olá, gostaria de falar sobre o relatório.`;
+      window.open(url, '_blank');
+    }
   }
 
   getValorTotal(ocorrencias: any[]): number {
