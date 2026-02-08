@@ -76,19 +76,11 @@ export class CadastrarContratosComponent implements OnInit {
         funcionariosId: this.funcionariosSelecionados.map(f => f.id)
       };
 
-      console.log(contratoDTO)
-
       this.contratoService.cadastrar(contratoDTO).subscribe(response => {
-
-
-
         this.router.navigate(['/contratos/meus-contratos']);
-
         this.ocorrenciasTarget = [];
         this.usuarioSelecionado = null;
         this.funcionariosSelecionados = [];
-
-
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',

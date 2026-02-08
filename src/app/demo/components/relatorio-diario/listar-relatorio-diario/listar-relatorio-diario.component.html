@@ -51,9 +51,10 @@
             </div>
 
             <div class="col-12 flex flex-column gap-2 mb-3">
-                <label for="faltas" class="font-bold">Funcionários Ausentes</label>
-                <p-multiSelect id="faltas" [options]="funcionarios" formControlName="faltas" optionLabel="nome"
-                    placeholder="Selecione quem faltou hoje" [maxSelectedLabels]="100" display="chip" [filter]="true"
+                <label for="funcionariosAusentesId" class="font-bold">Funcionários Ausentes</label>
+                <p-multiSelect id="funcionariosAusentesId" [options]="funcionarios"
+                    formControlName="funcionariosAusentesId" optionLabel="nome" placeholder="Selecione quem faltou hoje"
+                    [maxSelectedLabels]="100" display="chip" [filter]="true"
                     emptyMessage="Nenhum funcionário encontrado" styleClass="w-full">
 
                     <ng-template let-funcionario pTemplate="item">

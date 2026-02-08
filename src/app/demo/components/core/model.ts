@@ -419,3 +419,33 @@ export class UsuarioDTO {
     cpfCnpj: string;
     email: string;
 }
+
+export class RelatorioDiarioDTO {
+    dataCadastro: string;
+    titulo: string;
+    descricao: string;
+    condicaoClimatica: number;
+    ocorrenciaItens: OcorrenciaItemDTO[] = [];
+    estado: string;
+    cidade: string;
+    contratoId: number;
+    funcionariosAusentesId?: UsuarioDTO[];
+}
+
+export class OcorrenciaItemDTO {
+    id?: number;
+    valor: number;
+    quantidade: number;
+}
+
+export class RelatorioDiarioDetalhadoDTO {
+    id: string;
+    titulo: string;
+    descricao: string;
+    condicaoClimatica: number;
+    cidade: string;
+    estado: string;
+    dataCadastro: string;
+    funcionariosAusentes: UsuarioDTO[];
+    ocorrenciaItens: OcorrenciaItemDTO[];
+}

@@ -20,11 +20,12 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Dashboard', icon: 'pi pi-fw pi-chart-line', routerLink: ['/'] }
                 ]
             },
-            
+
             {
                 label: 'Relatório Diário',
                 items: [
-                    { label: 'Cadastrar Relatório Diário', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/relatorio-diario'] },                
+                    { label: 'Cadastrar Relatório Diário', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/relatorio-diario'] },
+                    { label: 'Relatórios Enviados', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/relatorio-diario/meus-relatorios'] },
                 ]
             },
 
@@ -33,7 +34,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-file-o', routerLink: ['/contratos'] },
                     { label: 'Meus Contratos', icon: 'pi pi-fw pi-list', routerLink: ['/contratos/meus-contratos'] },
-                                   
+
                 ]
             },
             {
@@ -50,7 +51,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Meus Usuários', icon: 'pi pi-fw pi-users', routerLink: ['/locacao/minhas-locacoes'] },
                 ]
             },
-            
+
             {
                 label: 'Relatórios',
                 items: [

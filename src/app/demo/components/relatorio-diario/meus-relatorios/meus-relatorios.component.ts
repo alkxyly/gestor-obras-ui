@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
-import { ContratoDTO, RelatorioDiarioDTO } from '../../core/model';
+import { ContratoDTO, RelatorioDiarioDetalhadoDTO, RelatorioDiarioDTO } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 
 @Component({
@@ -15,41 +15,7 @@ export class MeusRelatoriosComponent {
   contratos: ContratoDTO[] = [];
   contratoSelecionado: ContratoDTO;
   expandedRows = {};
-  relatorios: RelatorioDiarioDTO[] = [
-    {
-      dataCadastro: '2026-01-01',
-      titulo: 'Dia 1 Relatorio contrato GP0001',
-      descricao: 'Atividades de fundação concluídas com sucesso.',
-      condicaoClimatica: 0,
-      ocorrenciaItens: [],
-      estado: 'SP',
-      cidade: 'São Paulo',
-      contratoId: 1,
-      faltas: [{ nome: 'João da Silva' }]
-    },
-    {
-      dataCadastro: '2026-01-02',
-      titulo: 'Dia 2 Relatorio contrato GP0001',
-      descricao: 'Instalação elétrica iniciada no segundo pavimento.',
-      condicaoClimatica: 1,
-      ocorrenciaItens: [{ id: 1, valor: 100, quantidade: 2 }],
-      estado: 'RJ',
-      cidade: 'Rio de Janeiro',
-      contratoId: 2,
-      faltas: []
-    },
-    {
-      dataCadastro: '2026-01-03',
-      titulo: 'Dia 3 Relatorio contrato GP0001',
-      descricao: 'Chuva impediu a concretagem da laje.',
-      condicaoClimatica: 2,
-      ocorrenciaItens: [],
-      estado: 'MG',
-      cidade: 'Belo Horizonte',
-      contratoId: 3,
-      faltas: [{ nome: 'Maria Oliveira' }, { nome: 'Carlos Souza' }]
-    }
-  ];
+  relatorios: RelatorioDiarioDetalhadoDTO[] = [];
 
   constructor(private fb: FormBuilder,
     private relatorioService: relatorioDiarioService,
@@ -62,6 +28,12 @@ export class MeusRelatoriosComponent {
   listarContratoPorResponsavel() {
     this.contratoService.listarPorResponsavel().subscribe(response => {
       this.contratos = response;
+    })
+  }
+
+  listarRelatorioDiarioDetalhado() {
+    this.relatorioService.listarRelatorioDiarioDetalhado(this.contratoSelecionado.id, "2026-01-01", "2026-01-10").subscribe(response => {
+      this.relatorios = response;
     })
   }
 
@@ -84,5 +56,9 @@ export class MeusRelatoriosComponent {
   getValorTotal(ocorrencias: any[]): number {
     if (!ocorrencias) return 0;
     return ocorrencias.reduce((total, item) => total + (item.quantidade * item.valor), 0);
+  }
+
+  get totalGeral(): number {
+    return this.relatorios.reduce((total, relatorio) => total + this.getValorTotal(relatorio.ocorrenciaItens), 0);
   }
 }

@@ -16,6 +16,7 @@ import { RelatorioDiarioRoutingModule } from './relatorio-diario-routing.module'
 import { SharedModule } from '../shared/shared.module';
 import { MeusRelatoriosComponent } from './meus-relatorios/meus-relatorios.component';
 import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [ListarRelatorioDiarioComponent, MeusRelatoriosComponent],
@@ -32,6 +33,7 @@ import { TableModule } from 'primeng/table';
     MultiSelectModule,
     SelectButtonModule,
     TableModule,
+    TagModule,
     ReactiveFormsModule,
     SharedModule,
     RelatorioDiarioRoutingModule
