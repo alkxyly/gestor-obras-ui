@@ -1,0 +1,94 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Gestão de Usuários</h5>
+
+            <p-table #dt [value]="usuarios" [columns]="cols" responsiveLayout="stack" [breakpoint]="'960px'" [rows]="10"
+                [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="multiple" [rowHover]="true"
+                dataKey="id">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Buscar usuário..." />
+                        </span>
+                        <button pButton label="Novo Usuário" icon="pi pi-plus" class="p-button-success"
+                            routerLink="/usuarios"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th pSortableColumn="nome">Nome <p-sortIcon field="nome"></p-sortIcon></th>
+                        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                        <th pSortableColumn="cpfCnpj">CPF/CNPJ <p-sortIcon field="cpfCnpj"></p-sortIcon></th>
+                        <th pSortableColumn="perfil">Perfil <p-sortIcon field="perfil"></p-sortIcon></th>
+                        <th pSortableColumn="telefone">Telefone <p-sortIcon field="telefone"></p-sortIcon></th>
+                        <th pSortableColumn="ativo">Ativo <p-sortIcon field="ativo"></p-sortIcon></th>
+                        <th>Ações</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-usuario>
+                    <tr>
+                        <td>
+                            <span class="p-column-title">Nome</span>
+                            {{usuario.nome}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Email</span>
+                            {{usuario.email}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">CPF/CNPJ</span>
+                            {{usuario.cpfCnpj | cpfCnpj}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Perfil</span>
+                            IMPLEMENTAR
+                        </td>
+                        <td>
+                            <span class="p-column-title">Telefone</span>
+
+                            <div class="flex align-items-center gap-2">
+                                <span>79996568448</span>
+                            </div>
+
+
+                        </td>
+                        <td>
+                            <span class="p-column-title">Ativo</span>
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle text-green-500': usuario.ativo, 'false-icon pi-times-circle text-pink-500': !usuario.ativo}"></i>
+                        </td>
+                        <td>
+                            <div class="flex gap-4">
+
+                                <p-button icon="pi pi-whatsapp" [rounded]="true" [text]="true"
+                                    (click)="enviarMensagemWhatsapp('79996568448')" styleClass="p-button-success" />
+
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Usuário"
+                                    tooltipPosition="bottom">
+                                </button>
+
+                                <button pButton pRipple icon="pi pi-trash"
+                                    class="p-button-rounded p-button-text p-button-danger" pTooltip="Excluir Usuário"
+                                    tooltipPosition="bottom">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6">Nenhum usuário encontrado.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
