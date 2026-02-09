@@ -42,12 +42,11 @@ export class ListarRelatorioDiarioComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.listarPorResponsavel();
-    this.listarFuncionarios();
   }
 
 
-  listarFuncionarios() {
-    this.usuarioService.listar().subscribe(response => {
+  listarFuncionarios(contratoId: number) {
+    this.contratoService.listarFuncionariosDoContrato(contratoId).subscribe(response => {
       this.funcionarios = response;
     })
   }
@@ -89,7 +88,6 @@ export class ListarRelatorioDiarioComponent implements OnInit {
   }
 
   onUpload(event: any) {
-    console.log(event)
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
   }
 
@@ -155,6 +153,7 @@ export class ListarRelatorioDiarioComponent implements OnInit {
 
     if (contrato && contrato.id) {
       this.listarOcorrenciasPorContrato(contrato.id);
+      this.listarFuncionarios(contrato.id);
     } else {
       this.tiposOcorrencias = []; // Limpa se o contrato for desmarcado
     }
