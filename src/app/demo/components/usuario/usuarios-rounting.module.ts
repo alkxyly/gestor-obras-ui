@@ -7,8 +7,8 @@ import { AuthGuard } from "../auth/auth.guard";
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: '', component: CadastrarUsuarioComponent, canActivate: [AuthGuard] },
-        { path: 'listar-usuarios', component: ListarUsuarioComponent, canActivate: [AuthGuard] },
+        { path: '', component: CadastrarUsuarioComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_EDITAR_USUARIO'] } },
+        { path: 'listar-usuarios', component: ListarUsuarioComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_EDITAR_USUARIO'] } },
 
     ])],
     exports: [RouterModule]
