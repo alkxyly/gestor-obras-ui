@@ -419,6 +419,9 @@ export class UsuarioDTO {
     cpfCnpj: string;
     email: string;
     celular?: string;
+    senha?: string;
+    perfil?: string;
+    ativo?: boolean;
 }
 
 export class RelatorioDiarioDTO {

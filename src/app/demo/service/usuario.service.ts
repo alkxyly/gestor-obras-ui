@@ -11,11 +11,15 @@ export class UsuarioService {
 
   url: string;
 
-  constructor(private http: HttpClient) { 
-    this.url = environment.apiUrl+"/api/v1/usuarios";
+  constructor(private http: HttpClient) {
+    this.url = environment.apiUrl + "/api/v1/usuarios";
   }
 
-  listar():Observable<UsuarioDTO[]>{
+  listar(): Observable<UsuarioDTO[]> {
     return this.http.get<UsuarioDTO[]>(`${this.url}`);
+  }
+
+  cadastrar(usuario: UsuarioDTO): Observable<UsuarioDTO> {
+    return this.http.post<UsuarioDTO>(this.url, usuario);
   }
 }

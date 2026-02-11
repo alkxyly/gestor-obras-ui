@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { FormatarPlacaPipe } from './pipe/formatar-placa.pipe';
+import { CpfCnpjPipe } from './pipe/cpf-cnpj.pipe';
 import { ConfirmarPagamentoDialogComponent } from './confirmar-pagamento-dialog/confirmar-pagamento-dialog.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -24,7 +25,9 @@ import { DropdownModule } from 'primeng/dropdown';
     FormatarPlacaPipe,
     ConfirmarPagamentoDialogComponent,
     CardValorComponent,
-    CidadeEstadoComponent
+    CardValorComponent,
+    CidadeEstadoComponent,
+    CpfCnpjPipe
   ],
   imports: [
     CommonModule,
@@ -44,7 +47,9 @@ import { DropdownModule } from 'primeng/dropdown';
     FormatarPlacaPipe,
     ConfirmarPagamentoDialogComponent,
     CardValorComponent,
-    CidadeEstadoComponent
+    CardValorComponent,
+    CidadeEstadoComponent,
+    CpfCnpjPipe
   ]
 })
 export class SharedModule { }

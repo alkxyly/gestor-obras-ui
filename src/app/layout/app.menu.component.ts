@@ -47,21 +47,21 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Usuários',
                 items: [
-                    { label: 'Cadastrar Usuário', icon: 'pi pi-fw pi-user-plus', routerLink: ['/locacao'] },
-                    { label: 'Meus Usuários', icon: 'pi pi-fw pi-users', routerLink: ['/locacao/minhas-locacoes'] },
+                    { label: 'Cadastrar Usuário', icon: 'pi pi-fw pi-user-plus', routerLink: ['/usuarios'] },
+                    { label: 'Meus Usuários', icon: 'pi pi-fw pi-users', routerLink: ['/usuarios/listar-usuarios'] },
                 ]
             },
 
-            {
-                label: 'Relatórios',
-                items: [
-                    { label: 'Balanço Mensal', icon: 'pi pi-fw pi-chart-pie', routerLink: ['/relatorio/balanco-mensal'] },
-                    { label: 'Balanço Anual', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorio/balanco-anual'] },
-                    { label: 'Despesa por Obra', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/relatorio/despesas-veiculo'] },
-                    { label: 'Despesas por Contrato', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorio/despesas-mes'] },
-                    { label: 'Despesas por Usuário', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/relatorio/despesas-veiculo'] },
-                ]
-            },
+            // {
+            //     label: 'Relatórios',
+            //     items: [
+            //         { label: 'Balanço Mensal', icon: 'pi pi-fw pi-chart-pie', routerLink: ['/relatorio/balanco-mensal'] },
+            //         { label: 'Balanço Anual', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorio/balanco-anual'] },
+            //         { label: 'Despesa por Obra', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/relatorio/despesas-veiculo'] },
+            //         { label: 'Despesas por Contrato', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorio/despesas-mes'] },
+            //         { label: 'Despesas por Usuário', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/relatorio/despesas-veiculo'] },
+            //     ]
+            // },
             // {
             //     label: 'UI Components',
             //     items: [
