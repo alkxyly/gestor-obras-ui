@@ -410,6 +410,7 @@ export class ContratoDTO {
     ocorrenciasId: number[] = []
     responsavel: string;
     nomeResponsavel?: string;
+    nomeEncarregado?: string;
     funcionariosId?: string[];
 }
 

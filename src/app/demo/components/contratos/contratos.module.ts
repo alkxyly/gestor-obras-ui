@@ -14,6 +14,8 @@ import { PickListModule } from 'primeng/picklist';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
+import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 
@@ -32,6 +34,8 @@ import { CardModule } from 'primeng/card';
     ToastModule,
     MultiSelectModule,
     TableModule,
+    DialogModule,
+    TooltipModule,
     DropdownModule,
     PickListModule,
     ContratosRoutingModule
