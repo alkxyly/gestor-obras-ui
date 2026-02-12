@@ -21,7 +21,7 @@ export class ListarUsuarioComponent implements OnInit {
       { field: 'nome', header: 'Nome' },
       { field: 'email', header: 'Email' },
       { field: 'cpfCnpj', header: 'CPF/CNPJ' },
-      { field: 'perfil', header: 'Perfil' },
+      { field: 'cargo', header: 'Cargo' },
       { field: 'telefone', header: 'Telefone' },
       { field: 'ativo', header: 'Ativo' }
     ];

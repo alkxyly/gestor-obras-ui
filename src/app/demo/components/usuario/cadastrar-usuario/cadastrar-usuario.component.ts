@@ -18,7 +18,9 @@ export class CadastrarUsuarioComponent implements OnInit {
     cpfCnpj: '',
     senha: '',
     perfil: '',
-    ativo: true
+    ativo: true,
+    cargo: '',
+    telefone: ''
   };
 
   confirmarSenha: string = '';

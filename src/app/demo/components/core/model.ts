@@ -422,6 +422,8 @@ export class UsuarioDTO {
     senha?: string;
     perfil?: string;
     ativo?: boolean;
+    cargo: string;
+    telefone: string;
 }
 
 export class RelatorioDiarioDTO {
