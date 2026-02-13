@@ -46,7 +46,10 @@
                     </td>
                     <td>{{ relatorio.dataCadastro | date: 'dd/MM/yyyy' }}</td>
                     <td>{{ relatorio.titulo }}</td>
-                    <td>{{ relatorio.descricao }}</td>
+                    <td [pTooltip]="relatorio.descricao" tooltipPosition="top">
+                        {{ relatorio.descricao.length > 50 ? (relatorio.descricao | slice:0:50) + '...' :
+                        relatorio.descricao }}
+                    </td>
                     <td>
                         <div class="flex align-items-center gap-2">
                             <i class="pi" [ngClass]="{
@@ -76,6 +79,14 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-relatorio>
+                <tr>
+                    <td colspan="10">
+                        <div class="p-3">
+                            <h6 class="mb-3">Descrição</h6>
+                            <p>{{ relatorio.descricao }}</p>
+                        </div>
+                    </td>
+                </tr>
                 <tr>
                     <td colspan="10">
                         <div class="p-3">

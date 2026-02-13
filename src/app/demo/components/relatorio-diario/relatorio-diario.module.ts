@@ -18,6 +18,7 @@ import { MeusRelatoriosComponent } from './meus-relatorios/meus-relatorios.compo
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { FileUploadModule } from 'primeng/fileupload';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [ListarRelatorioDiarioComponent, MeusRelatoriosComponent],
@@ -36,6 +37,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     TableModule,
     TagModule,
     FileUploadModule,
+    TooltipModule,
     ReactiveFormsModule,
     SharedModule,
     RelatorioDiarioRoutingModule
