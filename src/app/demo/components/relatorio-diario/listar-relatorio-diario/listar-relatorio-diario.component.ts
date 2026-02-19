@@ -30,6 +30,9 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     { label: 'Chuva', value: 2, icon: 'pi pi-align-justify' }
   ];
 
+  uploading: boolean = false;
+  uploadedFiles: any[] = [];
+
   constructor(
     private fb: FormBuilder,
     private contratoService: ContratoService,
@@ -87,8 +90,31 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     }
   }
 
-  onUpload(event: any) {
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+  async onUpload(event: any) {
+    const files: File[] = event.files;
+    this.uploading = true;
+    try {
+      for (const file of files) {
+        console.log(file)
+        this.uploadedFiles.push(file);
+      }
+      //simulando atraso na rede
+      //await new Promise(resolve => setTimeout(resolve, 5000));
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Fotos enviadas com sucesso'
+      });
+    } catch (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Falha ao processar upload.'
+      });
+    } finally {
+      this.uploading = false;
+    }
   }
 
   private transformToDTO(reportData: any): RelatorioDiarioDTO {

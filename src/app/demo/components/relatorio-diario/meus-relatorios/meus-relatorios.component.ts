@@ -83,4 +83,13 @@ export class MeusRelatoriosComponent {
   get totalGeral(): number {
     return this.relatorios.reduce((total, relatorio) => total + this.getValorTotal(relatorio.ocorrenciaItens), 0);
   }
+
+  getClimaTexto(condicao: number): string {
+    const labels = {
+      0: 'Ensolarado',
+      1: 'Nublado',
+      2: 'Chuvoso'
+    };
+    return labels[condicao] || 'Desconhecido';
+  }
 }

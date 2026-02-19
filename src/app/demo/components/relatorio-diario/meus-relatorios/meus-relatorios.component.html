@@ -53,10 +53,11 @@
                     <td>
                         <div class="flex align-items-center gap-2">
                             <i class="pi" [ngClass]="{
-                            'pi-sun text-yellow-500': relatorio.condicaoClimatica === 0,
-                            'pi-cloud text-gray-500': relatorio.condicaoClimatica === 1,
-                            'pi-align-justify text-blue-500': relatorio.condicaoClimatica === 2
-                        }"></i>
+                                'pi-sun text-yellow-500': relatorio.condicaoClimatica === 0,
+                                'pi-cloud text-gray-500': relatorio.condicaoClimatica === 1,
+                                'pi-align-justify text-blue-500': relatorio.condicaoClimatica === 2}"
+                                [pTooltip]="getClimaTexto(relatorio.condicaoClimatica)" tooltipPosition="top">
+                            </i>
                         </div>
                     </td>
                     <td>{{ relatorio.cidade }} - {{ relatorio.estado }}</td>
