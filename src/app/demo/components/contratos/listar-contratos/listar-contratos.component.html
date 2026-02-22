@@ -15,7 +15,7 @@
                                 placeholder="Buscar contrato..." />
                         </span>
                         <button pButton label="Novo Contrato" icon="pi pi-plus" class="p-button-success"
-                            routerLink="/contratos"></button>
+                            routerLink="/contratos" *ngIf="authService.temPermissao('ROLE_EDITAR_CONTRATO')"></button>
                     </div>
                 </ng-template>
 

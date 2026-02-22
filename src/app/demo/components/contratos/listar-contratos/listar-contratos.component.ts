@@ -3,6 +3,7 @@ import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { ContratoDTO, UsuarioDTO } from '../../core/model';
 import { UsuarioService } from 'src/app/demo/service/usuario.service';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-listar-contratos',
@@ -22,7 +23,8 @@ export class ListarContratosComponent implements OnInit {
   constructor(
     private constratoService: ContratoService,
     private usuarioService: UsuarioService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {

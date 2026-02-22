@@ -5,7 +5,7 @@ import { AuthGuard } from '../auth/auth.guard';
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: '', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CONSULTAR_DASHBOARD'] } },
+        { path: '', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CONSULTAR_DASHBOARD'], redirectOnFailure: '/relatorio-diario/meus-relatorios' } },
 
     ])],
     exports: [RouterModule]

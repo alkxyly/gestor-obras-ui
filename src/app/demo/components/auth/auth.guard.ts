@@ -31,7 +31,8 @@ export class AuthGuard implements CanActivate {
           return true;
         });
     } else if (next.data['roles'] && !this.auth.temQualquerPermissao(next.data['roles'])) {
-      this.router.navigate(['/notfound']);
+      const redirectPath = next.data['redirectOnFailure'] || '/auth/access';
+      this.router.navigate([redirectPath]);
       return false;
     }
 
