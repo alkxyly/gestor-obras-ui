@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UsuarioDTO } from '../../core/model';
+import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UploadRequestDTO, UsuarioDTO } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { OcorrenciaService } from 'src/app/demo/service/ocorrencia.service';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
 import { MessageService } from 'primeng/api';
 import { UsuarioService } from 'src/app/demo/service/usuario.service';
+import { UploadService } from 'src/app/demo/service/upload.service';
 
 interface StatusOption {
   label: string;
@@ -39,7 +40,8 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     private ocorrenciaService: OcorrenciaService,
     private relatorioDiarioService: relatorioDiarioService,
     private messageService: MessageService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private uploadService: UploadService
   ) { }
 
   ngOnInit(): void {
@@ -95,10 +97,20 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     this.uploading = true;
     try {
       for (const file of files) {
+
+        const uploadRequestDTO: UploadRequestDTO = {
+          originalFileName: file.name,
+          contentLength: file.size
+        }
+
+        this.uploadService.obterUrlPreAssinada(uploadRequestDTO).subscribe(response => {
+          console.log(response);
+        })
+
         this.uploadedFiles.push(file);
       }
-      //simulando atraso na rede
-      //await new Promise(resolve => setTimeout(resolve, 5000));
+
+      console.log(this.uploadedFiles);
 
       this.messageService.add({
         severity: 'success',
@@ -180,7 +192,7 @@ export class ListarRelatorioDiarioComponent implements OnInit {
       this.listarOcorrenciasPorContrato(contrato.id);
       this.listarFuncionarios(contrato.id);
     } else {
-      this.tiposOcorrencias = []; // Limpa se o contrato for desmarcado
+      this.tiposOcorrencias = [];
     }
   }
 }

@@ -31,14 +31,11 @@
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label htmlFor="perfil">Perfil</label>
-                    <p-dropdown [options]="perfis" [(ngModel)]="usuario.perfil" placeholder="Selecione um perfil"
-                        required #perfil="ngModel">
-                    </p-dropdown>
-                    <small class="p-error" *ngIf="perfil.invalid && (perfil.dirty || perfil.touched)">
-                        O perfil é obrigatório.
-                    </small>
+                    <label htmlFor="telefone">Telefone</label>
+                    <p-inputMask id="telefone" mask="(99) 99999-9999" [(ngModel)]="usuario.telefone"
+                        placeholder="(00) 00000-0000" #telefone="ngModel"></p-inputMask>
                 </div>
+
 
                 <div class="field col-12 md:col-6">
                     <label htmlFor="senha">Senha</label>
@@ -61,7 +58,18 @@
                     </small>
                 </div>
 
-                <div class="field col-12 md:col-6 flex align-items-center gap-2 mt-3">
+
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="perfil">Perfil</label>
+                    <p-dropdown [options]="perfis" [(ngModel)]="usuario.perfil" placeholder="Selecione um perfil"
+                        required #perfil="ngModel">
+                    </p-dropdown>
+                    <small class="p-error" *ngIf="perfil.invalid && (perfil.dirty || perfil.touched)">
+                        O perfil é obrigatório.
+                    </small>
+                </div>
+
+                <div class="field col-12 flex align-items-center gap-2 mt-3">
                     <label htmlFor="ativo" class="mb-0">Ativo</label>
                     <p-inputSwitch [(ngModel)]="usuario.ativo"></p-inputSwitch>
                 </div>

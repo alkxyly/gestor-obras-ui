@@ -458,3 +458,18 @@ export class RelatorioDiarioDetalhadoDTO {
     relatadoPor: UsuarioDTO;
     fotos?: string[];
 }
+
+
+export class UploadRequestDTO {
+    originalFileName: string;
+    contentLength: number;
+}
+
+export class UploadResponseDTO {
+
+    uploadSignedUrl: string;
+    remoteFileName: string;
+    contentLength: number;
+    contentType: string;
+    expiresAt: Date;
+}
