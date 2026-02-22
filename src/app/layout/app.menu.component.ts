@@ -26,8 +26,8 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Relatório Diário',
                 items: [
-                    { label: 'Cadastrar Relatório Diário', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/relatorio-diario'] },
-                    { label: 'Relatórios Enviados', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/relatorio-diario/meus-relatorios'] },
+                    { label: 'Cadastrar Relatório Diário', icon: 'pi pi-fw pi-plus', routerLink: ['/relatorio-diario'] },
+                    { label: 'Relatórios Enviados', icon: 'pi pi-fw pi-list', routerLink: ['/relatorio-diario/meus-relatorios'] },
                 ]
             },
 
@@ -36,7 +36,7 @@ export class AppMenuComponent implements OnInit {
                 visible: this.authService.temPermissao('ROLE_EDITAR_CONTRATO') || this.authService.temPermissao('ROLE_CONSULTAR_CONTRATO'),
                 items: [
                     {
-                        label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-file-o',
+                        label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-plus',
                         routerLink: ['/contratos'],
                         visible: this.authService.temPermissao('ROLE_EDITAR_CONTRATO')
                     },
@@ -53,7 +53,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Ocorrências',
                 visible: this.authService.temPermissao('ROLE_EDITAR_OCORRENCIA'),
                 items: [
-                    { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/ocorrencias'] },
+                    { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-plus', routerLink: ['/ocorrencias'] },
                     { label: 'Minhas Ocorrências', icon: 'pi pi-fw pi-list', routerLink: ['/ocorrencias/minhas-ocorrencias'] }
                 ]
             },

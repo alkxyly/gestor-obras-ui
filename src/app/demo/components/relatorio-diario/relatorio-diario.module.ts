@@ -20,6 +20,7 @@ import { TagModule } from 'primeng/tag';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [ListarRelatorioDiarioComponent, MeusRelatoriosComponent],
@@ -41,6 +42,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
     TooltipModule,
     TooltipModule,
     ProgressBarModule,
+    ImageModule,
     ReactiveFormsModule,
     SharedModule,
     RelatorioDiarioRoutingModule

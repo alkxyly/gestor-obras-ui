@@ -456,4 +456,5 @@ export class RelatorioDiarioDetalhadoDTO {
     funcionariosAusentes: UsuarioDTO[];
     ocorrenciaItens: OcorrenciaItemDTO[];
     relatadoPor: UsuarioDTO;
+    fotos?: string[];
 }

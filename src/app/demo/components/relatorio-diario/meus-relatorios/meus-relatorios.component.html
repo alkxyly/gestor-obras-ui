@@ -150,6 +150,17 @@
         <div class="mt-3" *ngIf="!relatorio.funcionariosAusentes || relatorio.funcionariosAusentes.length === 0">
             <span class="text-gray-500">Nenhum funcionário ausente.</span>
         </div>
+
+        <div class="mt-4" *ngIf="relatorio.fotos && relatorio.fotos.length > 0">
+            <h6 class="mb-2 text-primary font-bold">Fotos do Relatório</h6>
+            <div class="flex flex-wrap gap-3">
+                <div *ngFor="let foto of relatorio.fotos | slice:0:3"
+                    class="p-1 surface-border border-1 border-round shadow-1">
+                    <p-image [src]="foto" alt="Foto do Relatório" width="150" [preview]="true"
+                        class="border-round overflow-hidden block"></p-image>
+                </div>
+            </div>
+        </div>
         </div>
         </td>
         </tr>

@@ -95,7 +95,6 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     this.uploading = true;
     try {
       for (const file of files) {
-        console.log(file)
         this.uploadedFiles.push(file);
       }
       //simulando atraso na rede
