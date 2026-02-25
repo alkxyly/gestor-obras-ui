@@ -26,4 +26,12 @@ export class UsuarioService {
   listarEncarregado(): Observable<UsuarioDTO[]> {
     return this.http.get<UsuarioDTO[]>(`${this.url}/encarregado`);
   }
+
+  inativar(usuarioId: string): Observable<any> {
+    return this.http.put(`${this.url}/${usuarioId}/inativar`, null);
+  }
+
+  ativar(usuarioId: string): Observable<any> {
+    return this.http.put(`${this.url}/${usuarioId}/ativar`, null);
+  }
 }

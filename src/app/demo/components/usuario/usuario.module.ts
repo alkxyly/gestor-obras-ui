@@ -11,6 +11,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SharedModule } from '../shared/shared.module';
 import { CadastrarUsuarioComponent } from './cadastrar-usuario/cadastrar-usuario.component';
 import { ListarUsuarioComponent } from './listar-usuario/listar-usuario.component';
@@ -30,6 +31,7 @@ import { ListarUsuarioComponent } from './listar-usuario/listar-usuario.componen
     InputSwitchModule,
     TableModule,
     ToastModule,
+    ConfirmDialogModule,
     SharedModule,
     UsuariosRoutingModule
   ]

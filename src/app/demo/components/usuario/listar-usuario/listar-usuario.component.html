@@ -74,9 +74,14 @@
                                     tooltipPosition="bottom">
                                 </button>
 
-                                <button pButton pRipple icon="pi pi-trash"
-                                    class="p-button-rounded p-button-text p-button-danger" pTooltip="Excluir Usuário"
-                                    tooltipPosition="bottom">
+                                <button *ngIf="usuario.ativo" pButton pRipple icon="pi pi-trash"
+                                    class="p-button-rounded p-button-text p-button-danger" pTooltip="Inativar Usuário"
+                                    tooltipPosition="bottom" (click)="inativarUsuario(usuario)">
+                                </button>
+
+                                <button *ngIf="!usuario.ativo" pButton pRipple icon="pi pi-check"
+                                    class="p-button-rounded p-button-text p-button-success" pTooltip="Ativar Usuário"
+                                    tooltipPosition="bottom" (click)="ativarUsuario(usuario)">
                                 </button>
                             </div>
                         </td>
@@ -92,3 +97,6 @@
         </div>
     </div>
 </div>
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
