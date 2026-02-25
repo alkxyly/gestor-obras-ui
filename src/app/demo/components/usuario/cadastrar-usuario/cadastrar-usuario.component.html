@@ -1,87 +1,81 @@
 <div class="grid">
     <div class="col-12">
         <p-card header="Cadastrar Usuário">
-            <div class="p-fluid p-formgrid grid">
+            <form [formGroup]="usuarioForm" (ngSubmit)="salvar()" class="p-fluid p-formgrid grid">
 
                 <div class="field col-12 md:col-6">
                     <label htmlFor="nome">Nome</label>
-                    <input pInputText id="nome" type="text" [(ngModel)]="usuario.nome" placeholder="Nome completo"
-                        required #nome="ngModel" />
-                    <small class="p-error" *ngIf="nome.invalid && (nome.dirty || nome.touched)">
+                    <input pInputText id="nome" type="text" formControlName="nome" placeholder="Nome completo" />
+                    <small class="p-error" *ngIf="f['nome'].invalid && (f['nome'].dirty || f['nome'].touched)">
                         O nome é obrigatório.
                     </small>
                 </div>
 
                 <div class="field col-12 md:col-6">
                     <label htmlFor="email">Email</label>
-                    <input pInputText id="email" type="email" [(ngModel)]="usuario.email"
-                        placeholder="exemplo@email.com" required email #email="ngModel" />
-                    <small class="p-error" *ngIf="email.invalid && (email.dirty || email.touched)">
+                    <input pInputText id="email" type="email" formControlName="email" placeholder="exemplo@email.com" />
+                    <small class="p-error" *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)">
                         Email inválido ou obrigatório.
                     </small>
                 </div>
 
                 <div class="field col-12 md:col-6">
                     <label htmlFor="cpfCnpj">CPF/CNPJ</label>
-                    <p-inputMask id="cpfCnpj" mask="999.999.999-99" [(ngModel)]="usuario.cpfCnpj"
-                        placeholder="000.000.000-00" required #cpfCnpj="ngModel"></p-inputMask>
-                    <small class="p-error" *ngIf="cpfCnpj.invalid && (cpfCnpj.dirty || cpfCnpj.touched)">
+                    <p-inputMask id="cpfCnpj" mask="999.999.999-99" formControlName="cpfCnpj"
+                        placeholder="000.000.000-00"></p-inputMask>
+                    <small class="p-error" *ngIf="f['cpfCnpj'].invalid && (f['cpfCnpj'].dirty || f['cpfCnpj'].touched)">
                         CPF/CNPJ é obrigatório.
                     </small>
                 </div>
 
                 <div class="field col-12 md:col-6">
                     <label htmlFor="telefone">Telefone</label>
-                    <p-inputMask id="telefone" mask="(99) 99999-9999" [(ngModel)]="usuario.telefone"
-                        placeholder="(00) 00000-0000" #telefone="ngModel"></p-inputMask>
+                    <p-inputMask id="telefone" mask="(99) 99999-9999" formControlName="telefone"
+                        placeholder="(00) 00000-0000"></p-inputMask>
                 </div>
 
 
                 <div class="field col-12 md:col-6">
                     <label htmlFor="senha">Senha</label>
-                    <p-password id="senha" [(ngModel)]="usuario.senha" [toggleMask]="true" required placeholder="Senha"
-                        #senha="ngModel">
-                    </p-password>
-                    <small class="p-error" *ngIf="senha.invalid && (senha.dirty || senha.touched)">
+                    <p-password id="senha" formControlName="senha" [toggleMask]="true" placeholder="Senha"></p-password>
+                    <small class="p-error" *ngIf="f['senha'].invalid && (f['senha'].dirty || f['senha'].touched)">
                         A senha é obrigatória.
                     </small>
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label htmlFor="confirmarSenha">Confirmar Senha</label>
-                    <p-password id="confirmarSenha" [(ngModel)]="confirmarSenha" [toggleMask]="true" required
-                        placeholder="Confirme a senha" #confsenha="ngModel" [feedback]="false">
-                    </p-password>
+                    <label htmlFor="confirmacaoSenha">Confirmar Senha</label>
+                    <p-password id="confirmacaoSenha" formControlName="confirmacaoSenha" [toggleMask]="true"
+                        placeholder="Confirme a senha" [feedback]="false"></p-password>
                     <small class="p-error"
-                        *ngIf="usuario.senha !== confirmarSenha && (confsenha.dirty || confsenha.touched)">
+                        *ngIf="usuarioForm.hasError('senhasDiferentes') && (f['confirmacaoSenha'].dirty || f['confirmacaoSenha'].touched)">
                         As senhas não coincidem.
                     </small>
                 </div>
 
 
                 <div class="field col-12 md:col-6">
-                    <label htmlFor="perfil">Perfil</label>
-                    <p-dropdown [options]="perfis" [(ngModel)]="usuario.perfil" placeholder="Selecione um perfil"
-                        required #perfil="ngModel">
-                    </p-dropdown>
-                    <small class="p-error" *ngIf="perfil.invalid && (perfil.dirty || perfil.touched)">
-                        O perfil é obrigatório.
+                    <label htmlFor="perfil">Cargo</label>
+                    <p-dropdown [options]="perfis" formControlName="cargo"
+                        placeholder="Selecione um cargo"></p-dropdown>
+                    <small class="p-error" *ngIf="f['cargo'].invalid && (f['cargo'].dirty || f['cargo'].touched)">
+                        O cargo é obrigatório.
                     </small>
                 </div>
 
                 <div class="field col-12 flex align-items-center gap-2 mt-3">
                     <label htmlFor="ativo" class="mb-0">Ativo</label>
-                    <p-inputSwitch [(ngModel)]="usuario.ativo"></p-inputSwitch>
+                    <p-inputSwitch formControlName="ativo"></p-inputSwitch>
                 </div>
 
                 <div class="col-12 flex justify-content-end mt-4">
-                    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text mr-2"
+                    <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text mr-2"
                         routerLink="/usuarios/listar-usuarios"></button>
-                    <button pButton label="Salvar Usuário" icon="pi pi-check" (click)="salvar()"
-                        [disabled]="nome.invalid || email.invalid || cpfCnpj.invalid || perfil.invalid || senha.invalid || usuario.senha !== confirmarSenha"></button>
+                    <button pButton type="submit" label="Salvar Usuário" icon="pi pi-check"
+                        [disabled]="usuarioForm.invalid"></button>
                 </div>
 
-            </div>
+            </form>
         </p-card>
     </div>
 </div>

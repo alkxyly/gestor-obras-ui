@@ -19,8 +19,8 @@ export class UsuarioService {
     return this.http.get<UsuarioDTO[]>(`${this.url}`);
   }
 
-  cadastrar(usuario: UsuarioDTO): Observable<UsuarioDTO> {
-    return this.http.post<UsuarioDTO>(this.url, usuario);
+  cadastrar(usuario: UsuarioDTO): Observable<any> {
+    return this.http.post(this.url, usuario, { responseType: 'text' });
   }
 
   listarEncarregado(): Observable<UsuarioDTO[]> {

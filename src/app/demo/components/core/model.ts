@@ -421,10 +421,10 @@ export class UsuarioDTO {
     email: string;
     celular?: string;
     senha?: string;
-    perfil?: string;
     ativo?: boolean;
     cargo: string;
     telefone: string;
+    confirmacaoSenha?: string;
 }
 
 export class RelatorioDiarioDTO {
