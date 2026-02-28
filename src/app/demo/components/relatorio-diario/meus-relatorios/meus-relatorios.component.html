@@ -153,12 +153,10 @@
 
         <div class="mt-4" *ngIf="relatorio.fotos && relatorio.fotos.length > 0">
             <h6 class="mb-2 text-primary font-bold">Fotos do Relatório</h6>
-            <div class="flex flex-wrap gap-3">
-                <div *ngFor="let foto of relatorio.fotos | slice:0:3"
-                    class="p-1 surface-border border-1 border-round shadow-1">
-                    <p-image [src]="foto" alt="Foto do Relatório" width="150" [preview]="true"
-                        class="border-round overflow-hidden block"></p-image>
-                </div>
+            <div class="flex">
+                <p-button label="Visualizar Fotos ({{relatorio.fotos.length}})" icon="pi pi-images"
+                    styleClass="p-button-outlined p-button-secondary" (onClick)="abrirFotos(relatorio.fotos)">
+                </p-button>
             </div>
         </div>
         </div>
@@ -186,3 +184,22 @@
 
     </p-card>
 </form>
+
+<p-dialog [(visible)]="displayFotos" header="Fotos do Relatório" [modal]="true" [style]="{width: '50vw'}"
+    [breakpoints]="{'960px': '75vw', '640px': '90vw'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap gap-3 justify-content-center" *ngIf="fotosSelecionadas && fotosSelecionadas.length > 0">
+        <div *ngFor="let foto of fotosSelecionadas"
+            class="p-2 surface-border border-1 border-round shadow-1 flex align-items-center justify-content-center"
+            style="max-width: 100%;">
+            <p-image [src]="foto" alt="Foto do Relatório" [preview]="true" width="250"
+                styleClass="border-round overflow-hidden block max-w-full"></p-image>
+        </div>
+    </div>
+    <div *ngIf="!fotosSelecionadas || fotosSelecionadas.length === 0" class="text-center p-4">
+        <p class="text-gray-500">Nenhuma foto disponível para este relatório.</p>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button label="Fechar" icon="pi pi-times" (onClick)="displayFotos = false"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

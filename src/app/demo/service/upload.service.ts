@@ -18,4 +18,25 @@ export class UploadService {
   obterUrlPreAssinada(uploadRequestDTO: UploadRequestDTO): Observable<UploadResponseDTO> {
     return this.http.post<UploadResponseDTO>(`${this.url}`, uploadRequestDTO);
   }
+
+  uploadFile(url: string, file: File): Observable<any> {
+    return new Observable(observer => {
+      fetch(url, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type
+        }
+      }).then(response => {
+        if (response.ok) {
+          observer.next(response);
+          observer.complete();
+        } else {
+          observer.error(response);
+        }
+      }).catch(err => {
+        observer.error(err);
+      });
+    });
+  }
 }

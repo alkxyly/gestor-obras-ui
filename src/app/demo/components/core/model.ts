@@ -437,6 +437,7 @@ export class RelatorioDiarioDTO {
     cidade: string;
     contratoId: number;
     funcionariosAusentesId?: UsuarioDTO[];
+    fotos?: ImageDTO[];
 }
 
 export class OcorrenciaItemDTO {
@@ -472,4 +473,9 @@ export class UploadResponseDTO {
     contentLength: number;
     contentType: string;
     expiresAt: Date;
+}
+
+export class ImageDTO {
+    nomeRemoto: string;
+    tamanho: number;
 }

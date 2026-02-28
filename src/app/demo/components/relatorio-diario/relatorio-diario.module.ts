@@ -21,6 +21,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ImageModule } from 'primeng/image';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [ListarRelatorioDiarioComponent, MeusRelatoriosComponent],
@@ -40,6 +41,7 @@ import { ImageModule } from 'primeng/image';
     TagModule,
     FileUploadModule,
     TooltipModule,
+    DialogModule,
     TooltipModule,
     ProgressBarModule,
     ImageModule,

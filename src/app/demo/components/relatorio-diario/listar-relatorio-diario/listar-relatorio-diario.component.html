@@ -123,19 +123,13 @@
 
             <div class="field col-12">
                 <label class="font-bold">Fotos do Dia</label>
-                <p-fileUpload mode="advanced" name="demo[]" accept="image/*" [maxFileSize]="3000000"
-                    [customUpload]="true" (uploadHandler)="onUpload($event)" [multiple]="true" [fileLimit]="3"
-                    chooseLabel="Escolher" uploadLabel="Enviar" cancelLabel="Cancelar"
-                    invalidFileLimitMessageDetail="Limite máximo de 3 fotos excedido."
+                <p-fileUpload #fileUpload mode="advanced" name="demo[]" accept="image/*" [maxFileSize]="3000000"
+                    [multiple]="true" [fileLimit]="3" [showUploadButton]="false" [showCancelButton]="false"
+                    chooseLabel="Escolher" (onSelect)="onSelect($event)" (onRemove)="onRemove($event)"
+                    (onClear)="onClear()" invalidFileLimitMessageDetail="Limite máximo de 3 fotos excedido."
                     invalidFileLimitMessageSummary="Atenção:">
 
                     <ng-template pTemplate="content">
-                        <div *ngIf="uploadedFiles.length > 0">
-                            <h6>Arquivos enviados:</h6>
-                            <ul>
-                                <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
-                            </ul>
-                        </div>
                         <p-progressBar *ngIf="uploading" mode="indeterminate"
                             [style]="{'height': '6px'}"></p-progressBar>
                     </ng-template>

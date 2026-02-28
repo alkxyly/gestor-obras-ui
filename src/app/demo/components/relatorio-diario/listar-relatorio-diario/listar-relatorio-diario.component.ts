@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UploadRequestDTO, UsuarioDTO } from '../../core/model';
+import { lastValueFrom } from 'rxjs';
+import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UploadRequestDTO, UsuarioDTO, ImageDTO } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { OcorrenciaService } from 'src/app/demo/service/ocorrencia.service';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
@@ -33,6 +34,7 @@ export class ListarRelatorioDiarioComponent implements OnInit {
 
   uploading: boolean = false;
   uploadedFiles: any[] = [];
+  @ViewChild('fileUpload') fileUpload: any;
 
   constructor(
     private fb: FormBuilder,
@@ -81,54 +83,75 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-
+  async onSubmit(): Promise<void> {
     if (this.reportForm.valid) {
-      this.relatorioDiarioService.cadastrar(this.transformToDTO(this.reportForm.value)).subscribe(response => {
-        this.reportForm.reset();
-        this.contratoSelecionado = null;
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Relatório diário cadastrado com sucesso' });
-      });
-    }
-  }
+      this.uploading = true;
+      try {
+        let fotos: ImageDTO[] = [];
 
-  async onUpload(event: any) {
-    const files: File[] = event.files;
-    this.uploading = true;
-    try {
-      for (const file of files) {
+        if (this.uploadedFiles.length > 0) {
+          for (const file of this.uploadedFiles) {
+            const uploadRequestDTO: UploadRequestDTO = {
+              originalFileName: file.name,
+              contentLength: file.size
+            };
 
-        const uploadRequestDTO: UploadRequestDTO = {
-          originalFileName: file.name,
-          contentLength: file.size
+            const response = await lastValueFrom(this.uploadService.obterUrlPreAssinada(uploadRequestDTO));
+
+            if (response && response.uploadSignedUrl) {
+              const url = response.uploadSignedUrl;
+              const remoteFileName = response.remoteFileName;
+              console.log(remoteFileName);
+              await lastValueFrom(this.uploadService.uploadFile(url, file));
+              fotos.push({ nomeRemoto: remoteFileName, tamanho: file.size });
+            }
+          }
         }
 
-        this.uploadService.obterUrlPreAssinada(uploadRequestDTO).subscribe(response => {
-          console.log(response);
-        })
+        const dto = this.transformToDTO(this.reportForm.value);
+        dto.fotos = fotos;
 
-        this.uploadedFiles.push(file);
+
+        this.relatorioDiarioService.cadastrar(dto).subscribe(
+          response => {
+            this.reportForm.reset();
+            this.contratoSelecionado = null as any;
+            this.uploadedFiles = [];
+            if (this.fileUpload) {
+              this.fileUpload.clear();
+            }
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Relatório diário cadastrado com sucesso' });
+            this.uploading = false;
+          },
+          error => {
+            this.uploading = false;
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao salvar o relatório.' });
+          }
+        );
+      } catch (error) {
+        this.uploading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Falha ao processar as fotos ou o relatório.'
+        });
       }
-
-      console.log(this.uploadedFiles);
-
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Sucesso',
-        detail: 'Fotos enviadas com sucesso'
-      });
-    } catch (error) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erro',
-        detail: 'Falha ao processar upload.'
-      });
-    } finally {
-      this.uploading = false;
     }
   }
 
-  private transformToDTO(reportData: any): RelatorioDiarioDTO {
+  onSelect(event: any) {
+    this.uploadedFiles = event.currentFiles;
+  }
+
+  onRemove(event: any) {
+    this.uploadedFiles = event.currentFiles;
+  }
+
+  onClear() {
+    this.uploadedFiles = [];
+  }
+
+  private transformToDTO(reportData: any, fotos: ImageDTO[] = []): RelatorioDiarioDTO {
     const dataCadastro = new Date(reportData.dataCadastro).toISOString().split('T')[0];
     return {
       dataCadastro: dataCadastro,
@@ -146,7 +169,8 @@ export class ListarRelatorioDiarioComponent implements OnInit {
           valor: ocorrenciaTipo ? ocorrenciaTipo.valor : 0
         };
       }),
-      funcionariosAusentesId: reportData.funcionariosAusentesId ? reportData.funcionariosAusentesId.map((usuario: UsuarioDTO) => usuario.id) : []
+      funcionariosAusentesId: reportData.funcionariosAusentesId ? reportData.funcionariosAusentesId.map((usuario: UsuarioDTO) => usuario.id) : [],
+      fotos: fotos
     };
   }
 
