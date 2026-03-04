@@ -42,7 +42,6 @@ import { DialogModule } from 'primeng/dialog';
     FileUploadModule,
     TooltipModule,
     DialogModule,
-    TooltipModule,
     ProgressBarModule,
     ImageModule,
     ReactiveFormsModule,

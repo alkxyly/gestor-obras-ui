@@ -16,7 +16,7 @@ export class ListarContratosComponent implements OnInit {
   cols: any[] = [];
 
   usuarios: UsuarioDTO[] = [];
-  encarregadoSelecionado: UsuarioDTO;
+  encarregadosSelecionados: UsuarioDTO[] = [];
   contratoSelecionado: ContratoDTO;
   mostrarDialogEncarregado: boolean = false;
 
@@ -39,24 +39,27 @@ export class ListarContratosComponent implements OnInit {
   }
 
   carregarContratos() {
-    this.constratoService.listar().subscribe(response => this.contratos = response);
+    this.constratoService.listarPorResponsavel().subscribe(response => this.contratos = response);
   }
 
   abrirDialogEncarregado(contrato: ContratoDTO) {
     this.contratoSelecionado = contrato;
     this.mostrarDialogEncarregado = true;
+    this.encarregadosSelecionados = [];
     this.usuarioService.listarEncarregado().subscribe(response => this.usuarios = response);
   }
 
   salvarEncarregado() {
-    if (this.contratoSelecionado && this.encarregadoSelecionado) {
-      this.constratoService.definirEncarregado(this.contratoSelecionado.id, this.encarregadoSelecionado.id)
+    if (this.contratoSelecionado && this.encarregadosSelecionados && this.encarregadosSelecionados.length > 0) {
+      const idsUsuarios = this.encarregadosSelecionados.map(u => u.id!);
+
+      this.constratoService.definirEncarregados(this.contratoSelecionado.id!, idsUsuarios)
         .subscribe(() => {
           this.mostrarDialogEncarregado = false;
-          this.encarregadoSelecionado = null;
-          this.contratoSelecionado = null;
+          this.encarregadosSelecionados = [];
+          this.contratoSelecionado = null as any;
           this.carregarContratos();
-          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Encarregado definido com sucesso' });
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Encarregado(s) definido(s) com sucesso' });
         });
     }
   }

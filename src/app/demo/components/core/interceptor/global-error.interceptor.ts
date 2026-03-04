@@ -12,8 +12,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       let summary = 'Erro';
       let detail = 'Ocorreu um erro inesperado.';
-
-      console.log(error);
       switch (error.status) {
         case 0:
           summary = 'Sem Conexão';

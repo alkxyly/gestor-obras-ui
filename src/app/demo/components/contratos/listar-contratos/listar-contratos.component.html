@@ -25,8 +25,7 @@
                         <th pSortableColumn="descricao">Descrição <p-sortIcon field="descricao"></p-sortIcon></th>
                         <th pSortableColumn="nomeResponsavel">Engenheiro Responsável <p-sortIcon
                                 field="descricao"></p-sortIcon></th>
-                        <th pSortableColumn="nomeResponsavel">Encarregado <p-sortIcon field="descricao"></p-sortIcon>
-                        </th>
+                        <th>Encarregado(s)</th>
                         <th pSortableColumn="dataInicio">Início <p-sortIcon field="dataInicio"></p-sortIcon></th>
                         <th pSortableColumn="dataFim">Fim <p-sortIcon field="dataFim"></p-sortIcon></th>
                         <th>Ações</th>
@@ -48,8 +47,16 @@
                             {{contrato.nomeResponsavel}}
                         </td>
                         <td>
-                            <span class="p-column-title">Encarregado</span>
-                            {{contrato.nomeEncarregado}}
+                            <span class="p-column-title">Encarregado(s)</span>
+                            <ng-container *ngIf="contrato.encarregados?.length; else semEncarregados">
+                                <span *ngFor="let encarregado of contrato.encarregados; let last = last"
+                                    [pTooltip]="encarregado.email" tooltipPosition="top">
+                                    {{encarregado.nome}}<span *ngIf="!last">, </span>
+                                </span>
+                            </ng-container>
+                            <ng-template #semEncarregados>
+                                -
+                            </ng-template>
                         </td>
                         <td>
                             <span class="p-column-title">Início</span>
@@ -94,9 +101,10 @@
         [modal]="true" class="p-fluid">
         <ng-template pTemplate="content">
             <div class="field">
-                <label for="encarregado">Encarregado</label>
-                <p-dropdown [options]="usuarios" [(ngModel)]="encarregadoSelecionado" optionLabel="nome"
-                    placeholder="Selecione um encarregado" appendTo="body"></p-dropdown>
+                <label for="encarregados">Encarregado(s)</label>
+                <p-multiSelect [options]="usuarios" [(ngModel)]="encarregadosSelecionados" optionLabel="nome"
+                    placeholder="Selecione os encarregados" [filter]="true" appendTo="body"
+                    display="chip"></p-multiSelect>
             </div>
         </ng-template>
 

@@ -31,7 +31,7 @@ export class ContratoService {
     return this.http.get<UsuarioDTO[]>(`${this.url}/${id}/funcionarios`);
   }
 
-  definirEncarregado(idContrato: number, idUsuario: string): Observable<void> {
-    return this.http.put<void>(`${this.url}/${idContrato}/encarregado/${idUsuario}`, {});
+  definirEncarregados(idContrato: number, idsUsuarios: string[]): Observable<void> {
+    return this.http.put<void>(`${this.url}/${idContrato}/encarregados`, idsUsuarios);
   }
 }
