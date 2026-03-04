@@ -46,14 +46,18 @@
                     </td>
                     <td>{{ relatorio.dataCadastro | date: 'dd/MM/yyyy' }}</td>
                     <td>{{ relatorio.titulo }}</td>
-                    <td>{{ relatorio.descricao }}</td>
+                    <td [pTooltip]="relatorio.descricao" tooltipPosition="top">
+                        {{ relatorio.descricao.length > 50 ? (relatorio.descricao | slice:0:50) + '...' :
+                        relatorio.descricao }}
+                    </td>
                     <td>
                         <div class="flex align-items-center gap-2">
                             <i class="pi" [ngClass]="{
-                            'pi-sun text-yellow-500': relatorio.condicaoClimatica === 0,
-                            'pi-cloud text-gray-500': relatorio.condicaoClimatica === 1,
-                            'pi-align-justify text-blue-500': relatorio.condicaoClimatica === 2
-                        }"></i>
+                                'pi-sun text-yellow-500': relatorio.condicaoClimatica === 0,
+                                'pi-cloud text-gray-500': relatorio.condicaoClimatica === 1,
+                                'pi-align-justify text-blue-500': relatorio.condicaoClimatica === 2}"
+                                [pTooltip]="getClimaTexto(relatorio.condicaoClimatica)" tooltipPosition="top">
+                            </i>
                         </div>
                     </td>
                     <td>{{ relatorio.cidade }} - {{ relatorio.estado }}</td>
@@ -76,6 +80,14 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-relatorio>
+                <tr>
+                    <td colspan="10">
+                        <div class="p-3">
+                            <h6 class="mb-3">Descrição</h6>
+                            <p>{{ relatorio.descricao }}</p>
+                        </div>
+                    </td>
+                </tr>
                 <tr>
                     <td colspan="10">
                         <div class="p-3">
@@ -138,6 +150,15 @@
         <div class="mt-3" *ngIf="!relatorio.funcionariosAusentes || relatorio.funcionariosAusentes.length === 0">
             <span class="text-gray-500">Nenhum funcionário ausente.</span>
         </div>
+
+        <div class="mt-4" *ngIf="relatorio.fotos && relatorio.fotos.length > 0">
+            <h6 class="mb-2 text-primary font-bold">Fotos do Relatório</h6>
+            <div class="flex">
+                <p-button label="Visualizar Fotos ({{relatorio.fotos.length}})" icon="pi pi-images"
+                    styleClass="p-button-outlined p-button-secondary" (onClick)="abrirFotos(relatorio.fotos)">
+                </p-button>
+            </div>
+        </div>
         </div>
         </td>
         </tr>
@@ -163,3 +184,22 @@
 
     </p-card>
 </form>
+
+<p-dialog [(visible)]="displayFotos" header="Fotos do Relatório" [modal]="true" [style]="{width: '50vw'}"
+    [breakpoints]="{'960px': '75vw', '640px': '90vw'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap gap-3 justify-content-center" *ngIf="fotosSelecionadas && fotosSelecionadas.length > 0">
+        <div *ngFor="let foto of fotosSelecionadas"
+            class="p-2 surface-border border-1 border-round shadow-1 flex align-items-center justify-content-center"
+            style="max-width: 100%;">
+            <p-image [src]="foto" alt="Foto do Relatório" [preview]="true" width="250"
+                styleClass="border-round overflow-hidden block max-w-full"></p-image>
+        </div>
+    </div>
+    <div *ngIf="!fotosSelecionadas || fotosSelecionadas.length === 0" class="text-center p-4">
+        <p class="text-gray-500">Nenhuma foto disponível para este relatório.</p>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button label="Fechar" icon="pi pi-times" (onClick)="displayFotos = false"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

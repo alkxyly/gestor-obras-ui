@@ -15,7 +15,7 @@
                                 placeholder="Buscar contrato..." />
                         </span>
                         <button pButton label="Novo Contrato" icon="pi pi-plus" class="p-button-success"
-                            routerLink="/contratos"></button>
+                            routerLink="/contratos" *ngIf="authService.temPermissao('ROLE_EDITAR_CONTRATO')"></button>
                     </div>
                 </ng-template>
 
@@ -25,6 +25,7 @@
                         <th pSortableColumn="descricao">Descrição <p-sortIcon field="descricao"></p-sortIcon></th>
                         <th pSortableColumn="nomeResponsavel">Engenheiro Responsável <p-sortIcon
                                 field="descricao"></p-sortIcon></th>
+                        <th>Encarregado(s)</th>
                         <th pSortableColumn="dataInicio">Início <p-sortIcon field="dataInicio"></p-sortIcon></th>
                         <th pSortableColumn="dataFim">Fim <p-sortIcon field="dataFim"></p-sortIcon></th>
                         <th>Ações</th>
@@ -46,6 +47,18 @@
                             {{contrato.nomeResponsavel}}
                         </td>
                         <td>
+                            <span class="p-column-title">Encarregado(s)</span>
+                            <ng-container *ngIf="contrato.encarregados?.length; else semEncarregados">
+                                <span *ngFor="let encarregado of contrato.encarregados; let last = last"
+                                    [pTooltip]="encarregado.email" tooltipPosition="top">
+                                    {{encarregado.nome}}<span *ngIf="!last">, </span>
+                                </span>
+                            </ng-container>
+                            <ng-template #semEncarregados>
+                                -
+                            </ng-template>
+                        </td>
+                        <td>
                             <span class="p-column-title">Início</span>
                             {{contrato.dataInicio | date: 'dd/MM/yyyy'}}
                         </td>
@@ -55,12 +68,18 @@
                         </td>
                         <td>
                             <div class="flex gap-2">
+                                <button pButton pRipple icon="pi pi-user"
+                                    class="p-button-rounded p-button-text p-button-success"
+                                    (click)="abrirDialogEncarregado(contrato)" pTooltip="Definir Encarregado"
+                                    tooltipPosition="bottom">
+                                </button>
+
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Contrato"
                                     tooltipPosition="bottom">
                                 </button>
 
-                                <button pButton pRipple icon="pi pi-trash"
+                                <button pButton pRipple icon="pi pi-trash" (click)="delete(contrato)"
                                     class="p-button-rounded p-button-text p-button-danger" pTooltip="Excluir Contrato"
                                     tooltipPosition="bottom">
                                 </button>
@@ -77,4 +96,23 @@
             </p-table>
         </div>
     </div>
+
+    <p-dialog [(visible)]="mostrarDialogEncarregado" [style]="{width: '450px'}" header="Selecionar Encarregado"
+        [modal]="true" class="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="encarregados">Encarregado(s)</label>
+                <p-multiSelect [options]="usuarios" [(ngModel)]="encarregadosSelecionados" optionLabel="nome"
+                    placeholder="Selecione os encarregados" [filter]="true" appendTo="body"
+                    display="chip"></p-multiSelect>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                (click)="mostrarDialogEncarregado = false"></button>
+            <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text"
+                (click)="salvarEncarregado()"></button>
+        </ng-template>
+    </p-dialog>
 </div>

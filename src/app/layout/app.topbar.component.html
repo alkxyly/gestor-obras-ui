@@ -1,10 +1,7 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="/">
-        <img 
-            src="assets/layout/images/logo_svg.svg" 
-            alt="Essencial Group Home" 
-            height="40"
-        >
+        <i class="pi pi-building" style="font-size: 1.5rem; margin-right: 0.5rem; color: var(--primary-color);"></i>
+        <span>Gestor de Contratos</span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -36,13 +33,14 @@
                         <span class="font-medium text-900 block mb-2">Notificações</span>
                         <ul class="list-none p-0 m-0 flex flex-column gap-3">
                             <li *ngFor="let member of members" class="flex align-items-center gap-2">
-                                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/avatar/' + member.image" style="width: 32px" />
+                                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/avatar/' + member.image"
+                                    style="width: 32px" />
                                 <div>
                                     <span class="font-medium">{{ member.name }}</span>
                                     <div class="text-sm text-color-secondary">{{ member.email }}</div>
                                 </div>
                                 <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
-                                    
+
                                 </div>
                             </li>
                         </ul>

@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
     valCheck: string[] = ['remember'];
-    
+
     email!: string;
     senha!: string;
 
@@ -27,11 +27,17 @@ export class LoginComponent {
         private router: Router
     ) { }
 
-    login(){
+    login() {
         this.authService.login(this.email, this.senha)
             .subscribe({
-                next: () => { this.router.navigate(['/']) },
+                next: () => {
+                    if (this.authService.temPermissao('ROLE_CONSULTAR_DASHBOARD')) {
+                        this.router.navigate(['/']);
+                    } else {
+                        this.router.navigate(['/relatorio-diario']);
+                    }
+                },
                 error: (erro) => { alert("Usuário ou Senha inválido(s)!"); }
-            });           
+            });
     }
 }

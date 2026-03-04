@@ -410,6 +410,7 @@ export class ContratoDTO {
     ocorrenciasId: number[] = []
     responsavel: string;
     nomeResponsavel?: string;
+    nomeEncarregado?: string;
     funcionariosId?: string[];
 }
 
@@ -419,6 +420,11 @@ export class UsuarioDTO {
     cpfCnpj: string;
     email: string;
     celular?: string;
+    senha?: string;
+    ativo?: boolean;
+    cargo: string;
+    telefone: string;
+    confirmacaoSenha?: string;
 }
 
 export class RelatorioDiarioDTO {
@@ -431,6 +437,7 @@ export class RelatorioDiarioDTO {
     cidade: string;
     contratoId: number;
     funcionariosAusentesId?: UsuarioDTO[];
+    fotos?: ImageDTO[];
 }
 
 export class OcorrenciaItemDTO {
@@ -450,4 +457,25 @@ export class RelatorioDiarioDetalhadoDTO {
     funcionariosAusentes: UsuarioDTO[];
     ocorrenciaItens: OcorrenciaItemDTO[];
     relatadoPor: UsuarioDTO;
+    fotos?: string[];
+}
+
+
+export class UploadRequestDTO {
+    originalFileName: string;
+    contentLength: number;
+}
+
+export class UploadResponseDTO {
+
+    uploadSignedUrl: string;
+    remoteFileName: string;
+    contentLength: number;
+    contentType: string;
+    expiresAt: Date;
+}
+
+export class ImageDTO {
+    nomeRemoto: string;
+    tamanho: number;
 }

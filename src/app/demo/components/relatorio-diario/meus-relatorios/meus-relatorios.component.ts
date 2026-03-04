@@ -20,6 +20,9 @@ export class MeusRelatoriosComponent {
 
   dataSelecionada: Date = new Date();
 
+  displayFotos: boolean = false;
+  fotosSelecionadas: string[] = [];
+
   constructor(private fb: FormBuilder,
     private relatorioService: relatorioDiarioService,
     private contratoService: ContratoService) { }
@@ -53,9 +56,6 @@ export class MeusRelatoriosComponent {
 
   onContratoChange(event: any): void {
     const contrato = event.value;
-
-    console.log(contrato)
-
     if (contrato && contrato.id) {
       this.listarRelatorioDiarioDetalhado();
     } else {
@@ -82,5 +82,19 @@ export class MeusRelatoriosComponent {
 
   get totalGeral(): number {
     return this.relatorios.reduce((total, relatorio) => total + this.getValorTotal(relatorio.ocorrenciaItens), 0);
+  }
+
+  getClimaTexto(condicao: number): string {
+    const labels = {
+      0: 'Ensolarado',
+      1: 'Nublado',
+      2: 'Chuvoso'
+    };
+    return labels[condicao] || 'Desconhecido';
+  }
+
+  abrirFotos(fotos: string[]) {
+    this.fotosSelecionadas = fotos;
+    this.displayFotos = true;
   }
 }

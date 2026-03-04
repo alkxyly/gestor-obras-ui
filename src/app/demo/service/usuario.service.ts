@@ -11,11 +11,27 @@ export class UsuarioService {
 
   url: string;
 
-  constructor(private http: HttpClient) { 
-    this.url = environment.apiUrl+"/api/v1/usuarios";
+  constructor(private http: HttpClient) {
+    this.url = environment.apiUrl + "/api/v1/usuarios";
   }
 
-  listar():Observable<UsuarioDTO[]>{
+  listar(): Observable<UsuarioDTO[]> {
     return this.http.get<UsuarioDTO[]>(`${this.url}`);
+  }
+
+  cadastrar(usuario: UsuarioDTO): Observable<any> {
+    return this.http.post(this.url, usuario, { responseType: 'text' });
+  }
+
+  listarEncarregado(): Observable<UsuarioDTO[]> {
+    return this.http.get<UsuarioDTO[]>(`${this.url}/encarregado`);
+  }
+
+  inativar(usuarioId: string): Observable<any> {
+    return this.http.put(`${this.url}/${usuarioId}/inativar`, null);
+  }
+
+  ativar(usuarioId: string): Observable<any> {
+    return this.http.put(`${this.url}/${usuarioId}/ativar`, null);
   }
 }
