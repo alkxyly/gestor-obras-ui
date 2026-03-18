@@ -479,3 +479,9 @@ export class ImageDTO {
     nomeRemoto: string;
     tamanho: number;
 }
+
+export class DashboardDTO {
+    totalContratos: number;
+    totalFuncionarios: number;
+    totalValor: number;
+}

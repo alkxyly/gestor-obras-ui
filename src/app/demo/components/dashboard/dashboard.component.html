@@ -3,7 +3,7 @@
 
 
     <!-- Total de Contratos -->
-    <div class="col-12 md:col-6 lg:col-3">
+    <div class="col-12 md:col-6 lg:col-4">
         <div class="card mb-0">
             <div class="flex justify-content-between align-items-start p-4">
                 <div class="flex flex-column flex-1">
@@ -18,7 +18,7 @@
     </div>
 
     <!-- Total de Funcionários -->
-    <div class="col-12 md:col-6 lg:col-3">
+    <div class="col-12 md:col-6 lg:col-4">
         <div class="card mb-0">
             <div class="flex justify-content-between align-items-start p-4">
                 <div class="flex flex-column flex-1">
@@ -33,7 +33,7 @@
     </div>
 
     <!-- Total de Obras -->
-    <div class="col-12 md:col-6 lg:col-3">
+    <!-- <div class="col-12 md:col-6 lg:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between align-items-start p-4">
                 <div class="flex flex-column flex-1">
@@ -45,15 +45,16 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Valor Total Gasto no Mês -->
-    <div class="col-12 md:col-6 lg:col-3">
+    <div class="col-12 md:col-6 lg:col-4">
         <div class="card mb-0">
             <div class="flex justify-content-between align-items-start p-4">
                 <div class="flex flex-column flex-1">
-                    <span class="block text-500 font-medium mb-2 text-sm">Valor Total Gasto no Mês</span>
-                    <div class="text-900 font-bold text-3xl value-highlight">{{ valorTotalGastoMes | currency:'BRL':'symbol':'1.2-2' }}</div>
+                    <span class="block text-500 font-medium mb-2 text-sm">Valor Total Produzido no Mês</span>
+                    <div class="text-900 font-bold text-3xl value-highlight">{{ totalValor |
+                        currency:'BRL':'symbol':'1.2-2' }}</div>
                 </div>
                 <div class="flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem">
                     <i class="pi pi-money-bill text-4xl icon-green"></i>
@@ -64,42 +65,29 @@
 
 
 
-        <div class="col-6">
-            <div class="card h-100">
-                <h5>6 Meses</h5>
-                <p-chart 
-                    type="bar" 
-                    [data]="gastosMensaisData" 
-                    [options]="gastosMensaisOptions"
-                    height="300px"> </p-chart>
-            </div>
+    <div class="col-6">
+        <div class="card h-100">
+            <h5>6 Meses</h5>
+            <p-chart type="bar" [data]="gastosMensaisData" [options]="gastosMensaisOptions" height="300px"> </p-chart>
         </div>
-    
-        <div class="col-6">
-            <div class="card h-100">
-                <h5>Valor Gasto por Obra</h5>
-                <p-chart 
-                    type="pie" 
-                    [data]="gastosPorObraData" 
-                    [options]="gastosPorObraOptions"
-                    height="300px">
-                </p-chart>
-            </div>
-        </div>    
+    </div>
+
+    <div class="col-6">
+        <div class="card h-100">
+            <h5>Valor Gasto por Obra</h5>
+            <p-chart type="pie" [data]="gastosPorObraData" [options]="gastosPorObraOptions" height="300px">
+            </p-chart>
+        </div>
+    </div>
 
 
-   
+
     <div class="col-12">
         <div class="card">
             <div class="flex justify-content-center align-items-center gap-3">
                 <label for="dataSelecao" class="font-medium">Selecionar Data:</label>
-                <p-calendar [(ngModel)]="dataSelecionada" 
-                           [showIcon]="true" 
-                           dateFormat="dd/mm/yy" 
-                           [showButtonBar]="true"
-                           inputId="dataSelecao"
-                           styleClass="w-full md:w-auto"
-                           (onSelect)="onDateSelect($event)"></p-calendar>
+                <p-calendar [(ngModel)]="dataSelecionada" [showIcon]="true" dateFormat="dd/mm/yy" [showButtonBar]="true"
+                    inputId="dataSelecao" styleClass="w-full md:w-auto" (onSelect)="onDateSelect($event)"></p-calendar>
             </div>
         </div>
     </div>
@@ -107,8 +95,9 @@
     <div class="col-12">
         <div class="card">
             <h5>Obras em Andamento</h5>
-            <p-table [value]="relatoriosDiarios" dataKey="obra" [expandedRowKeys]="expandedRows" responsiveLayout="scroll" 
-                     [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]" styleClass="p-datatable-gridlines" [rowHover]="true">
+            <p-table [value]="relatoriosDiarios" dataKey="obra" [expandedRowKeys]="expandedRows"
+                responsiveLayout="scroll" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]"
+                styleClass="p-datatable-gridlines" [rowHover]="true">
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 3rem"></th>
@@ -120,11 +109,11 @@
                 <ng-template pTemplate="body" let-obra let-expanded="expanded">
                     <tr>
                         <td>
-                            <button type="button" pButton pRipple [pRowToggler]="obra" 
-                                    class="p-button-text p-button-rounded expand-button" 
-                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                                    [pTooltip]="expanded ? 'Ocultar detalhes' : 'Ver detalhes'"
-                                    tooltipPosition="right"></button>
+                            <button type="button" pButton pRipple [pRowToggler]="obra"
+                                class="p-button-text p-button-rounded expand-button"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                                [pTooltip]="expanded ? 'Ocultar detalhes' : 'Ver detalhes'"
+                                tooltipPosition="right"></button>
                         </td>
                         <td>
                             <div class="flex align-items-center gap-2">
@@ -145,63 +134,64 @@
                         <td colspan="4">
                             <div class="p-3">
                                 <h6 class="mb-3">Funcionários da Obra</h6>
-                                <p-table [value]="obra.todosFuncionarios" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                                <p-table [value]="obra.todosFuncionarios" responsiveLayout="scroll"
+                                    styleClass="p-datatable-sm">
                                     <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>Funcionário</th>
-                                            <th>Status do Relatório</th>
-                                            <th>Data/Hora do Envio</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-funcionario>
-                                        <tr>
-                                            <td>
-                                                <div class="flex align-items-center gap-2">
-                                                    <i class="pi pi-user text-500"></i>
-                                                    <span class="font-medium">{{ funcionario.nome }}</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="flex align-items-center gap-2">
-                                                    <i *ngIf="funcionario.enviou" class="pi pi-check-circle text-green-600 text-xl"></i>
-                                                    <i *ngIf="!funcionario.enviou" class="pi pi-times-circle text-red-600 text-xl"></i>
-                                                    <span [ngClass]="funcionario.enviou ? 'text-green-600' : 'text-red-600'" class="font-medium">
-                                                        {{ funcionario.enviou ? 'Enviado' : 'Não Enviado' }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span *ngIf="funcionario.enviou" class="text-500">
-                                                    {{ funcionario.dataEnvio | date:'dd/MM/yyyy HH:mm' }}
-                                                </span>
-                                                <span *ngIf="!funcionario.enviou" class="text-500">-</span>
-                                            </td>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                            <td colspan="3" class="text-center py-3">
-                                                <span class="text-500">Nenhum funcionário encontrado.</span>
-                                            </td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                    <tr>
+                        <th>Funcionário</th>
+                        <th>Status do Relatório</th>
+                        <th>Data/Hora do Envio</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-funcionario>
+                    <tr>
+                        <td>
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-user text-500"></i>
+                                <span class="font-medium">{{ funcionario.nome }}</span>
                             </div>
+                        </td>
+                        <td>
+                            <div class="flex align-items-center gap-2">
+                                <i *ngIf="funcionario.enviou" class="pi pi-check-circle text-green-600 text-xl"></i>
+                                <i *ngIf="!funcionario.enviou" class="pi pi-times-circle text-red-600 text-xl"></i>
+                                <span [ngClass]="funcionario.enviou ? 'text-green-600' : 'text-red-600'"
+                                    class="font-medium">
+                                    {{ funcionario.enviou ? 'Enviado' : 'Não Enviado' }}
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <span *ngIf="funcionario.enviou" class="text-500">
+                                {{ funcionario.dataEnvio | date:'dd/MM/yyyy HH:mm' }}
+                            </span>
+                            <span *ngIf="!funcionario.enviou" class="text-500">-</span>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="4" class="text-center py-5">
-                            <div class="flex flex-column align-items-center gap-2">
-                                <i class="pi pi-inbox text-4xl text-400"></i>
-                                <span class="text-500">Nenhuma obra em andamento encontrada.</span>
-                            </div>
+                        <td colspan="3" class="text-center py-3">
+                            <span class="text-500">Nenhum funcionário encontrado.</span>
                         </td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
+        </td>
+        </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4" class="text-center py-5">
+                    <div class="flex flex-column align-items-center gap-2">
+                        <i class="pi pi-inbox text-4xl text-400"></i>
+                        <span class="text-500">Nenhuma obra em andamento encontrada.</span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        </p-table>
     </div>
 </div>
-
+</div>

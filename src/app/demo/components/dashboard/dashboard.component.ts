@@ -16,47 +16,27 @@ import { DateUtilsService } from '../../service/DateUtilService';
 export class DashboardComponent implements OnInit, OnDestroy {
 
     items!: MenuItem[];
-
     products!: Product[];
-
     chartData: any;
-
     chartOptions: any;
-
     subscription!: Subscription;
-
-
     receitas: number[] = [];
-    despesas: number[] = []
-
+    despesas: number[] = [];
     pagamentosSemana: ResponsePagamentosSemanaDTO[] = [];
     mostrarValores: boolean = true;
-
-    data: any[]= [{value : 1}]
-
-    resumoDashboard: ResponseResumoDashboardDTO  = new ResponseResumoDashboardDTO();
-
-    displayCalendar: boolean = false; 
+    data: any[] = [{ value: 1 }]
+    resumoDashboard: ResponseResumoDashboardDTO = new ResponseResumoDashboardDTO();
+    displayCalendar: boolean = false;
     dataSelecionada: Date | null = new Date();
-
-    // Controle de expansão da tabela de obras
-    expandedRows: { [key: string]: boolean } = {};
-
-    // Dados do gráfico de gastos dos últimos 6 meses
+    expandedRows: { [key: string]: boolean } = {}; s
     gastosMensaisData: any;
     gastosMensaisOptions: any;
-
-    // Dados do gráfico de pizza - valor gasto por obra
     gastosPorObraData: any;
     gastosPorObraOptions: any;
 
-    // Dados estáticos do dashboard
-    totalContratos: number = 45;
-    totalFuncionarios: number = 128;
-    totalObras: number = 23;
-    valorTotalGastoMes: number = 125000.50;
-
-    // Dados da tabela de relatórios diários
+    totalContratos: number = 0;
+    totalFuncionarios: number = 0;
+    totalValor: number = 0;
     relatoriosDiarios: any[] = [
         {
             obra: 'Obra Residencial Centro',
@@ -97,47 +77,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
             ]
         }
     ];
-    
+
     despesaPorMoto: any;
     receitaPorMoto: any;
     options: any;
 
     constructor(
-        private productService: ProductService, 
+        private productService: ProductService,
         public layoutService: LayoutService,
         private dashboardService: DashboardService,
         private router: Router,
         private dataUtil: DateUtilsService) {
-        
-        // this.subscription = this.layoutService.configUpdate$
-        //     .pipe(debounceTime(25))
-        //     .subscribe((config) => {  this.configurarDashboardDespesasReceitas();  });
     }
 
 
     ngOnInit() {
-    //     const dataAtual = new Date();
-    //     this.productService.getProductsSmall().then(data => this.products = data);
-      
-    //     this.items = [
-    //         { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-    //         { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-    //     ];
-
-    //     this.obterDespesasReceitasAnuais(this.dataUtil.getAnoApartirDeData(dataAtual));    
-    //     this.obterPagamentosSemana();
-    //     this.obterResumoDashboard(this.dataUtil.getMesEAnoApartirDeData(dataAtual));
-    //     this.configurarOptionsDashboarReceitaDespesa();
-    //     this.obterDadosDespesaPorMoto(this.dataUtil.getMesEAnoApartirDeData(dataAtual));
-    // }
-
-    // obterResumoDashboard(data: string){
-    //     this.dashboardService.listarResumoDashboard(data).subscribe({ 
-    //         next: (response) => { this.resumoDashboard = response; }, 
-    //         error: (err) => { } 
-    //     });
         this.configurarGraficoGastosMensais();
         this.configurarGraficoGastosPorObra();
+        this.listar();
+    }
+
+    listar() {
+        this.dashboardService.obterDashboard().subscribe({
+            next: (response) => {
+                this.totalContratos = response.totalContratos;
+                this.totalFuncionarios = response.totalFuncionarios;
+                this.totalValor = response.totalValor;
+            }
+        });
     }
 
     configurarGraficoGastosMensais() {
@@ -151,12 +118,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const meses = [];
         const valores = [];
         const hoje = new Date();
-        
+
         for (let i = 5; i >= 0; i--) {
             const data = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
             const nomeMes = data.toLocaleDateString('pt-BR', { month: 'short' });
             meses.push(nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1));
-            
+
             // Valores fictícios para demonstração (em milhares)
             valores.push(Math.floor(Math.random() * 50000) + 80000);
         }
@@ -195,7 +162,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 y: {
                     ticks: {
                         color: textColorSecondary,
-                        callback: function(value: any) {
+                        callback: function (value: any) {
                             return 'R$ ' + (value / 1000).toFixed(0) + 'k';
                         }
                     },
@@ -252,7 +219,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(context: any) {
+                        label: function (context: any) {
                             const label = context.label || '';
                             const value = context.parsed || 0;
                             const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
@@ -265,28 +232,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
     }
 
-    obterPagamentosSemana(){
-        this.dashboardService.listarPagamentosSemana().subscribe({
-            next: (response) => { this.pagamentosSemana = response; },
-            error: (err) => { }
-        });
-    }
 
-    get totalValorVisivel(): number {
-        return this.pagamentosSemana.reduce((total, pagamento) => total + pagamento.valor, 0);
-    }
-
-    obterDespesasReceitasAnuais(ano: number){
-        this.dashboardService.listarLocacoesPorSituacao(ano).subscribe({
-            next: (response) => {
-                this.receitas = response.receitas;
-                this.despesas = response.despesas;
-                this.configurarDashboardDespesasReceitas();
-            },
-            error: (err) => {}
-            
-        });
-    }
 
     configurarDashboardDespesasReceitas() {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -295,7 +241,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
         this.chartData = {
-            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov','Dez'],
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
             datasets: [
                 {
                     label: 'Despesa',
@@ -358,27 +304,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     abrirCalendario() {
-        this.displayCalendar = !this.displayCalendar; 
+        this.displayCalendar = !this.displayCalendar;
     }
 
 
     onDateSelect(event: any) {
         this.dataSelecionada = event;
-        this.displayCalendar = false; 
-
-        this.obterDadosDespesaPorMoto(this.dataUtil.getMesEAnoApartirDeData(this.dataSelecionada));
-        // this.obterResumoDashboard(this.dataUtil.getMesEAnoApartirDeData(this.dataSelecionada));
+        this.displayCalendar = false;
     }
 
 
-    obterDadosDespesaPorMoto(data: string){
-        this.dashboardService.listarDespesasReceitasPorMoto(data).subscribe({
-            next: (response) => {
-                this.popularChartDespesasPorMoto(response);   
-                this.popularChartReceitasPorMoto(response)               
-            }
-        });       
-    }      
 
     private configurarOptionsDashboarReceitaDespesa() {
         this.options = {
@@ -428,7 +363,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
         return colors;
     }
-    
+
     getRandomColor(): string {
         const letters = '0123456789ABCDEF';
         let color = '#';
@@ -440,13 +375,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     onRedirecionarReceitas() {
         const dataSelecionada = this.dataUtil.getMesEAnoApartirDeData(this.dataSelecionada);
-        this.router.navigate(['/receitas', dataSelecionada ]);
-    } 
+        this.router.navigate(['/receitas', dataSelecionada]);
+    }
 
     onRedirecionarDespesas() {
         const dataSelecionada = this.dataUtil.getMesEAnoApartirDeData(this.dataSelecionada);
         this.router.navigate(['/despesas', dataSelecionada]);
-    } 
+    }
 
     getStatusCnhSeverity(statusCnh: string): string {
         switch (statusCnh?.toUpperCase()) {

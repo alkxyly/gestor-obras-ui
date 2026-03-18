@@ -25,6 +25,7 @@
                 <tr>
                     <th style="width: 3rem"></th>
                     <th>Data</th>
+                    <th>Dia da Semana</th>
                     <th>Título</th>
                     <th>Descrição</th>
                     <th>Clima</th>
@@ -45,6 +46,7 @@
                             tooltipPosition="right"></button>
                     </td>
                     <td>{{ relatorio.dataCadastro | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ relatorio.diaSemana }}</td>
                     <td>{{ relatorio.titulo }}</td>
                     <td [pTooltip]="relatorio.descricao" tooltipPosition="top">
                         {{ relatorio.descricao.length > 50 ? (relatorio.descricao | slice:0:50) + '...' :
