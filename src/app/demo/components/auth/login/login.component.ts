@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { Role } from '../../core/model';
 
 @Component({
     selector: 'app-login',
@@ -31,7 +32,7 @@ export class LoginComponent {
         this.authService.login(this.email, this.senha)
             .subscribe({
                 next: () => {
-                    if (this.authService.temPermissao('ROLE_CONSULTAR_DASHBOARD')) {
+                    if (this.authService.temPermissao(Role.CONSULTAR_DASHBOARD)) {
                         this.router.navigate(['/']);
                     } else {
                         this.router.navigate(['/relatorio-diario']);

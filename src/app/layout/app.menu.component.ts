@@ -2,6 +2,7 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import { AuthService } from '../demo/components/auth/auth.service';
+import { Role } from '../demo/components/core/model';
 
 @Component({
     selector: 'app-menu',
@@ -17,7 +18,7 @@ export class AppMenuComponent implements OnInit {
         this.model = [
             {
                 label: 'Inicio',
-                visible: this.authService.temPermissao('ROLE_CONSULTAR_DASHBOARD'),
+                visible: this.authService.temPermissao(Role.CONSULTAR_DASHBOARD),
                 items: [
                     { label: 'Dashboard', icon: 'pi pi-fw pi-chart-line', routerLink: ['/'] }
                 ]
@@ -33,25 +34,25 @@ export class AppMenuComponent implements OnInit {
 
             {
                 label: 'Contratos',
-                visible: this.authService.temPermissao('ROLE_EDITAR_CONTRATO') || this.authService.temPermissao('ROLE_CONSULTAR_CONTRATO'),
+                visible: this.authService.temPermissao(Role.EDITAR_CONTRATO) || this.authService.temPermissao(Role.CONSULTAR_CONTRATO),
                 items: [
                     {
                         label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-plus',
                         routerLink: ['/contratos'],
-                        visible: this.authService.temPermissao('ROLE_EDITAR_CONTRATO')
+                        visible: this.authService.temPermissao(Role.EDITAR_CONTRATO)
                     },
                     {
                         label: 'Meus Contratos',
                         icon: 'pi pi-fw pi-list',
                         routerLink: ['/contratos/meus-contratos'],
-                        visible: this.authService.temPermissao('ROLE_CONSULTAR_CONTRATO')
+                        visible: this.authService.temPermissao(Role.CONSULTAR_CONTRATO)
                     },
 
                 ]
             },
             {
                 label: 'Ocorrências',
-                visible: this.authService.temPermissao('ROLE_EDITAR_OCORRENCIA'),
+                visible: this.authService.temPermissao(Role.EDITAR_OCORRENCIA),
                 items: [
                     { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-plus', routerLink: ['/ocorrencias'] },
                     { label: 'Minhas Ocorrências', icon: 'pi pi-fw pi-list', routerLink: ['/ocorrencias/minhas-ocorrencias'] }
@@ -59,7 +60,7 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Usuários',
-                visible: this.authService.temPermissao('ROLE_EDITAR_USUARIO'),
+                visible: this.authService.temPermissao(Role.EDITAR_USUARIO),
                 items: [
                     { label: 'Cadastrar Usuário', icon: 'pi pi-fw pi-user-plus', routerLink: ['/usuarios'] },
                     { label: 'Meus Usuários', icon: 'pi pi-fw pi-users', routerLink: ['/usuarios/listar-usuarios'] },

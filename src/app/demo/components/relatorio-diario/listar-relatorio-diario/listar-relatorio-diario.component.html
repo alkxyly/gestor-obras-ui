@@ -110,7 +110,7 @@
                     <p class="text-gray-500 m-0">Nenhuma ocorrência registrada hoje.</p>
                 </div>
 
-                <div *ngIf="ocorrencias.length > 0"
+                <div *ngIf="ocorrencias.length > 0 && podeConsultarValorTotal"
                     class="flex justify-content-between align-items-center mt-3 p-3 border-round total-card">
                     <div class="flex align-items-center gap-2">
                         <i class="pi pi-money-bill text-green-500 text-xl"></i>

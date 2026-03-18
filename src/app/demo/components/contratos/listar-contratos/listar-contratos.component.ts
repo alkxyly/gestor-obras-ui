@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
-import { ContratoDTO, UsuarioDTO } from '../../core/model';
+import { ContratoDTO, UsuarioDTO, Role } from '../../core/model';
 import { UsuarioService } from 'src/app/demo/service/usuario.service';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../auth/auth.service';
@@ -12,6 +12,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class ListarContratosComponent implements OnInit {
 
+  Role = Role;
   contratos: ContratoDTO[] = [];
   cols: any[] = [];
 

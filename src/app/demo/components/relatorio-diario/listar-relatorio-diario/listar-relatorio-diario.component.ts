@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
-import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UploadRequestDTO, UsuarioDTO, ImageDTO } from '../../core/model';
+import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UploadRequestDTO, UsuarioDTO, ImageDTO, Role } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { OcorrenciaService } from 'src/app/demo/service/ocorrencia.service';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
 import { MessageService } from 'primeng/api';
 import { UsuarioService } from 'src/app/demo/service/usuario.service';
 import { UploadService } from 'src/app/demo/service/upload.service';
+import { AuthService } from 'src/app/demo/components/auth/auth.service';
 
 interface StatusOption {
   label: string;
@@ -43,8 +44,13 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     private relatorioDiarioService: relatorioDiarioService,
     private messageService: MessageService,
     private usuarioService: UsuarioService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private authService: AuthService
   ) { }
+
+  get podeConsultarValorTotal(): boolean {
+    return this.authService.temPermissao(Role.CONSULTAR_DASHBOARD);
+  }
 
   ngOnInit(): void {
     this.initForm();

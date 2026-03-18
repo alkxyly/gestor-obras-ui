@@ -1,7 +1,7 @@
 import { Component, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
-import { ContratoDTO, RelatorioDiarioDetalhadoDTO, RelatorioDiarioDTO } from '../../core/model';
+import { ContratoDTO, RelatorioDiarioDetalhadoDTO, RelatorioDiarioDTO, Role } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 
 
