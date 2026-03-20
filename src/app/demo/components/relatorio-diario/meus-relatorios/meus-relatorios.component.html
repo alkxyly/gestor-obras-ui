@@ -31,7 +31,7 @@
                     <th>Clima</th>
                     <th>Local</th>
                     <th>Faltas</th>
-                    <th>Valor Total</th>
+                    <th *ngIf="podeConsultarValorTotal">Valor Total</th>
                     <th>Relatado Por</th>
                     <th>Ações</th>
                 </tr>
@@ -68,7 +68,7 @@
                             [severity]="relatorio.funcionariosAusentes && relatorio.funcionariosAusentes.length > 0 ? 'warning' : 'success'"
                             [rounded]="true"></p-tag>
                     </td>
-                    <td class="font-bold text-900">
+                    <td class="font-bold text-900" *ngIf="podeConsultarValorTotal">
                         {{ getValorTotal(relatorio.ocorrenciaItens) | currency:'BRL' }}
                     </td>
                     <td>
@@ -100,16 +100,17 @@
                 <tr>
                     <th>Ocorrência</th>
                     <th>Quantidade</th>
-                    <th>Valor Unitário</th>
-                    <th>Subtotal</th>
+                    <th *ngIf="podeConsultarValorTotal">Valor Unitário</th>
+                    <th *ngIf="podeConsultarValorTotal">Subtotal</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-ocorrencia>
                 <tr>
                     <td>{{ ocorrencia.descricao }}</td>
                     <td>{{ ocorrencia.quantidade }}</td>
-                    <td>{{ ocorrencia.valor | currency:'BRL' }}</td>
-                    <td>{{ ocorrencia.quantidade * ocorrencia.valor | currency:'BRL' }}</td>
+                    <td *ngIf="podeConsultarValorTotal">{{ ocorrencia.valor | currency:'BRL' }}</td>
+                    <td *ngIf="podeConsultarValorTotal">{{ ocorrencia.quantidade * ocorrencia.valor | currency:'BRL' }}
+                    </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
@@ -119,7 +120,7 @@
                     </td>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="footer">
+            <ng-template pTemplate="footer" *ngIf="podeConsultarValorTotal">
                 <tr>
                     <td colspan="3" class="text-right font-bold">Total Geral</td>
                     <td class="font-bold">{{ getValorTotal(relatorio.ocorrenciaItens) |
@@ -175,7 +176,7 @@
                 </td>
             </tr>
         </ng-template>
-        <ng-template pTemplate="footer">
+        <ng-template pTemplate="footer" *ngIf="podeConsultarValorTotal">
             <tr>
                 <td colspan="8" class="text-right font-bold text-xl">Total</td>
                 <td class="font-bold text-xl">{{ totalGeral | currency:'BRL' }}</td>

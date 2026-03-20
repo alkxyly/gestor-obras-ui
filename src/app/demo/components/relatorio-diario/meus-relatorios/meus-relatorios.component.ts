@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
 import { ContratoDTO, RelatorioDiarioDetalhadoDTO, RelatorioDiarioDTO, Role } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class MeusRelatoriosComponent {
 
   constructor(private fb: FormBuilder,
     private relatorioService: relatorioDiarioService,
-    private contratoService: ContratoService) { }
+    private contratoService: ContratoService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.listarContratoPorResponsavel();
@@ -96,5 +98,9 @@ export class MeusRelatoriosComponent {
   abrirFotos(fotos: string[]) {
     this.fotosSelecionadas = fotos;
     this.displayFotos = true;
+  }
+
+  get podeConsultarValorTotal(): boolean {
+    return this.authService.temPermissao(Role.CONSULTAR_DASHBOARD);
   }
 }
