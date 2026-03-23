@@ -83,7 +83,7 @@
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-relatorio>
                 <tr>
-                    <td colspan="10">
+                    <td colspan="11">
                         <div class="p-3">
                             <h6 class="mb-3">Descrição</h6>
                             <p>{{ relatorio.descricao }}</p>
@@ -91,7 +91,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="10">
+                    <td colspan="11">
                         <div class="p-3">
                             <h6 class="mb-3">Detalhes do Relatório</h6>
                             <p-table [value]="relatorio.ocorrenciaItens" dataKey="id" responsiveLayout="scroll"
@@ -178,7 +178,7 @@
         </ng-template>
         <ng-template pTemplate="footer" *ngIf="podeConsultarValorTotal">
             <tr>
-                <td colspan="8" class="text-right font-bold text-xl">Total</td>
+                <td colspan="9" class="text-right font-bold text-xl">Total</td>
                 <td class="font-bold text-xl">{{ totalGeral | currency:'BRL' }}</td>
                 <td></td>
             </tr>

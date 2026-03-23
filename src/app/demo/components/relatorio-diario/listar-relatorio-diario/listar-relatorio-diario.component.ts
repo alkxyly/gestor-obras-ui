@@ -158,7 +158,8 @@ export class ListarRelatorioDiarioComponent implements OnInit {
   }
 
   private transformToDTO(reportData: any, fotos: ImageDTO[] = []): RelatorioDiarioDTO {
-    const dataCadastro = new Date(reportData.dataCadastro).toISOString().split('T')[0];
+    const d = new Date(reportData.dataCadastro);
+    const dataCadastro = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     return {
       dataCadastro: dataCadastro,
       titulo: reportData.titulo,
