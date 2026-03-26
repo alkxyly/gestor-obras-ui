@@ -484,6 +484,7 @@ export class DashboardDTO {
     totalContratos: number;
     totalFuncionarios: number;
     totalValor: number;
+    ultimosSeisMeses: number[];
 }
 
 export enum Role {

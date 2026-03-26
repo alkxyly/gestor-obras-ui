@@ -6,47 +6,47 @@ import { Router } from '@angular/router';
 import { AuthService } from '../demo/components/auth/auth.service';
 
 @Component({
-    selector: 'app-topbar',
-    templateUrl: './app.topbar.component.html',
-    styleUrls: ['./app.topbar.component.scss']
+  selector: 'app-topbar',
+  templateUrl: './app.topbar.component.html',
+  styleUrls: ['./app.topbar.component.scss']
 })
 export class AppTopBarComponent implements OnInit {
 
-    items!: MenuItem[];
+  items!: MenuItem[];
 
-    @ViewChild('menubutton') menuButton!: ElementRef;
+  @ViewChild('menubutton') menuButton!: ElementRef;
 
-    @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
+  @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
-    @ViewChild('topbarmenu') menu!: ElementRef;
+  @ViewChild('topbarmenu') menu!: ElementRef;
 
-    email: string = '';
-    nome: string = 'Usuário';
+  email: string = '';
+  nome: string = 'Usuário';
 
-    members = [
-      { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
-      { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
-      { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' }
+  members = [
+    { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
+    { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
+    { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' }
   ];
 
 
-    
-    constructor(
-      public layoutService: LayoutService,
-      private logoutService: LogoutService,
-      private router: Router,
-      private authService: AuthService) { }
-  
-    ngOnInit(): void {
-      this.email = this.authService.getUserEmail();
-      this.nome = this.authService.getUserNome();
-    }
 
-    logout(){
-        this.logoutService.logout()
-        .then(() => {
-          this.router.navigate(['/auth/login']);
-        })
-        .catch(erro =>{});
-    }
+  constructor(
+    public layoutService: LayoutService,
+    private logoutService: LogoutService,
+    private router: Router,
+    private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.email = this.authService.getUserEmail();
+    this.nome = this.authService.getUserNome();
+  }
+
+  logout() {
+    this.logoutService.logout()
+      .then(() => {
+        this.router.navigate(['/auth/login']);
+      })
+      .catch(erro => { });
+  }
 }

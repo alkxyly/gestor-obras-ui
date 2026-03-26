@@ -37,6 +37,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     totalContratos: number = 0;
     totalFuncionarios: number = 0;
     totalValor: number = 0;
+    ultimosSeisMeses: number[] = [];
+
     relatoriosDiarios: any[] = [
         {
             obra: 'Obra Residencial Centro',
@@ -92,7 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.configurarGraficoGastosMensais();
+
         this.configurarGraficoGastosPorObra();
         this.listar();
     }
@@ -103,6 +105,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.totalContratos = response.totalContratos;
                 this.totalFuncionarios = response.totalFuncionarios;
                 this.totalValor = response.totalValor;
+                this.ultimosSeisMeses = response.ultimosSeisMeses;
+                this.configurarGraficoGastosMensais();
             }
         });
     }
@@ -116,7 +120,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         // Obter os últimos 6 meses
         const meses = [];
-        const valores = [];
+        const valores = this.ultimosSeisMeses
         const hoje = new Date();
 
         for (let i = 5; i >= 0; i--) {
@@ -125,15 +129,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
             meses.push(nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1));
 
             // Valores fictícios para demonstração (em milhares)
-            valores.push(Math.floor(Math.random() * 50000) + 80000);
+            //valores.push(Math.floor(Math.random() * 50000) + 80000);
         }
 
         this.gastosMensaisData = {
             labels: meses,
             datasets: [
                 {
-                    label: 'Valor Gasto (R$)',
-                    data: valores,
+                    label: 'Valor Produzido (R$)',
+                    data: this.ultimosSeisMeses,
                     backgroundColor: primaryColor,
                     borderColor: primaryColor,
                     borderWidth: 1
@@ -146,6 +150,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 legend: {
                     labels: {
                         color: textColor
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context: any) {
+                            const value = context.parsed.y ?? 0;
+                            return ' R$ ' + Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        }
                     }
                 }
             },
@@ -160,10 +172,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     }
                 },
                 y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...this.ultimosSeisMeses) * 1.2 || 1000,
                     ticks: {
                         color: textColorSecondary,
                         callback: function (value: any) {
-                            return 'R$ ' + (value / 1000).toFixed(0) + 'k';
+                            return 'R$ ' + Number(value).toLocaleString('pt-BR');
                         }
                     },
                     grid: {
