@@ -16,6 +16,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 
 
@@ -28,6 +30,8 @@ import { TooltipModule } from 'primeng/tooltip';
     // Componentes PrimeNG
     InputTextareaModule,
     InputTextModule,
+    InputNumberModule,
+    InputSwitchModule,
     CalendarModule,
     CardModule,
     ButtonModule,

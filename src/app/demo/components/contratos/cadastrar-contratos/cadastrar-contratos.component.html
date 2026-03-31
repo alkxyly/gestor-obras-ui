@@ -21,6 +21,24 @@
                 </div>
 
                 <div class="field col-12">
+                    <div class="flex align-items-center gap-3">
+                        <p-inputSwitch [(ngModel)]="isContratoManutencao" inputId="manutencao"></p-inputSwitch>
+                        <label for="manutencao" class="cursor-pointer font-medium">
+                            <i class="pi pi-wrench mr-2" style="color: var(--primary-color)"></i>
+                            Contrato de Manutenção
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field col-12 md:col-6" *ngIf="isContratoManutencao"
+                    style="animation: fadein 0.3s ease-in-out">
+                    <label htmlFor="valorManutencao">Valor do Contrato de Manutenção</label>
+                    <p-inputNumber id="valorManutencao" [(ngModel)]="valorManutencao" mode="currency" currency="BRL"
+                        locale="pt-BR" placeholder="R$ 0,00" [minFractionDigits]="2">
+                    </p-inputNumber>
+                </div>
+
+                <div class="field col-12">
                     <label for="funcionarios" class="block text-900 text-xl font-medium mb-2">Funcionários</label>
                     <p-multiSelect [options]="funcionarios" [(ngModel)]="funcionariosSelecionados" optionLabel="nome"
                         defaultLabel="Selecione os funcionários" display="chip">

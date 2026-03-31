@@ -31,6 +31,8 @@ export class CadastrarContratosComponent implements OnInit {
 
 
   usuarioSelecionado: UsuarioDTO | null = null;
+  isContratoManutencao: boolean = false;
+  valorManutencao: number | null = null;
 
   constructor(
     private messageService: MessageService,
@@ -73,7 +75,9 @@ export class CadastrarContratosComponent implements OnInit {
         dataFim: this.contrato.dataFim ? new Date(this.contrato.dataFim).toISOString().slice(0, 10) : null,
         ocorrenciasId: this.ocorrenciasTarget.map(o => o.id),
         responsavel: this.usuarioSelecionado.id,
-        funcionariosId: this.funcionariosSelecionados.map(f => f.id)
+        funcionariosId: this.funcionariosSelecionados.map(f => f.id),
+        contratoManutencao: this.isContratoManutencao,
+        valorManutencao: this.isContratoManutencao ? this.valorManutencao : null
       };
 
       this.contratoService.cadastrar(contratoDTO).subscribe(response => {

@@ -412,6 +412,8 @@ export class ContratoDTO {
     nomeResponsavel?: string;
     nomeEncarregado?: string;
     funcionariosId?: string[];
+    contratoManutencao?: boolean;
+    valorManutencao?: number;
 }
 
 export class UsuarioDTO {
@@ -485,7 +487,15 @@ export class DashboardDTO {
     totalFuncionarios: number;
     totalValor: number;
     ultimosSeisMeses: number[];
+    valorProduzidoMensal: ValorProduzidoPorContratoDTO[];
 }
+
+export class ValorProduzidoPorContratoDTO {
+    contratoId: number;
+    nomeContrato: string;
+    total: number;
+}
+
 
 export enum Role {
     CONSULTAR_DASHBOARD = 'ROLE_CONSULTAR_DASHBOARD',

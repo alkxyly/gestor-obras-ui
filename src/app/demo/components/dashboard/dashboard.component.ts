@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
-import { Subscription, debounceTime } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { DashboardService } from '../../service/dashboard.service';
-import { DespesaReceitaPorMotoDTO, ResponsePagamentosSemanaDTO, ResponseResumoDashboardDTO } from '../core/model';
+import { DespesaReceitaPorMotoDTO, ResponsePagamentosSemanaDTO, ResponseResumoDashboardDTO, ValorProduzidoPorContratoDTO } from '../core/model';
 import { Router } from '@angular/router';
 import { DateUtilsService } from '../../service/DateUtilService';
+import { ContratoService } from '../../service/contrato.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -28,11 +29,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     resumoDashboard: ResponseResumoDashboardDTO = new ResponseResumoDashboardDTO();
     displayCalendar: boolean = false;
     dataSelecionada: Date | null = new Date();
-    expandedRows: { [key: string]: boolean } = {}; s
+    expandedRows: { [key: string]: boolean } = {};
     gastosMensaisData: any;
     gastosMensaisOptions: any;
     gastosPorObraData: any;
     gastosPorObraOptions: any;
+    valorProduzitoPorContrato: ValorProduzidoPorContratoDTO[] = [];
 
     totalContratos: number = 0;
     totalFuncionarios: number = 0;
@@ -94,8 +96,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-
-        this.configurarGraficoGastosPorObra();
+        this.configurarGraficoGastosPorContrato();
         this.listar();
     }
 
@@ -106,7 +107,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.totalFuncionarios = response.totalFuncionarios;
                 this.totalValor = response.totalValor;
                 this.ultimosSeisMeses = response.ultimosSeisMeses;
+                this.valorProduzitoPorContrato = response.valorProduzidoMensal;
                 this.configurarGraficoGastosMensais();
+                this.configurarGraficoGastosPorContrato();
             }
         });
     }
@@ -189,29 +192,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
     }
 
-    configurarGraficoGastosPorObra() {
+    configurarGraficoGastosPorContrato() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
 
-        // Dados de exemplo - valores gastos por obra
-        const obras = this.relatoriosDiarios.map(obra => obra.obra);
-        const valores = [
-            125000,  // Obra Residencial Centro
-            98000,   // Edifício Comercial Norte
-            156000,  // Reforma Hospital Municipal
-            75000    // Ponte sobre o Rio
-        ];
+        const contratos = this.valorProduzitoPorContrato.map(item => item.nomeContrato)
+        const valores = this.valorProduzitoPorContrato.map(item => item.total)
 
-        // Cores para cada fatia do gráfico
-        const cores = [
-            '#667eea', // Azul
-            '#f5576c', // Vermelho/Laranja
-            '#00f2fe', // Ciano
-            '#43e97b'  // Verde
-        ];
+        const cores = this.getRandomColors(contratos.length);
 
         this.gastosPorObraData = {
-            labels: obras,
+            labels: contratos,
             datasets: [
                 {
                     data: valores,
@@ -224,7 +215,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.gastosPorObraOptions = {
             plugins: {
                 legend: {
-                    position: 'bottom',
+                    position: 'right',
                     labels: {
                         color: textColor,
                         usePointStyle: true,
