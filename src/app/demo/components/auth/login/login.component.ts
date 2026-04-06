@@ -22,6 +22,7 @@ export class LoginComponent {
 
     email!: string;
     senha!: string;
+    currentYear: number = new Date().getFullYear();
 
     constructor(public layoutService: LayoutService,
         private authService: AuthService,

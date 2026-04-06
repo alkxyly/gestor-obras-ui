@@ -1,0 +1,7 @@
+services:
+  gestor-contratos-ui:
+    image: alkxyly/gestor-contratos-ui:latest
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
