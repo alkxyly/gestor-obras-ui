@@ -74,7 +74,7 @@
                     <td>
                         <p-tag [value]="relatorio.relatadoPor.nome" icon="pi pi-whatsapp"
                             styleClass="bg-green-100 text-green-700 cursor-pointer" [rounded]="true"
-                            (click)="abrirWhatsapp(relatorio.relatadoPor.celular)"></p-tag>
+                            (click)="enviarMensagemWhatsapp(relatorio.relatadoPor.telefone)"></p-tag>
                     </td>
                     <td>
                         <p-button icon="pi pi-download" [rounded]="true" [text]="true"></p-button>

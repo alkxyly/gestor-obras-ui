@@ -69,12 +69,8 @@ export class MeusRelatoriosComponent {
 
   }
 
-  abrirWhatsapp(celular: string) {
-    if (celular) {
-      const numeroLimpo = celular.replace(/\D/g, '');
-      const url = `https://api.whatsapp.com/send?phone=55${numeroLimpo}&text=Olá, gostaria de falar sobre o relatório.`;
-      window.open(url, '_blank');
-    }
+  enviarMensagemWhatsapp(numero: string) {
+    window.open(`https://api.whatsapp.com/send?phone=55${numero}&text=Olá, Tudo bem !`);
   }
 
   getValorTotal(ocorrencias: any[]): number {
