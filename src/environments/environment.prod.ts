@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: "http://back.gestorcontratos.tech",
-  tokenAllowedDomains: ['http://back.gestorcontratos.tech'],
+  apiUrl: "https://back.gestorcontratos.tech",
+  tokenAllowedDomains: ['https://back.gestorcontratos.tech'],
   tokenDisallowedRoutes: ['/auth/token'],
 };

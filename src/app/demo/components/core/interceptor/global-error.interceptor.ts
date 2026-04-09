@@ -10,6 +10,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      // Ignora requisições marcadas para silenciar o tratamento global de erro
+      if (req.headers.get('X-Skip-Global-Error-Handler') === 'true') {
+        return throwError(() => error);
+      }
+
       let summary = 'Erro';
       let detail = 'Ocorreu um erro inesperado.';
       switch (error.status) {
