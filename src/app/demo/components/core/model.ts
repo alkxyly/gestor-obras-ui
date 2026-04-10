@@ -440,6 +440,9 @@ export class RelatorioDiarioDTO {
     contratoId: number;
     funcionariosAusentesId?: UsuarioDTO[];
     fotos?: ImageDTO[];
+    linha: string;
+    estrutura: string;
+    kmPercorrido: number;
 }
 
 export class OcorrenciaItemDTO {

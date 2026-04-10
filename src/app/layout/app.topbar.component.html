@@ -14,7 +14,7 @@
     </button>
     <div #topbarmenu class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}"
-        style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+        style="align-items: center; justify-content: center; gap: 20px;">
 
         <div>
             <label
@@ -23,10 +23,10 @@
             </label>
         </div>
         <div class="notification-container">
-            <button class="p-link layout-topbar-button" (click)="op.toggle($event)">
+            <!-- <button class="p-link layout-topbar-button" (click)="op.toggle($event)">
                 <i class="pi pi-bell"></i>
                 <span>Notificações</span>
-            </button>
+            </button> -->
             <p-overlayPanel #op>
                 <div class="flex flex-column gap-3 w-25rem">
                     <div>

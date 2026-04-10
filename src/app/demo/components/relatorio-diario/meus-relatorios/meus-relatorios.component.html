@@ -85,15 +85,35 @@
                 <tr>
                     <td colspan="11">
                         <div class="p-3">
-                            <h6 class="mb-3">Descrição</h6>
+                            <h6 class="mb-3"><b>Descrição</b></h6>
                             <p>{{ relatorio.descricao }}</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="p-3">
+                            <h6 class="mb-3"><b>Linha</b></h6>
+                            <p>{{ relatorio.linha }}</p>
+                        </div>
+                    </td>
+                    <td colspan="4">
+                        <div class="p-3">
+                            <h6 class="mb-3"><b>Estrutura</b></h6>
+                            <p>{{ relatorio.estrutura }}</p>
+                        </div>
+                    </td>
+                    <td colspan="4">
+                        <div class="p-3">
+                            <h6 class="mb-3"><b>Quilômetro Percorrido</b></h6>
+                            <p>{{ relatorio.kmPercorrido }}</p>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="11">
                         <div class="p-3">
-                            <h6 class="mb-3">Detalhes do Relatório</h6>
+                            <h6 class="mb-3"><b>Detalhes do Relatório</b></h6>
                             <p-table [value]="relatorio.ocorrenciaItens" dataKey="id" responsiveLayout="scroll"
                                 styleClass="p-datatable-sm">
                                 <ng-template pTemplate="header">
@@ -131,7 +151,7 @@
         </p-table>
 
         <div class="mt-4" *ngIf="relatorio.funcionariosAusentes && relatorio.funcionariosAusentes.length > 0">
-            <h6 class="mb-2">Funcionários Ausentes</h6>
+            <h6 class="mb-2"><b>Funcionários Ausentes</b></h6>
             <p-table [value]="relatorio.funcionariosAusentes" responsiveLayout="scroll" styleClass="p-datatable-sm">
                 <ng-template pTemplate="header">
                     <tr>

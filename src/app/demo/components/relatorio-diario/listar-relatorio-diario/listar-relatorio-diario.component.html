@@ -47,7 +47,22 @@
                 <label for="descricao" class="font-bold">Descrição das Atividades</label>
                 <textarea pInputTextarea id="descricao" formControlName="descricao" rows="5" [autoResize]="true"
                     placeholder="Descreva o que foi realizado hoje...">
-          </textarea>
+                </textarea>
+            </div>
+
+            <div class="field  col-4">
+                <label for="linha" class="font-bold">Linha</label>
+                <input pInputText id="linha" formControlName="linha" placeholder="" />
+            </div>
+
+            <div class="field  col-4">
+                <label for="estrutura" class="font-bold">Estrutura</label>
+                <input pInputText id="estrutura" formControlName="estrutura" placeholder="" />
+            </div>
+
+            <div class="field  col-4">
+                <label for="kmPercorrido" class="font-bold">Quilômetro Percorrido</label>
+                <p-inputNumber formControlName="kmPercorrido" inputId="kmPercorrido" suffix=" KM" />
             </div>
 
 

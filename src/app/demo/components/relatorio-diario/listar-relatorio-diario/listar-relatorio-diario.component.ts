@@ -85,7 +85,10 @@ export class ListarRelatorioDiarioComponent implements OnInit {
       condicaoClimatica: [0, Validators.required],
       ocorrencias: this.fb.array([]),
       funcionariosAusentesId: [[]],
-      localizacao: [null, Validators.required]
+      localizacao: [null, Validators.required],
+      linha: [''],
+      estrutura: [''],
+      kmPercorrido: [0]
     });
   }
 
@@ -177,7 +180,10 @@ export class ListarRelatorioDiarioComponent implements OnInit {
         };
       }),
       funcionariosAusentesId: reportData.funcionariosAusentesId ? reportData.funcionariosAusentesId.map((usuario: UsuarioDTO) => usuario.id) : [],
-      fotos: fotos
+      fotos: fotos,
+      linha: reportData.linha,
+      estrutura: reportData.estrutura,
+      kmPercorrido: reportData.kmPercorrido
     };
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { LayoutService } from "./service/app.layout.service";
@@ -9,13 +9,15 @@ import { AppTopBarComponent } from './app.topbar.component';
     selector: 'app-layout',
     templateUrl: './app.layout.component.html'
 })
-export class AppLayoutComponent implements OnDestroy {
+export class AppLayoutComponent implements OnInit, OnDestroy {
 
     overlayMenuOpenSubscription: Subscription;
 
     menuOutsideClickListener: any;
 
     profileMenuOutsideClickListener: any;
+
+    windowResizeListener: any;
 
     @ViewChild(AppSidebarComponent) appSidebar!: AppSidebarComponent;
 
@@ -25,9 +27,9 @@ export class AppLayoutComponent implements OnDestroy {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {
-                    const isOutsideClicked = !(this.appSidebar.el.nativeElement.isSameNode(event.target) || this.appSidebar.el.nativeElement.contains(event.target) 
+                    const isOutsideClicked = !(this.appSidebar.el.nativeElement.isSameNode(event.target) || this.appSidebar.el.nativeElement.contains(event.target)
                         || this.appTopbar.menuButton.nativeElement.isSameNode(event.target) || this.appTopbar.menuButton.nativeElement.contains(event.target));
-                    
+
                     if (isOutsideClicked) {
                         this.hideMenu();
                     }
@@ -55,6 +57,15 @@ export class AppLayoutComponent implements OnDestroy {
                 this.hideMenu();
                 this.hideProfileMenu();
             });
+    }
+
+    ngOnInit() {
+        this.windowResizeListener = this.renderer.listen('window', 'resize', () => {
+            if (this.layoutService.isDesktop()) {
+                this.hideProfileMenu();
+                this.hideMenu();
+            }
+        });
     }
 
     hideMenu() {
@@ -116,6 +127,10 @@ export class AppLayoutComponent implements OnDestroy {
 
         if (this.menuOutsideClickListener) {
             this.menuOutsideClickListener();
+        }
+
+        if (this.windowResizeListener) {
+            this.windowResizeListener();
         }
     }
 }
