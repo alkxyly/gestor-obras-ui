@@ -22,4 +22,9 @@ export class relatorioDiarioService {
   listarRelatorioDiarioDetalhado(contratoId: number, dataInicio: string, dataFim: string): Observable<RelatorioDiarioDetalhadoDTO[]> {
     return this.http.get<RelatorioDiarioDetalhadoDTO[]>(`${this.url}?contratoId=${contratoId}&dataInicio=${dataInicio}&dataFim=${dataFim}`);
   }
+
+  downloadRdo(relatorioId: string): Observable<Blob> {
+    return this.http.get(`${this.url}/${relatorioId}/download-rdo`, { responseType: 'blob' });
+  }
 }
+
