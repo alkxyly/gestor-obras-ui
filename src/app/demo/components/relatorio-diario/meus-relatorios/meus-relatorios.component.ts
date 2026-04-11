@@ -24,6 +24,8 @@ export class MeusRelatoriosComponent {
   displayFotos: boolean = false;
   fotosSelecionadas: string[] = [];
 
+  downloadandoIds = new Set<string>();
+
   constructor(private fb: FormBuilder,
     private relatorioService: relatorioDiarioService,
     private contratoService: ContratoService,
@@ -95,6 +97,26 @@ export class MeusRelatoriosComponent {
     this.fotosSelecionadas = fotos;
     this.displayFotos = true;
   }
+
+  downloadRelatorio(relatorioId: string) {
+    this.downloadandoIds.add(relatorioId);
+    this.relatorioService.downloadRdo(relatorioId).subscribe({
+      next: blob => {
+        const uuid = crypto.randomUUID();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${uuid}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+        this.downloadandoIds.delete(relatorioId);
+      },
+      error: () => {
+        this.downloadandoIds.delete(relatorioId);
+      }
+    });
+  }
+
 
   get podeConsultarValorTotal(): boolean {
     return this.authService.temPermissao(Role.CONSULTAR_DASHBOARD);
