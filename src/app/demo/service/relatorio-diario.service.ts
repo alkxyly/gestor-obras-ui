@@ -26,5 +26,9 @@ export class relatorioDiarioService {
   downloadRdo(relatorioId: string): Observable<Blob> {
     return this.http.get(`${this.url}/${relatorioId}/download-rdo`, { responseType: 'blob' });
   }
+
+  deletar(relatorioId: string): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${relatorioId}`);
+  }
 }
 

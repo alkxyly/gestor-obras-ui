@@ -4,6 +4,7 @@ import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.se
 import { ContratoDTO, RelatorioDiarioDetalhadoDTO, RelatorioDiarioDTO, Role } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { AuthService } from '../../auth/auth.service';
+import { ConfirmationService } from 'primeng/api';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class MeusRelatoriosComponent {
   constructor(private fb: FormBuilder,
     private relatorioService: relatorioDiarioService,
     private contratoService: ContratoService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.listarContratoPorResponsavel();
@@ -120,5 +122,23 @@ export class MeusRelatoriosComponent {
 
   get podeConsultarValorTotal(): boolean {
     return this.authService.temPermissao(Role.CONSULTAR_DASHBOARD);
+  }
+
+  excluirRelatorio(relatorioId: string) {
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja excluir este relatório?',
+      header: 'Confirmar Exclusão',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.relatorioService.deletar(relatorioId).subscribe({
+          next: () => {
+            this.relatorios = this.relatorios.filter(r => r.id !== relatorioId);
+          }
+        });
+      }
+    });
   }
 }

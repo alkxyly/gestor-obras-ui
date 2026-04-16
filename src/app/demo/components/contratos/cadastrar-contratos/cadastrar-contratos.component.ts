@@ -56,8 +56,11 @@ export class CadastrarContratosComponent implements OnInit {
 
   listarUsuarios() {
     this.usuarioService.listar().subscribe(response => {
-      this.usuarios = response;
       this.funcionarios = response;
+    })
+
+    this.usuarioService.listarEngenheiro().subscribe(response => {
+      this.usuarios = response;
     })
   }
 

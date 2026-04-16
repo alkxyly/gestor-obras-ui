@@ -22,6 +22,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ImageModule } from 'primeng/image';
 import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [ListarRelatorioDiarioComponent, MeusRelatoriosComponent],
@@ -46,7 +48,9 @@ import { DialogModule } from 'primeng/dialog';
     ImageModule,
     ReactiveFormsModule,
     SharedModule,
-    RelatorioDiarioRoutingModule
-  ]
+    RelatorioDiarioRoutingModule,
+    ConfirmDialogModule
+  ],
+  providers: [ConfirmationService]
 })
 export class RelatorioDiarioModule { }

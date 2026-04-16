@@ -28,6 +28,7 @@
                         <th>Encarregado(s)</th>
                         <th pSortableColumn="dataInicio">Início <p-sortIcon field="dataInicio"></p-sortIcon></th>
                         <th pSortableColumn="dataFim">Fim <p-sortIcon field="dataFim"></p-sortIcon></th>
+                        <th *ngIf="authService.temPermissao(Role.CONSULTAR_DASHBOARD)">Valor Manutenção</th>
                         <th>Ações</th>
                     </tr>
                 </ng-template>
@@ -65,6 +66,13 @@
                         <td>
                             <span class="p-column-title">Fim</span>
                             {{contrato.dataFim | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td *ngIf="authService.temPermissao(Role.CONSULTAR_DASHBOARD)">
+                            <span class="p-column-title">Valor Manutenção</span>
+                            <span *ngIf="contrato.valorManutencao; else semValor" class="font-bold">
+                                {{ contrato.valorManutencao | currency:'BRL' }}
+                            </span>
+                            <ng-template #semValor>-</ng-template>
                         </td>
                         <td>
                             <div class="flex gap-2">
