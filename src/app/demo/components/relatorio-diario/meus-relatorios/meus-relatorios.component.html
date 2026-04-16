@@ -77,7 +77,7 @@
                             (click)="enviarMensagemWhatsapp(relatorio.relatadoPor.telefone)"></p-tag>
                     </td>
                     <td>
-                        <p-button icon="pi pi-download" [rounded]="true" [text]="true"
+                        <p-button *ngIf="podeConsultarValorTotal" icon="pi pi-download" [rounded]="true" [text]="true"
                             pTooltip="Baixar RDO (PDF)" tooltipPosition="top"
                             [loading]="downloadandoIds.has(relatorio.id)"
                             (onClick)="downloadRelatorio(relatorio.id)">
