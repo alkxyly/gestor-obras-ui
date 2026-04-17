@@ -1,6 +1,6 @@
 <div class="grid">
     <div class="col-12">
-        <p-card header="Cadastrar Contrato">
+        <p-card [header]="modoEdicao ? 'Editar Contrato' : 'Cadastrar Contrato'">
 
             <div class="p-fluid p-formgrid grid">
 
@@ -94,8 +94,10 @@
                 </div>
 
                 <div class="col-12 flex justify-content-end mt-4">
-                    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text mr-2"></button>
-                    <button pButton label="Salvar Contrato" icon="pi pi-check" (click)="salvar()"></button>
+                    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text mr-2"
+                        routerLink="/contratos/meus-contratos"></button>
+                    <button pButton [label]="modoEdicao ? 'Atualizar Contrato' : 'Salvar Contrato'" icon="pi pi-check"
+                        (click)="salvar()"></button>
                 </div>
 
             </div>

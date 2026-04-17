@@ -84,13 +84,14 @@
 
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Contrato"
-                                    tooltipPosition="bottom">
+                                    tooltipPosition="bottom" [routerLink]="['/contratos/editar', contrato.id]"
+                                    *ngIf="authService.temPermissao(Role.EDITAR_CONTRATO)">
                                 </button>
 
-                                <button pButton pRipple icon="pi pi-trash" (click)="delete(contrato)"
+                                <!-- <button pButton pRipple icon="pi pi-trash" (click)="delete(contrato)"
                                     class="p-button-rounded p-button-text p-button-danger" pTooltip="Excluir Contrato"
                                     tooltipPosition="bottom">
-                                </button>
+                                </button> -->
                             </div>
                         </td>
                     </tr>
