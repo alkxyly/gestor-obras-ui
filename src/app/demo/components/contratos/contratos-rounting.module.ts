@@ -9,6 +9,7 @@ import { Role } from "../core/model";
 @NgModule({
     imports: [RouterModule.forChild([
         { path: '', component: CadastrarContratosComponent, canActivate: [AuthGuard], data: { roles: [Role.EDITAR_CONTRATO] } },
+        { path: 'editar/:id', component: CadastrarContratosComponent, canActivate: [AuthGuard], data: { roles: [Role.EDITAR_CONTRATO] } },
         { path: 'meus-contratos', component: ListarContratosComponent, canActivate: [AuthGuard], data: { roles: [Role.CONSULTAR_CONTRATO] } },
 
     ])],

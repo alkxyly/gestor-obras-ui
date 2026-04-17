@@ -27,6 +27,10 @@ export class UsuarioService {
     return this.http.get<UsuarioDTO[]>(`${this.url}/encarregado`);
   }
 
+  listarEngenheiro(): Observable<UsuarioDTO[]> {
+    return this.http.get<UsuarioDTO[]>(`${this.url}/engenheiro`);
+  }
+
   inativar(usuarioId: string): Observable<any> {
     return this.http.put(`${this.url}/${usuarioId}/inativar`, null);
   }

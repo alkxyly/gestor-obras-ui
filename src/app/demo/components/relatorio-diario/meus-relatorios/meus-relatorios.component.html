@@ -77,11 +77,17 @@
                             (click)="enviarMensagemWhatsapp(relatorio.relatadoPor.telefone)"></p-tag>
                     </td>
                     <td>
-                        <p-button icon="pi pi-download" [rounded]="true" [text]="true"
-                            pTooltip="Baixar RDO (PDF)" tooltipPosition="top"
-                            [loading]="downloadandoIds.has(relatorio.id)"
-                            (onClick)="downloadRelatorio(relatorio.id)">
-                        </p-button>
+                        <div class="flex align-items-center gap-1">
+                            <p-button *ngIf="podeConsultarValorTotal" icon="pi pi-download" [rounded]="true" [text]="true"
+                                pTooltip="Baixar RDO (PDF)" tooltipPosition="top"
+                                [loading]="downloadandoIds.has(relatorio.id)"
+                                (onClick)="downloadRelatorio(relatorio.id)">
+                            </p-button>
+                            <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                                pTooltip="Excluir RDO" tooltipPosition="top"
+                                (onClick)="excluirRelatorio(relatorio.id)">
+                            </p-button>
+                        </div>
                     </td>
                 </tr>
             </ng-template>
@@ -230,3 +236,5 @@
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
+
+<p-confirmDialog></p-confirmDialog>

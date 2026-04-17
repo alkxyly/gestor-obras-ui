@@ -28,6 +28,7 @@
                         <th>Encarregado(s)</th>
                         <th pSortableColumn="dataInicio">Início <p-sortIcon field="dataInicio"></p-sortIcon></th>
                         <th pSortableColumn="dataFim">Fim <p-sortIcon field="dataFim"></p-sortIcon></th>
+                        <th *ngIf="authService.temPermissao(Role.CONSULTAR_DASHBOARD)">Valor Manutenção</th>
                         <th>Ações</th>
                     </tr>
                 </ng-template>
@@ -66,6 +67,13 @@
                             <span class="p-column-title">Fim</span>
                             {{contrato.dataFim | date: 'dd/MM/yyyy'}}
                         </td>
+                        <td *ngIf="authService.temPermissao(Role.CONSULTAR_DASHBOARD)">
+                            <span class="p-column-title">Valor Manutenção</span>
+                            <span *ngIf="contrato.valorManutencao; else semValor" class="font-bold">
+                                {{ contrato.valorManutencao | currency:'BRL' }}
+                            </span>
+                            <ng-template #semValor>-</ng-template>
+                        </td>
                         <td>
                             <div class="flex gap-2">
                                 <button pButton pRipple icon="pi pi-user"
@@ -76,13 +84,14 @@
 
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Contrato"
-                                    tooltipPosition="bottom">
+                                    tooltipPosition="bottom" [routerLink]="['/contratos/editar', contrato.id]"
+                                    *ngIf="authService.temPermissao(Role.EDITAR_CONTRATO)">
                                 </button>
 
-                                <button pButton pRipple icon="pi pi-trash" (click)="delete(contrato)"
+                                <!-- <button pButton pRipple icon="pi pi-trash" (click)="delete(contrato)"
                                     class="p-button-rounded p-button-text p-button-danger" pTooltip="Excluir Contrato"
                                     tooltipPosition="bottom">
-                                </button>
+                                </button> -->
                             </div>
                         </td>
                     </tr>
