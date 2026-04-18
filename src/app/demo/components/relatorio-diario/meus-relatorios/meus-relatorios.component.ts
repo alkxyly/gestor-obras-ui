@@ -27,6 +27,10 @@ export class MeusRelatoriosComponent {
 
   downloadandoIds = new Set<string>();
 
+  filtroLocal: string = '';
+  filtroRelatadoPor: string = '';
+  mostrarFiltros: boolean = false;
+
   constructor(private fb: FormBuilder,
     private relatorioService: relatorioDiarioService,
     private contratoService: ContratoService,
@@ -83,7 +87,17 @@ export class MeusRelatoriosComponent {
   }
 
   get totalGeral(): number {
-    return this.relatorios.reduce((total, relatorio) => total + this.getValorTotal(relatorio.ocorrenciaItens), 0);
+    return this.relatoriosFiltrados.reduce((total, relatorio) => total + this.getValorTotal(relatorio.ocorrenciaItens), 0);
+  }
+
+  get relatoriosFiltrados(): RelatorioDiarioDetalhadoDTO[] {
+    return this.relatorios.filter(r => {
+      const local = `${r.cidade} ${r.estado}`.toLowerCase();
+      const relatadoPor = r.relatadoPor?.nome?.toLowerCase() ?? '';
+      const matchLocal = !this.filtroLocal || local.includes(this.filtroLocal.toLowerCase());
+      const matchRelatadoPor = !this.filtroRelatadoPor || relatadoPor.includes(this.filtroRelatadoPor.toLowerCase());
+      return matchLocal && matchRelatadoPor;
+    });
   }
 
   getClimaTexto(condicao: number): string {
