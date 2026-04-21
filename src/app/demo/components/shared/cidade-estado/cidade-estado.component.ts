@@ -59,7 +59,13 @@ export class CidadeEstadoComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   ngOnInit() {
-    this.ibgeService.getEstados().subscribe(res => this.estados = res);
+    this.ibgeService.getEstados().subscribe(res => {
+        this.estados = res;
+        if (this._pendingWriteValue) {
+           this.writeValue(this._pendingWriteValue);
+           this._pendingWriteValue = null;
+        }
+    });
 
     // Notifica o formulário pai sempre que houver mudança interna
     this.sub.add(
@@ -84,7 +90,40 @@ export class CidadeEstadoComponent implements ControlValueAccessor, OnInit, OnDe
       });
     }
   }
-  writeValue(obj: any): void { if (obj) this.group.patchValue(obj, { emitEvent: false }); }
+  _pendingWriteValue: any = null;
+  writeValue(obj: any): void { 
+      if (!obj) {
+          this.group.reset({}, { emitEvent: false });
+          return;
+      }
+      
+      if (this.estados.length === 0) {
+          this._pendingWriteValue = obj;
+          return;
+      }
+
+      const siglaOuNomeEstado = obj.estado?.sigla || (typeof obj.estado === 'string' ? obj.estado : obj.estado?.nome);
+      const nomeCidade = obj.cidade?.nome || (typeof obj.cidade === 'string' ? obj.cidade : null);
+
+      const foundEstado = this.estados.find(e => e.sigla === siglaOuNomeEstado || e.nome === siglaOuNomeEstado);
+      if (foundEstado) {
+          this.group.get('estado')?.setValue(foundEstado, { emitEvent: false });
+          
+          this.loadingCidades = true;
+          this.ibgeService.getCidadesPorEstado(foundEstado.id).subscribe(res => {
+              this.cidades = res;
+              this.group.get('cidade')?.enable({ emitEvent: false });
+              this.loadingCidades = false;
+              
+              if (nomeCidade) {
+                 const foundCidade = this.cidades.find(c => c.nome === nomeCidade);
+                 this.group.get('cidade')?.setValue(foundCidade || { nome: nomeCidade }, { emitEvent: false });
+              }
+          });
+      } else {
+          this.group.patchValue(obj, { emitEvent: false });
+      }
+  }
   registerOnChange(fn: any): void { this.onChange = fn; }
   registerOnTouched(fn: any): void { this.onTouched = fn; }
   setDisabledState?(isDisabled: boolean): void { isDisabled ? this.group.disable() : this.group.enable(); }

@@ -142,6 +142,9 @@
                                 [loading]="downloadandoIds.has(relatorio.id)"
                                 (onClick)="downloadRelatorio(relatorio.id)">
                             </p-button>
+                            <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info"
+                                pTooltip="Editar RDO" tooltipPosition="top" (onClick)="editarRelatorio(relatorio.id)">
+                            </p-button>
                             <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
                                 pTooltip="Excluir RDO" tooltipPosition="top" (onClick)="excluirRelatorio(relatorio.id)">
                             </p-button>
