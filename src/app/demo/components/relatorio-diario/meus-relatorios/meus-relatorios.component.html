@@ -3,24 +3,65 @@
     <p-card header="Relatórios Enviados">
 
         <div class="p-fluid p-formgrid grid">
-            <div class="field  col-6">
+            <div class="field col-12 md:col-6">
                 <label for="contratos" class="block text-900 text-xl font-medium mb-2">Contrato</label>
                 <p-dropdown [options]="contratos" [(ngModel)]="contratoSelecionado" optionLabel="nome"
                     [ngModelOptions]="{standalone: true}" placeholder="Selecione um contrato"
                     (onChange)="onContratoChange($event)">
                 </p-dropdown>
             </div>
-            <div class="field col-6">
+            <div class="field col-12 md:col-6">
                 <label for="mes" class="block text-900 text-xl font-medium mb-2">Mês de Referência</label>
                 <p-calendar [(ngModel)]="dataSelecionada" view="month" dateFormat="mm/yy" [readonlyInput]="true"
                     [ngModelOptions]="{standalone: true}" (onSelect)="listarRelatorioDiarioDetalhado()"
                     placeholder="Selecione o mês" [showIcon]="true"></p-calendar>
             </div>
+            <div class="col-12 flex align-items-center gap-2">
+                <p-button [label]="mostrarFiltros ? 'Ocultar Filtros' : 'Filtros'"
+                    [icon]="mostrarFiltros ? 'pi pi-chevron-up' : 'pi pi-filter'"
+                    styleClass="p-button-outlined p-button-secondary p-button-sm"
+                    (onClick)="mostrarFiltros = !mostrarFiltros">
+                </p-button>
+                <p-badge *ngIf="filtroLocal || filtroRelatadoPor"
+                    value="{{ (filtroLocal ? 1 : 0) + (filtroRelatadoPor ? 1 : 0) }} filtro(s) ativo(s)"
+                    severity="warning">
+                </p-badge>
+            </div>
+            <ng-container *ngIf="mostrarFiltros">
+                <div class="field col-12 md:col-6">
+                    <label for="filtroLocal" class="block text-900 text-xl font-medium mb-2">Local</label>
+                    <span class="p-input-icon-left w-full">
+                        <i class="pi pi-map-marker"></i>
+                        <input id="filtroLocal" pInputText type="text" [(ngModel)]="filtroLocal"
+                            [ngModelOptions]="{standalone: true}" placeholder="Filtrar por cidade ou estado"
+                            class="w-full" />
+                    </span>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="filtroRelatadoPor" class="block text-900 text-xl font-medium mb-2">Relatado Por</label>
+                    <span class="p-input-icon-left w-full">
+                        <i class="pi pi-user"></i>
+                        <input id="filtroRelatadoPor" pInputText type="text" [(ngModel)]="filtroRelatadoPor"
+                            [ngModelOptions]="{standalone: true}" placeholder="Filtrar por nome do responsável"
+                            class="w-full" />
+                    </span>
+                </div>
+                <div class="col-12 flex justify-content-end">
+                    <p-button label="Limpar Filtros" icon="pi pi-times"
+                        styleClass="p-button-text p-button-sm p-button-danger"
+                        (onClick)="filtroLocal = ''; filtroRelatadoPor = ''">
+                    </p-button>
+                </div>
+            </ng-container>
         </div>
 
-        <p-table [value]="relatorios" [tableStyle]="{ 'min-width': '50rem' }" dataKey="titulo"
-            [expandedRowKeys]="expandedRows" responsiveLayout="scroll" [paginator]="true" [rows]="10"
-            [rowsPerPageOptions]="[10, 20, 30]" styleClass="p-datatable-gridlines" [rowHover]="true">
+        <p-table [value]="relatoriosFiltrados" dataKey="id"
+            [expandedRowKeys]="expandedRows"
+            responsiveLayout="stack" [breakpoint]="'960px'"
+            [paginator]="true" [rows]="10"
+            [rowsPerPageOptions]="[10, 20, 30]"
+            styleClass="p-datatable-gridlines"
+            [rowHover]="true">
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width: 3rem"></th>
@@ -45,14 +86,24 @@
                             [pTooltip]="expanded ? 'Ocultar detalhes' : 'Ver detalhes'"
                             tooltipPosition="right"></button>
                     </td>
-                    <td>{{ relatorio.dataCadastro | date: 'dd/MM/yyyy' }}</td>
-                    <td>{{ relatorio.diaSemana }}</td>
-                    <td>{{ relatorio.titulo }}</td>
-                    <td [pTooltip]="relatorio.descricao" tooltipPosition="top">
-                        {{ relatorio.descricao.length > 50 ? (relatorio.descricao | slice:0:50) + '...' :
-                        relatorio.descricao }}
+                    <td>
+                        <span class="p-column-title">Data</span>
+                        {{ relatorio.dataCadastro | date: 'dd/MM/yyyy' }}
                     </td>
                     <td>
+                        <span class="p-column-title">Dia da Semana</span>
+                        {{ relatorio.diaSemana }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Título</span>
+                        {{ relatorio.titulo }}
+                    </td>
+                    <td [pTooltip]="relatorio.descricao" tooltipPosition="top">
+                        <span class="p-column-title">Descrição</span>
+                        {{ relatorio.descricao.length > 50 ? (relatorio.descricao | slice:0:50) + '...' : relatorio.descricao }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Clima</span>
                         <div class="flex align-items-center gap-2">
                             <i class="pi" [ngClass]="{
                                 'pi-sun text-yellow-500': relatorio.condicaoClimatica === 0,
@@ -60,32 +111,39 @@
                                 'pi-align-justify text-blue-500': relatorio.condicaoClimatica === 2}"
                                 [pTooltip]="getClimaTexto(relatorio.condicaoClimatica)" tooltipPosition="top">
                             </i>
+                            <span>{{ getClimaTexto(relatorio.condicaoClimatica) }}</span>
                         </div>
                     </td>
-                    <td>{{ relatorio.cidade }} - {{ relatorio.estado }}</td>
                     <td>
+                        <span class="p-column-title">Local</span>
+                        {{ relatorio.cidade }} - {{ relatorio.estado }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Faltas</span>
                         <p-tag [value]="relatorio.funcionariosAusentes ? relatorio.funcionariosAusentes.length : 0"
                             [severity]="relatorio.funcionariosAusentes && relatorio.funcionariosAusentes.length > 0 ? 'warning' : 'success'"
                             [rounded]="true"></p-tag>
                     </td>
                     <td class="font-bold text-900" *ngIf="podeConsultarValorTotal">
+                        <span class="p-column-title">Valor Total</span>
                         {{ getValorTotal(relatorio.ocorrenciaItens) | currency:'BRL' }}
                     </td>
                     <td>
+                        <span class="p-column-title">Relatado Por</span>
                         <p-tag [value]="relatorio.relatadoPor.nome" icon="pi pi-whatsapp"
                             styleClass="bg-green-100 text-green-700 cursor-pointer" [rounded]="true"
                             (click)="enviarMensagemWhatsapp(relatorio.relatadoPor.telefone)"></p-tag>
                     </td>
                     <td>
+                        <span class="p-column-title">Ações</span>
                         <div class="flex align-items-center gap-1">
-                            <p-button *ngIf="podeConsultarValorTotal" icon="pi pi-download" [rounded]="true" [text]="true"
-                                pTooltip="Baixar RDO (PDF)" tooltipPosition="top"
+                            <p-button *ngIf="podeConsultarValorTotal" icon="pi pi-download" [rounded]="true"
+                                [text]="true" pTooltip="Baixar RDO (PDF)" tooltipPosition="top"
                                 [loading]="downloadandoIds.has(relatorio.id)"
                                 (onClick)="downloadRelatorio(relatorio.id)">
                             </p-button>
                             <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
-                                pTooltip="Excluir RDO" tooltipPosition="top"
-                                (onClick)="excluirRelatorio(relatorio.id)">
+                                pTooltip="Excluir RDO" tooltipPosition="top" (onClick)="excluirRelatorio(relatorio.id)">
                             </p-button>
                         </div>
                     </td>
@@ -124,25 +182,37 @@
                     <td colspan="11">
                         <div class="p-3">
                             <h6 class="mb-3"><b>Detalhes do Relatório</b></h6>
-                            <p-table [value]="relatorio.ocorrenciaItens" dataKey="id" responsiveLayout="scroll"
-                                styleClass="p-datatable-sm">
+                            <p-table [value]="relatorio.ocorrenciaItens" dataKey="id"
+                                    responsiveLayout="stack" [breakpoint]="'960px'"
+                                    styleClass="p-datatable-sm">
                                 <ng-template pTemplate="header">
-                <tr>
-                    <th>Ocorrência</th>
-                    <th>Quantidade</th>
-                    <th *ngIf="podeConsultarValorTotal">Valor Unitário</th>
-                    <th *ngIf="podeConsultarValorTotal">Subtotal</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-ocorrencia>
-                <tr>
-                    <td>{{ ocorrencia.descricao }}</td>
-                    <td>{{ ocorrencia.quantidade }}</td>
-                    <td *ngIf="podeConsultarValorTotal">{{ ocorrencia.valor | currency:'BRL' }}</td>
-                    <td *ngIf="podeConsultarValorTotal">{{ ocorrencia.quantidade * ocorrencia.valor | currency:'BRL' }}
-                    </td>
-                </tr>
-            </ng-template>
+                                    <tr>
+                                        <th>Ocorrência</th>
+                                        <th>Quantidade</th>
+                                        <th *ngIf="podeConsultarValorTotal">Valor Unitário</th>
+                                        <th *ngIf="podeConsultarValorTotal">Subtotal</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-ocorrencia>
+                                    <tr>
+                                        <td>
+                                            <span class="p-column-title">Ocorrência</span>
+                                            {{ ocorrencia.descricao }}
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">Quantidade</span>
+                                            {{ ocorrencia.quantidade }}
+                                        </td>
+                                        <td *ngIf="podeConsultarValorTotal">
+                                            <span class="p-column-title">Valor Unitário</span>
+                                            {{ ocorrencia.valor | currency:'BRL' }}
+                                        </td>
+                                        <td *ngIf="podeConsultarValorTotal">
+                                            <span class="p-column-title">Subtotal</span>
+                                            {{ ocorrencia.quantidade * ocorrencia.valor | currency:'BRL' }}
+                                        </td>
+                                    </tr>
+                                </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
                     <td colspan="4" class="text-center py-3">
