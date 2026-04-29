@@ -2,27 +2,20 @@
     <div class="col-12">
         <div class="card">
             <h5>Gestão de Ocorrências</h5>
-            
-            <p-table 
-                #dt 
-                [value]="ocorrencias" 
-               
-                responsiveLayout="stack" 
-                [breakpoint]="'960px'"
-                [rows]="10" 
-                [paginator]="true" 
-                [rowsPerPageOptions]="[5,10,20]"
-                selectionMode="multiple" 
-                [rowHover]="true" 
+
+            <p-table #dt [value]="ocorrencias" responsiveLayout="stack" [breakpoint]="'960px'" [rows]="10"
+                [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="multiple" [rowHover]="true"
                 dataKey="id">
-                
+
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar ocorrência..." />
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Buscar ocorrência..." />
                         </span>
-                        <button pButton label="Cadastrar" icon="pi pi-plus" class="p-button-success mr-2"></button>
+                        <button pButton label="Cadastrar" icon="pi pi-plus" class="p-button-success mr-2"
+                            [routerLink]="['/ocorrencias']"></button>
                     </div>
                 </ng-template>
 
@@ -51,23 +44,19 @@
                         </td>
                         <td>
                             <div class="flex gap-2">
-                                <button 
-                                    pButton 
-                                    pRipple 
-                                    icon="pi pi-pencil" 
-                                    class="p-button-rounded p-button-text p-button-info" 
-                                    pTooltip="Editar Contrato" 
-                                    tooltipPosition="bottom">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Ocorrência"
+                                    tooltipPosition="bottom" [routerLink]="['/ocorrencias/editar', ocorrencia.id]">
                                 </button>
-                        
-                                <button 
+
+                                <!-- <button 
                                     pButton 
                                     pRipple 
                                     icon="pi pi-trash" 
                                     class="p-button-rounded p-button-text p-button-danger" 
-                                    pTooltip="Excluir Contrato" 
+                                    pTooltip="Excluir Ocorrência" 
                                     tooltipPosition="bottom">
-                                </button>
+                                </button> -->
                             </div>
                         </td>
                     </tr>

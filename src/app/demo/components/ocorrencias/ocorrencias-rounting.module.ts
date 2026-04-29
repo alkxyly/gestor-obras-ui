@@ -8,7 +8,7 @@ import { ListarOcorrenciaComponent } from "./listar-ocorrencia/listar-ocorrencia
     imports: [RouterModule.forChild([
         { path: '', component: CadastrarOcorrenciaComponent },
         { path: 'minhas-ocorrencias', component: ListarOcorrenciaComponent },
-
+        { path: 'editar/:id', component: CadastrarOcorrenciaComponent },
     ])],
     exports: [RouterModule]
 })

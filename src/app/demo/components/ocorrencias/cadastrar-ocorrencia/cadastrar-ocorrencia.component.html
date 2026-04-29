@@ -1,5 +1,5 @@
 <div class="card p-fluid">
-    <h5>Cadastro de Ocorrência</h5>
+    <h5>{{ isEditMode ? 'Edição de Ocorrência' : 'Cadastro de Ocorrência' }}</h5>
     <form [formGroup]="ocorrenciaForm" (ngSubmit)="onSubmit()" class="grid">
       
       <div class="col-12 md:col-6 field">
@@ -43,7 +43,8 @@
         <p-button 
           label="Cancelar" 
           icon="pi pi-times" 
-          styleClass="p-button-text mr-2">
+          styleClass="p-button-text mr-2"
+          [routerLink]="['/ocorrencias/minhas-ocorrencias']">
         </p-button>
         <p-button 
           label="Salvar" 
