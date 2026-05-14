@@ -65,7 +65,15 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Cadastrar Usuário', icon: 'pi pi-fw pi-user-plus', routerLink: ['/usuarios'] },
                     { label: 'Meus Usuários', icon: 'pi pi-fw pi-users', routerLink: ['/usuarios/listar-usuarios'] },
                 ]
+            },
+            {
+                label: 'Relatórios',
+                visible: this.authService.temPermissao(Role.CONSULTAR_DASHBOARD),
+                items: [
+                    { label: 'Contratos', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorios/contrato-relatorio'] },
+                ]
             }
+
         ];
     }
 }

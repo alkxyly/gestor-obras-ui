@@ -1,0 +1,70 @@
+<div [formGroup]="filterForm" class="grid mb-4 border-bottom-1 surface-border pb-3">
+    <!-- Seleção de Contrato -->
+    <div class="col-12 md:col-4">
+        <label for="contract" class="block font-bold mb-2">Contrato</label>
+        <p-dropdown id="contract" formControlName="contratoId" [options]="contracts" optionLabel="descricao"
+            optionValue="id" placeholder="Selecione um Contrato" styleClass="w-full" [filter]="true"
+            filterBy="descricao" [showClear]="true">
+        </p-dropdown>
+    </div>
+
+    <!-- Seleção de Período -->
+    <div class="col-12 md:col-5">
+        <label for="range" class="block font-bold mb-2">Período de Produção</label>
+        <p-calendar id="range" formControlName="dateRange" selectionMode="range" [readonlyInput]="true"
+            [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Selecione o intervalo" styleClass="w-full">
+        </p-calendar>
+    </div>
+
+    <!-- Botão de Ação -->
+    <div class="col-12 md:col-3 flex align-items-end">
+        <p-button label="Filtrar" icon="pi pi-search" styleClass="w-full" (onClick)="onFilter()">
+        </p-button>
+    </div>
+</div>
+
+
+<div class="grid" *ngIf="summary">
+    <!-- KPI: Valor Produzido -->
+    <div class="col-12 md:col-6 lg:col-3">
+        <p-card header="Valor Produzido" styleClass="h-full">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Período Atual</span>
+                    <div class="text-900 font-medium text-xl">{{ summary.valorProduzido | currency:'BRL' }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    style="width:2.5rem;height:2.5rem">
+                    <i class="pi pi-dollar text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">+15% </span>
+            <span class="text-500">em relação ao mês anterior</span>
+        </p-card>
+    </div>
+
+    <!-- KPI: Relatórios Diários -->
+    <div class="col-12 md:col-6 lg:col-3">
+        <p-card header="Relatórios Diários" styleClass="h-full">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Total Enviado</span>
+                    <div class="text-900 font-medium text-xl">{{ summary.totalRelatorios }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    style="width:2.5rem;height:2.5rem">
+                    <i class="pi pi-file text-orange-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-500">Média de </span>
+            <span class="text-blue-500 font-medium">{{ summary.mediaDiaria }} / dia</span>
+        </p-card>
+    </div>
+
+    <!-- Gráfico de Evolução de Produção -->
+    <div class="col-12 mt-4">
+        <p-card header="Evolução da Produção no Período">
+            <p-chart type="line" [data]="chartData" [options]="chartOptions" height="350px"></p-chart>
+        </p-card>
+    </div>
+</div>
