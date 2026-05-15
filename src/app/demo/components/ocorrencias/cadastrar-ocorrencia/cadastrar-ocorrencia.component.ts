@@ -31,6 +31,20 @@ export class CadastrarOcorrenciaComponent {
     { label: 'Torre (T)', value: 'T' },
     { label: 'Verba (V)', value: 'V' },
     { label: 'Litro (L)', value: 'L' },
+    { label: 'Mês (MES)', value: 'MES' },
+    { label: 'Metros Cúbicos (M3)', value: 'M3' },
+    { label: 'Metros Quadrados (M2)', value: 'M2' },
+    { label: 'Metro (M)', value: 'M' },
+    { label: 'Pares (PR)', value: 'PR' },
+    { label: 'Caixa (CX)', value: 'CX' },
+    { label: 'Cento (CT)', value: 'CT' },
+    { label: 'Grama (G)', value: 'G' },
+    { label: 'Hora (H)', value: 'H' },
+    { label: 'Kit (KIT)', value: 'KIT' },
+    { label: 'Mililitro (ML)', value: 'ML' },
+    { label: 'Pacote (PAC)', value: 'PAC' },
+    { label: 'Rolo (RL)', value: 'RL' },
+    { label: 'Tonelada (TON)', value: 'TON' }
   ];
 
   constructor(
