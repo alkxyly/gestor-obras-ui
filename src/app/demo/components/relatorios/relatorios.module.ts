@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 
 
@@ -21,6 +22,7 @@ import { DropdownModule } from 'primeng/dropdown';
     CardModule,
     ChartModule,
     ButtonModule,
+    TableModule,
     DropdownModule,
     CalendarModule,
     RelatoriosoRoutingModule

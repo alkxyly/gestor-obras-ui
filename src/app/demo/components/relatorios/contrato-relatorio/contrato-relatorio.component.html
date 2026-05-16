@@ -1,70 +1,105 @@
-<div [formGroup]="filterForm" class="grid mb-4 border-bottom-1 surface-border pb-3">
-    <!-- Seleção de Contrato -->
-    <div class="col-12 md:col-4">
-        <label for="contract" class="block font-bold mb-2">Contrato</label>
-        <p-dropdown id="contract" formControlName="contratoId" [options]="contracts" optionLabel="descricao"
-            optionValue="id" placeholder="Selecione um Contrato" styleClass="w-full" [filter]="true"
-            filterBy="descricao" [showClear]="true">
-        </p-dropdown>
-    </div>
-
-    <!-- Seleção de Período -->
-    <div class="col-12 md:col-5">
-        <label for="range" class="block font-bold mb-2">Período de Produção</label>
-        <p-calendar id="range" formControlName="dateRange" selectionMode="range" [readonlyInput]="true"
-            [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Selecione o intervalo" styleClass="w-full">
-        </p-calendar>
-    </div>
-
-    <!-- Botão de Ação -->
-    <div class="col-12 md:col-3 flex align-items-end">
-        <p-button label="Filtrar" icon="pi pi-search" styleClass="w-full" (onClick)="onFilter()">
-        </p-button>
-    </div>
-</div>
-
-
-<div class="grid" *ngIf="summary">
-    <!-- KPI: Valor Produzido -->
-    <div class="col-12 md:col-6 lg:col-3">
-        <p-card header="Valor Produzido" styleClass="h-full">
-            <div class="flex justify-content-between mb-3">
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mb-4">
+                <h5 class="m-0 mb-3 md:mb-0">Relatório de Contratos</h5>
                 <div>
-                    <span class="block text-500 font-medium mb-3">Período Atual</span>
-                    <div class="text-900 font-medium text-xl">{{ summary.valorProduzido | currency:'BRL' }}</div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
-                    style="width:2.5rem;height:2.5rem">
-                    <i class="pi pi-dollar text-blue-500 text-xl"></i>
+                    <p-button icon="pi pi-file-pdf" label="PDF" styleClass="p-button-danger p-button-outlined mr-2"
+                        (onClick)="exportPdf()"></p-button>
+                    <p-button icon="pi pi-file-excel" label="Excel" styleClass="p-button-success p-button-outlined"
+                        (onClick)="exportExcel()"></p-button>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">+15% </span>
-            <span class="text-500">em relação ao mês anterior</span>
-        </p-card>
-    </div>
 
-    <!-- KPI: Relatórios Diários -->
-    <div class="col-12 md:col-6 lg:col-3">
-        <p-card header="Relatórios Diários" styleClass="h-full">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium mb-3">Total Enviado</span>
-                    <div class="text-900 font-medium text-xl">{{ summary.totalRelatorios }}</div>
+            <div [formGroup]="filterForm" class="grid mb-4 border-bottom-1 surface-border pb-3">
+                <!-- Seleção de Contrato -->
+                <div class="col-12 md:col-4">
+                    <label for="contract" class="block font-bold mb-2">Contrato</label>
+                    <p-dropdown id="contratos" formControlName="contratoId" [options]="contratos" optionLabel="nome"
+                        optionValue="id" placeholder="Selecione um Contrato" styleClass="w-full" [filter]="true"
+                        filterBy="descricao" [showClear]="true">
+                    </p-dropdown>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                    style="width:2.5rem;height:2.5rem">
-                    <i class="pi pi-file text-orange-500 text-xl"></i>
+
+                <!-- Seleção de Período -->
+                <div class="col-12 md:col-5">
+                    <label for="range" class="block font-bold mb-2">Período de Produção</label>
+                    <p-calendar id="range" formControlName="dateRange" selectionMode="range" [readonlyInput]="true"
+                        [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Selecione o intervalo" styleClass="w-full">
+                    </p-calendar>
+                </div>
+
+                <!-- Botão de Ação -->
+                <div class="col-12 md:col-3 flex align-items-end">
+                    <p-button label="Filtrar" icon="pi pi-search" styleClass="w-full" (onClick)="onFilter()">
+                    </p-button>
                 </div>
             </div>
-            <span class="text-500">Média de </span>
-            <span class="text-blue-500 font-medium">{{ summary.mediaDiaria }} / dia</span>
-        </p-card>
-    </div>
 
-    <!-- Gráfico de Evolução de Produção -->
-    <div class="col-12 mt-4">
-        <p-card header="Evolução da Produção no Período">
-            <p-chart type="line" [data]="chartData" [options]="chartOptions" height="350px"></p-chart>
-        </p-card>
+            <!-- Tabela de Usuários e Quilômetros -->
+            <h5>Quilometragem por Usuário</h5>
+            <p-table [value]="usuariosKm" responsiveLayout="stack" [breakpoint]="'960px'" [rows]="10" [paginator]="true"
+                [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [rowHover]="true"
+                styleClass="p-datatable-striped">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 50%" pSortableColumn="nome">Usuário <p-sortIcon field="nome"></p-sortIcon>
+                        </th>
+                        <th style="width: 50%" pSortableColumn="quilometros">Quilômetros Percorridos <p-sortIcon
+                                field="quilometros"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-usuario>
+                    <tr>
+                        <td>
+                            <span class="p-column-title">Usuário</span>
+                            {{usuario.nome}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Quilômetros Percorridos</span>
+                            {{usuario.total}} km
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="2" class="text-center">Nenhum dado encontrado para o período selecionado.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <!-- Tabela de Ocorrências e Quantidade -->
+            <h5 class="mt-5">Resumo de Ocorrências</h5>
+            <p-table [value]="ocorrenciaTotal" responsiveLayout="stack" [breakpoint]="'960px'" [rows]="10"
+                [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [rowHover]="true"
+                styleClass="p-datatable-striped">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 50%" pSortableColumn="ocorrencia">Ocorrência <p-sortIcon
+                                field="ocorrencia"></p-sortIcon></th>
+                        <th style="width: 50%" pSortableColumn="quantidade">Quantidade <p-sortIcon
+                                field="quantidade"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <span class="p-column-title">Ocorrência</span>
+                            {{item.descricao}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Quantidade</span>
+                            {{item.total}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="2" class="text-center">Nenhum dado encontrado para o período selecionado.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
     </div>
 </div>

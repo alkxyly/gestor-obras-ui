@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
-import { ContratoDTO } from '../../core/model';
+import { ContratoDTO, OcorrenciaTotalDTO, QuilometroPercorridoDTO } from '../../core/model';
+import { ContratoRelatorioService } from 'src/app/demo/service/contrato-relatorio.service';
+
 
 interface ContractSummary {
   valorProduzido: number;
@@ -18,69 +20,35 @@ interface ContractSummary {
 })
 export class ContratoRelatorioComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;
-  contracts: ContratoDTO[] = [];
-  summary: ContractSummary = {
-    valorProduzido: 154750.00,
-    totalRelatorios: 42,
-    mediaDiaria: 1.4
-  };
-
+  contratos: ContratoDTO[] = [];
+  usuariosKm: QuilometroPercorridoDTO[] = [];
+  ocorrenciaTotal: OcorrenciaTotalDTO[] = [];
 
   private destroy$ = new Subject<void>();
 
-  chartData: any;
-  chartOptions: any;
-
-  constructor(private fb: FormBuilder, private contratoService: ContratoService) {
+  constructor(private fb: FormBuilder,
+    private contratoService: ContratoService,
+    private contratoRelatorioService: ContratoRelatorioService) {
     this.initForm();
   }
 
   private initForm() {
     this.filterForm = this.fb.group({
-      contractId: [null, Validators.required],
+      contratoId: [null, Validators.required],
       dateRange: [null, Validators.required]
     });
   }
 
   ngOnInit() {
-    this.initChart();
-    this.loadContracts();
+    this.carregarContratos();
+
   }
 
-  initChart() {
-    const documentStyle = getComputedStyle(document.documentElement);
 
-    this.chartData = {
-      labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
-      datasets: [
-        {
-          label: 'Produção (R$)',
-          data: [35000, 48000, 32000, 39750],
-          fill: true,
-          borderColor: documentStyle.getPropertyValue('--blue-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(59, 130, 246, 0.2)'
-        }
-      ]
-    };
 
-    this.chartOptions = {
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          grid: { color: documentStyle.getPropertyValue('--surface-border') }
-        }
-      }
-    };
-  }
-
-  private loadContracts() {
-    this.contratoService.listarPorResponsavel().subscribe((contracts) => {
-      this.contracts = contracts;
+  private carregarContratos() {
+    this.contratoService.listarPorResponsavel().subscribe((contratos) => {
+      this.contratos = contratos;
     })
   }
 
@@ -90,10 +58,28 @@ export class ContratoRelatorioComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const { contractId, dateRange } = this.filterForm.value;
-    console.log('Buscando dados para o contrato:', contractId, 'no período:', dateRange);
+    const { contratoId, dateRange } = this.filterForm.value;
 
-    // Lógica para chamar o serviço e atualizar this.summary e this.chartData
+    const formatData = (d: Date) => d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : '';
+    const dataInicio = formatData(dateRange[0]);
+    const dataFim = formatData(dateRange[1]);
+
+    console.log('Buscando dados para o contrato:', contratoId, 'no período:', dataInicio, 'até', dataFim);
+
+    this.contratoRelatorioService.listarContratoRelatorio(contratoId, dataInicio, dataFim).subscribe((response) => {
+      this.usuariosKm = response.quilometrosPercorridos;
+      this.ocorrenciaTotal = response.ocorrenciaTotal;
+    })
+  }
+
+  exportPdf() {
+    console.log('Exportando relatório em PDF...');
+    // TODO: Adicionar lógica para gerar/baixar o PDF
+  }
+
+  exportExcel() {
+    console.log('Exportando relatório em Excel...');
+    // TODO: Adicionar lógica para gerar/baixar o Excel
   }
 
   ngOnDestroy() {
