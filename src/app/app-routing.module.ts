@@ -15,6 +15,7 @@ import { AuthGuard } from './demo/components/auth/auth.guard';
                     { path: 'relatorio-diario', loadChildren: () => import('./demo/components/relatorio-diario/relatorio-diario.module').then(m => m.RelatorioDiarioModule) },
                     { path: 'ocorrencias', loadChildren: () => import('./demo/components/ocorrencias/ocorrencias.module').then(m => m.OcorrenciasModule) },
                     { path: 'usuarios', loadChildren: () => import('./demo/components/usuario/usuario.module').then(m => m.UsuarioModule) },
+                    { path: 'relatorios', loadChildren: () => import('./demo/components/relatorios/relatorios.module').then(m => m.RelatoriosModule) },
                     { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule) },
                     { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule) },
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },

@@ -8,8 +8,8 @@ import { MeusRelatoriosComponent } from "./meus-relatorios/meus-relatorios.compo
 @NgModule({
     imports: [RouterModule.forChild([
         { path: '', component: ListarRelatorioDiarioComponent },
-        { path: 'meus-relatorios', component: MeusRelatoriosComponent }
-
+        { path: 'meus-relatorios', component: MeusRelatoriosComponent },
+        { path: ':id', component: ListarRelatorioDiarioComponent }
     ])],
     exports: [RouterModule]
 })

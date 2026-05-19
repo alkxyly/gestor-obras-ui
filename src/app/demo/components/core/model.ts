@@ -499,6 +499,22 @@ export class ValorProduzidoPorContratoDTO {
     total: number;
 }
 
+export interface QuilometroPercorridoDTO {
+    nome: string;
+    total: number;
+    usuarioId: string;
+}
+
+export interface OcorrenciaTotalDTO {
+    ocorrenciaId: number;
+    descricao: string
+    total: number;
+}
+
+export interface ContratoRelatorioResponse {
+    quilometrosPercorridos: QuilometroPercorridoDTO[];
+    ocorrenciaTotal: OcorrenciaTotalDTO[];
+}
 
 export enum Role {
     CONSULTAR_DASHBOARD = 'ROLE_CONSULTAR_DASHBOARD',

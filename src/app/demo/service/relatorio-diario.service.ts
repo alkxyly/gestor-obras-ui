@@ -19,6 +19,14 @@ export class relatorioDiarioService {
     return this.http.post<RelatorioDiarioDTO>(`${this.url}`, relatorioDiario);
   }
 
+  buscarPorId(id: string): Observable<any> {
+    return this.http.get<any>(`${this.url}/${id}`);
+  }
+
+  atualizar(id: string, relatorioDiario: RelatorioDiarioDTO): Observable<RelatorioDiarioDTO> {
+    return this.http.put<RelatorioDiarioDTO>(`${this.url}/${id}`, relatorioDiario);
+  }
+
   listarRelatorioDiarioDetalhado(contratoId: number, dataInicio: string, dataFim: string): Observable<RelatorioDiarioDetalhadoDTO[]> {
     return this.http.get<RelatorioDiarioDetalhadoDTO[]>(`${this.url}?contratoId=${contratoId}&dataInicio=${dataInicio}&dataFim=${dataFim}`);
   }

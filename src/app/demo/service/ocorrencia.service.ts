@@ -25,5 +25,13 @@ export class OcorrenciaService {
 
   listarOcorrenciaPorContrato(contratoId: number): Observable<OcorrenciaDTO[]>{
     return this.http.get<OcorrenciaDTO[]>(`${this.url}/contrato/${contratoId}`);
-  }    
+  }
+
+  buscarOcorrenciaPorId(id: number): Observable<OcorrenciaDTO> {
+    return this.http.get<OcorrenciaDTO>(`${this.url}/${id}`);
+  }
+
+  atualizarOcorrencia(id: number, ocorrencia: OcorrenciaDTO): Observable<OcorrenciaDTO> {
+    return this.http.put<OcorrenciaDTO>(`${this.url}/${id}`, ocorrencia);
+  }
 }

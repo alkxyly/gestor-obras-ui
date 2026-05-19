@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OcorrenciaService } from 'src/app/demo/service/ocorrencia.service';
 import { OcorrenciaDTO } from '../../core/model';
 import { MessageService } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastrar-ocorrencia',
@@ -13,7 +14,9 @@ export class CadastrarOcorrenciaComponent {
 
 
   ocorrenciaForm!: FormGroup;
-  
+  isEditMode: boolean = false;
+  ocorrenciaId: number | null = null;
+
   // Lista de unidades simulando um serviço ou constante
   units: any[] = [
     { label: 'Unidade (UN)', value: 'UN' },
@@ -28,16 +31,53 @@ export class CadastrarOcorrenciaComponent {
     { label: 'Torre (T)', value: 'T' },
     { label: 'Verba (V)', value: 'V' },
     { label: 'Litro (L)', value: 'L' },
+    { label: 'Mês (MES)', value: 'MES' },
+    { label: 'Metros Cúbicos (M3)', value: 'M3' },
+    { label: 'Metros Quadrados (M2)', value: 'M2' },
+    { label: 'Metro (M)', value: 'M' },
+    { label: 'Pares (PR)', value: 'PR' },
+    { label: 'Caixa (CX)', value: 'CX' },
+    { label: 'Cento (CT)', value: 'CT' },
+    { label: 'Grama (G)', value: 'G' },
+    { label: 'Hora (H)', value: 'H' },
+    { label: 'Kit (KIT)', value: 'KIT' },
+    { label: 'Mililitro (ML)', value: 'ML' },
+    { label: 'Pacote (PAC)', value: 'PAC' },
+    { label: 'Rolo (RL)', value: 'RL' },
+    { label: 'Tonelada (TON)', value: 'TON' }
   ];
 
   constructor(
     private fb: FormBuilder,
     private ocorrenciaService: OcorrenciaService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.checkEditMode();
+  }
+
+  private checkEditMode(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.isEditMode = true;
+      this.ocorrenciaId = Number(idParam);
+      this.ocorrenciaService.buscarOcorrenciaPorId(this.ocorrenciaId).subscribe({
+        next: (ocorrencia) => {
+          this.ocorrenciaForm.patchValue({
+            descricao: ocorrencia.descricao,
+            unidade: ocorrencia.unidade,
+            valor: ocorrencia.valor
+          });
+        },
+        error: () => {
+          this.router.navigate(['/ocorrencias/minhas-ocorrencias']);
+        }
+      });
+    }
   }
 
   private initForm(): void {
@@ -62,17 +102,33 @@ export class CadastrarOcorrenciaComponent {
         valor: this.ocorrenciaForm.value.valor
       }
 
-      this.ocorrenciaService.cadastrarOcorrencia(ocorrenciaDTO).subscribe({
-        next: (response) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Ocorrência cadastrada com sucesso!'
-          });
+      if (this.isEditMode && this.ocorrenciaId) {
+        this.ocorrenciaService.atualizarOcorrencia(this.ocorrenciaId, ocorrenciaDTO).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Ocorrência atualizada com sucesso!'
+            });
+            setTimeout(() => {
+              this.router.navigate(['/ocorrencias/minhas-ocorrencias']);
+            }, 1000);
+          }
+        });
+      } else {
+        this.ocorrenciaService.cadastrarOcorrencia(ocorrenciaDTO).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Ocorrência cadastrada com sucesso!'
+            });
 
-          this.ocorrenciaForm.reset();
-        }
-      });
+            this.ocorrenciaForm.reset();
+            this.ocorrenciaForm.patchValue({ unidade: 'UN' });
+          }
+        });
+      }
     }
   }
 }

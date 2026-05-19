@@ -5,6 +5,7 @@ import { ContratoDTO, RelatorioDiarioDetalhadoDTO, RelatorioDiarioDTO, Role } fr
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { AuthService } from '../../auth/auth.service';
 import { ConfirmationService } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -35,7 +36,9 @@ export class MeusRelatoriosComponent {
     private relatorioService: relatorioDiarioService,
     private contratoService: ContratoService,
     private authService: AuthService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.listarContratoPorResponsavel();
@@ -136,6 +139,10 @@ export class MeusRelatoriosComponent {
 
   get podeConsultarValorTotal(): boolean {
     return this.authService.temPermissao(Role.CONSULTAR_DASHBOARD);
+  }
+
+  editarRelatorio(relatorioId: string) {
+    this.router.navigate(['../', relatorioId], { relativeTo: this.route });
   }
 
   excluirRelatorio(relatorioId: string) {
