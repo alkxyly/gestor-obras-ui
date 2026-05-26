@@ -1,0 +1,52 @@
+stages:
+  - build
+  - test
+  - sonar
+
+variables:
+  NPM_CONFIG_CACHE: "$CI_PROJECT_DIR/.npm"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+    - node_modules/
+
+build_app:
+  stage: build
+  image: node:20
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+test_app:
+  stage: test
+  image: node:20
+  script:
+    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
+  artifacts:
+    paths:
+      - coverage/
+    expire_in: 1 hour
+  dependencies:
+    - build_app
+
+sonarqube_check:
+  stage: sonar
+  image: sonarsource/sonar-scanner-cli
+  script:
+    - sonar-scanner
+      -Dsonar.projectKey=$SONAR_PROJECT_KEY
+      -Dsonar.host.url=$SONAR_HOST_URL
+      -Dsonar.login=$SONAR_TOKEN
+      -Dsonar.sources=src
+      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+  dependencies:
+    - test_app
+  only:
+    - main
+    - develop
