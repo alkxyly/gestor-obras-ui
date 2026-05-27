@@ -34,6 +34,10 @@ test_app:
   stage: test
   extends: .merge_request_rules
   image: node:20
+  variables:
+    CHROME_BIN: /usr/bin/chromium
+  before_script:
+    - apt-get update && apt-get install -y chromium
   script:
     - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
   artifacts:
