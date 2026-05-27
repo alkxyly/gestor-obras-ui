@@ -54,6 +54,7 @@ sonarqube_check:
   script:
     - sonar-scanner
       -Dsonar.projectKey=$SONAR_PROJECT_KEY
+      -Dsonar.organization=alkxyly-group
       -Dsonar.host.url=$SONAR_HOST_URL
       -Dsonar.login=$SONAR_TOKEN
       -Dsonar.sources=src
