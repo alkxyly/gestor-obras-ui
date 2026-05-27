@@ -56,6 +56,3 @@ sonarqube_check:
       -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
   dependencies:
     - test_app
-  only:
-    - main
-    - develop
