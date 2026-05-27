@@ -43,6 +43,8 @@ test_app:
   artifacts:
     paths:
       - coverage/
+    reports:
+      junit: coverage/junit.xml
     expire_in: 1 hour
   dependencies:
     - build_app
@@ -59,5 +61,6 @@ sonarqube_check:
       -Dsonar.login=$SONAR_TOKEN
       -Dsonar.sources=src
       -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      -Dsonar.qualitygate.wait=true
   dependencies:
     - test_app
