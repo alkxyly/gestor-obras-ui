@@ -1,0 +1,66 @@
+stages:
+  - build
+  - test
+  - sonar
+
+variables:
+  NPM_CONFIG_CACHE: "$CI_PROJECT_DIR/.npm"
+
+
+.merge_request_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+    - node_modules/
+
+build_app:
+  stage: build
+  extends: .merge_request_rules
+  image: node:20
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+test_app:
+  stage: test
+  extends: .merge_request_rules
+  image: node:20
+  variables:
+    CHROME_BIN: /usr/bin/chromium
+  before_script:
+    - apt-get update && apt-get install -y chromium
+  script:
+    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
+  artifacts:
+    paths:
+      - coverage/
+    reports:
+      junit: coverage/junit.xml
+    expire_in: 1 hour
+  dependencies:
+    - build_app
+
+sonarqube_check:
+  stage: sonar
+  extends: .merge_request_rules
+  image: sonarsource/sonar-scanner-cli
+  script:
+    - sonar-scanner
+      -Dsonar.projectKey=$SONAR_PROJECT_KEY
+      -Dsonar.organization=alkxyly-group
+      -Dsonar.host.url=$SONAR_HOST_URL
+      -Dsonar.login=$SONAR_TOKEN
+      -Dsonar.sources=src
+      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      -Dsonar.qualitygate.wait=true
+  dependencies:
+    - test_app
