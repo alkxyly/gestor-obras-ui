@@ -6,8 +6,8 @@
                 <div>
                     <p-button icon="pi pi-file-pdf" label="PDF" styleClass="p-button-danger p-button-outlined mr-2"
                         (onClick)="exportPdf()"></p-button>
-                    <p-button icon="pi pi-file-excel" label="Excel" styleClass="p-button-success p-button-outlined"
-                        (onClick)="exportExcel()"></p-button>
+                    <!-- <p-button icon="pi pi-file-excel" label="Excel" styleClass="p-button-success p-button-outlined"
+                        (onClick)="exportExcel()"></p-button> -->
                 </div>
             </div>
 
@@ -33,6 +33,30 @@
                 <div class="col-12 md:col-3 flex align-items-end">
                     <p-button label="Filtrar" icon="pi pi-search" styleClass="w-full" (onClick)="onFilter()">
                     </p-button>
+                </div>
+            </div>
+
+            <!-- Seção de Condições Climáticas -->
+            <div *ngIf="climaContagem && climaContagem.length > 0" class="mb-5">
+                <h5 class="mb-3">Condições Climáticas no Período</h5>
+                <div class="grid">
+                    <div *ngFor="let clima of climaContagem" class="col-12 md:col-4">
+                        <div class="p-3 border-round border-1 flex align-items-center shadow-1"
+                            [ngClass]="clima.bgClass">
+                            <div class="flex align-items-center gap-3">
+                                <div
+                                    class="w-3rem h-3rem border-circle flex align-items-center justify-content-center bg-white shadow-2">
+                                    <i [class]="clima.icon" class="text-2xl"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-semibold text-color-secondary">{{ clima.label
+                                        }}</span>
+                                    <span class="block text-2xl font-bold mt-1">{{ clima.quantidade }} {{
+                                        clima.quantidade === 1 ? 'dia' : 'dias' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

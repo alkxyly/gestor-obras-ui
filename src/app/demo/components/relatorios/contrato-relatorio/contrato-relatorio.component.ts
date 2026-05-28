@@ -23,6 +23,7 @@ export class ContratoRelatorioComponent implements OnInit, OnDestroy {
   contratos: ContratoDTO[] = [];
   usuariosKm: QuilometroPercorridoDTO[] = [];
   ocorrenciaTotal: OcorrenciaTotalDTO[] = [];
+  climaContagem: any[] = [];
 
   private destroy$ = new Subject<void>();
 
@@ -69,7 +70,53 @@ export class ContratoRelatorioComponent implements OnInit, OnDestroy {
     this.contratoRelatorioService.listarContratoRelatorio(contratoId, dataInicio, dataFim).subscribe((response) => {
       this.usuariosKm = response.quilometrosPercorridos;
       this.ocorrenciaTotal = response.ocorrenciaTotal;
+      this.processarClimaContagem(response.climaContagem);
     })
+  }
+
+  private processarClimaContagem(dados: any[]) {
+    const mapaClima: { [key: string]: number } = {
+      'ENSOLARADO': 0,
+      '0': 0,
+      'NUBLADO': 0,
+      '1': 0,
+      'CHUVOSO': 0,
+      '2': 0
+    };
+
+    if (dados && Array.isArray(dados)) {
+      dados.forEach(item => {
+        if (item.condicaoClimatica !== null && item.condicaoClimatica !== undefined) {
+          const condicao = String(item.condicaoClimatica).toUpperCase();
+          mapaClima[condicao] = Number(item.quantidade || 0);
+        }
+      });
+    }
+
+    const solQtd = (mapaClima['ENSOLARADO'] || 0) + (mapaClima['0'] || 0);
+    const nubladoQtd = (mapaClima['NUBLADO'] || 0) + (mapaClima['1'] || 0);
+    const chuvaQtd = (mapaClima['CHUVOSO'] || 0) + (mapaClima['2'] || 0);
+
+    this.climaContagem = [
+      {
+        label: 'Sol / Ensolarado',
+        quantidade: solQtd,
+        icon: 'pi pi-sun text-amber-500',
+        bgClass: 'bg-orange-50 border-orange-200 text-orange-800'
+      },
+      {
+        label: 'Nublado',
+        quantidade: nubladoQtd,
+        icon: 'pi pi-cloud text-bluegray-500',
+        bgClass: 'bg-bluegray-50 border-bluegray-200 text-bluegray-800'
+      },
+      {
+        label: 'Chuva / Chuvoso',
+        quantidade: chuvaQtd,
+        icon: 'pi pi-align-justify text-blue-500',
+        bgClass: 'bg-blue-50 border-blue-200 text-blue-800'
+      }
+    ];
   }
 
   exportPdf() {

@@ -511,9 +511,15 @@ export interface OcorrenciaTotalDTO {
     total: number;
 }
 
+export interface ClimaContagemDTO {
+    condicaoClimatica: string | number;
+    quantidade: number;
+}
+
 export interface ContratoRelatorioResponse {
     quilometrosPercorridos: QuilometroPercorridoDTO[];
     ocorrenciaTotal: OcorrenciaTotalDTO[];
+    climaContagem: ClimaContagemDTO[];
 }
 
 export enum Role {
