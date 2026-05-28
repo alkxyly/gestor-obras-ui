@@ -503,6 +503,7 @@ export interface QuilometroPercorridoDTO {
     nome: string;
     total: number;
     usuarioId: string;
+    valorProduzido?: number;
 }
 
 export interface OcorrenciaTotalDTO {
