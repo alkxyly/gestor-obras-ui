@@ -6,7 +6,7 @@ stages:
 
 variables:
   NPM_CONFIG_CACHE: "$CI_PROJECT_DIR/.npm"
-  DOCKER_IMAGE_NAME: "alkxyly/gestor-obras-ui"
+  DOCKER_IMAGE_NAME: "alkxyly/gestor-contratos-ui"
 
 
 .merge_request_rules:
