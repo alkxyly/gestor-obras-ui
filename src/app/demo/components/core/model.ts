@@ -507,8 +507,10 @@ export interface QuilometroPercorridoDTO {
 
 export interface OcorrenciaTotalDTO {
     ocorrenciaId: number;
-    descricao: string
+    descricao: string;
     total: number;
+    valor?: number;
+    valor_total?: number;
 }
 
 export interface ClimaContagemDTO {
