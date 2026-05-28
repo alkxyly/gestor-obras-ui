@@ -68,6 +68,7 @@ publish_docker_image:
     DOCKER_TLS_CERTDIR: "/certs"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "develop" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
   before_script:
     - echo "Login no DockerHub..."
     - echo "$DOCKER_SECRET" | docker login -u "$DOCKER_USERNAME" --password-stdin
