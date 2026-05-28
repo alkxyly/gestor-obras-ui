@@ -9,11 +9,6 @@ variables:
   DOCKER_IMAGE_NAME: "alkxyly/gestor-contratos-ui"
 
 
-.merge_request_rules:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
@@ -22,7 +17,6 @@ cache:
 
 build_app:
   stage: build
-  extends: .merge_request_rules
   image: node:20
   script:
     - npm ci
@@ -34,7 +28,6 @@ build_app:
 
 test_app:
   stage: test
-  extends: .merge_request_rules
   image: node:20
   variables:
     CHROME_BIN: /usr/bin/chromium
@@ -53,7 +46,6 @@ test_app:
 
 sonarqube_check:
   stage: sonar
-  extends: .merge_request_rules
   image: sonarsource/sonar-scanner-cli
   script:
     - sonar-scanner
@@ -75,7 +67,7 @@ publish_docker_image:
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "main"
   before_script:
     - echo "Login no DockerHub..."
     - echo "$DOCKER_SECRET" | docker login -u "$DOCKER_USERNAME" --password-stdin
