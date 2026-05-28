@@ -2,9 +2,11 @@ stages:
   - build
   - test
   - sonar
+  - publish
 
 variables:
   NPM_CONFIG_CACHE: "$CI_PROJECT_DIR/.npm"
+  DOCKER_IMAGE_NAME: "alkxyly/gestor-obras-ui"
 
 
 .merge_request_rules:
@@ -60,7 +62,28 @@ sonarqube_check:
       -Dsonar.host.url=$SONAR_HOST_URL
       -Dsonar.login=$SONAR_TOKEN
       -Dsonar.sources=src
-      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      -Dsonar.javascript.lcov.reportPaths=coverage/sakai-ng/lcov.info
       -Dsonar.qualitygate.wait=true
   dependencies:
     - test_app
+
+publish_docker_image:
+  stage: publish
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - echo "Login no DockerHub..."
+    - echo "$DOCKER_SECRET" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker info
+    - docker --version
+  script:
+    - echo "Construindo a imagem Docker..."
+    - docker build -t $DOCKER_IMAGE_NAME:latest -t $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
+    - docker push $DOCKER_IMAGE_NAME:latest
+    - docker push $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+    - echo "Imagem Docker enviada com sucesso!"
