@@ -504,6 +504,9 @@ export interface QuilometroPercorridoDTO {
     total: number;
     usuarioId: string;
     valorProduzido?: number;
+    qtdDiasChuvoso?: number;
+    qtdDiasNublado?: number;
+    qtdDiasSol?: number;
 }
 
 export interface OcorrenciaTotalDTO {
