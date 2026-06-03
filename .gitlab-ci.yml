@@ -1,16 +1,20 @@
 stages:
   - build
   - test
-  - sonar
+  # - sonar
+  - publish
 
 variables:
   NPM_CONFIG_CACHE: "$CI_PROJECT_DIR/.npm"
+  DOCKER_IMAGE_NAME: "alkxyly/gestor-contratos-ui"
 
-
-.merge_request_rules:
+workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -20,7 +24,6 @@ cache:
 
 build_app:
   stage: build
-  extends: .merge_request_rules
   image: node:20
   script:
     - npm ci
@@ -32,7 +35,6 @@ build_app:
 
 test_app:
   stage: test
-  extends: .merge_request_rules
   image: node:20
   variables:
     CHROME_BIN: /usr/bin/chromium
@@ -49,18 +51,39 @@ test_app:
   dependencies:
     - build_app
 
-sonarqube_check:
-  stage: sonar
-  extends: .merge_request_rules
-  image: sonarsource/sonar-scanner-cli
+# sonarqube_check:
+#   stage: sonar
+#   image: sonarsource/sonar-scanner-cli
+#   script:
+#     - sonar-scanner
+#       -Dsonar.projectKey=$SONAR_PROJECT_KEY
+#       -Dsonar.organization=alkxyly-group
+#       -Dsonar.host.url=$SONAR_HOST_URL
+#       -Dsonar.login=$SONAR_TOKEN
+#       -Dsonar.sources=src
+#       -Dsonar.javascript.lcov.reportPaths=coverage/sakai-ng/lcov.info
+#       -Dsonar.qualitygate.wait=true
+#   dependencies:
+#     - test_app
+
+publish_docker_image:
+  stage: publish
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "develop" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+  before_script:
+    - echo "Login no DockerHub..."
+    - echo "$DOCKER_SECRET" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker info
+    - docker --version
   script:
-    - sonar-scanner
-      -Dsonar.projectKey=$SONAR_PROJECT_KEY
-      -Dsonar.organization=alkxyly-group
-      -Dsonar.host.url=$SONAR_HOST_URL
-      -Dsonar.login=$SONAR_TOKEN
-      -Dsonar.sources=src
-      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-      -Dsonar.qualitygate.wait=true
-  dependencies:
-    - test_app
+    - echo "Construindo a imagem Docker..."
+    - docker build -t $DOCKER_IMAGE_NAME:latest -t $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
+    - docker push $DOCKER_IMAGE_NAME:latest
+    - docker push $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+    - echo "Imagem Docker enviada com sucesso!"

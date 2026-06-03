@@ -503,17 +503,29 @@ export interface QuilometroPercorridoDTO {
     nome: string;
     total: number;
     usuarioId: string;
+    valorProduzido?: number;
+    qtdDiasChuvoso?: number;
+    qtdDiasNublado?: number;
+    qtdDiasSol?: number;
 }
 
 export interface OcorrenciaTotalDTO {
     ocorrenciaId: number;
-    descricao: string
+    descricao: string;
     total: number;
+    valor?: number;
+    valor_total?: number;
+}
+
+export interface ClimaContagemDTO {
+    condicaoClimatica: string | number;
+    quantidade: number;
 }
 
 export interface ContratoRelatorioResponse {
     quilometrosPercorridos: QuilometroPercorridoDTO[];
     ocorrenciaTotal: OcorrenciaTotalDTO[];
+    climaContagem: ClimaContagemDTO[];
 }
 
 export enum Role {

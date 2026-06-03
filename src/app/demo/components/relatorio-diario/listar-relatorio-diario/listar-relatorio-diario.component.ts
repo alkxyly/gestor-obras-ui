@@ -249,7 +249,7 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     this.reportForm = this.fb.group({
       dataCadastro: [new Date(), Validators.required],
       titulo: ['', [Validators.required, Validators.minLength(5)]],
-      descricao: ['', [Validators.required, Validators.maxLength(500)]],
+      descricao: ['', [Validators.required, Validators.maxLength(5000)]],
       condicaoClimatica: [0, Validators.required],
       ocorrencias: this.fb.array([]),
       funcionariosAusentesId: [[]],
