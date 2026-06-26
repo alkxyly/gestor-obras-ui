@@ -67,6 +67,13 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
+                label: 'Solicitação de Compra',
+                items: [
+                    { label: 'Cadastrar Solicitação', icon: 'pi pi-fw pi-plus', routerLink: ['/solicitacao-compra/novo'] },
+                    { label: 'Minhas Solicitações', icon: 'pi pi-fw pi-list', routerLink: ['/solicitacao-compra'] },
+                ]
+            },
+            {
                 label: 'Relatórios',
                 visible: this.authService.temPermissao(Role.CONSULTAR_DASHBOARD),
                 items: [

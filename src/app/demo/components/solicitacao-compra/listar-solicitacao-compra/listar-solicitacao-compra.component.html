@@ -1,0 +1,114 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Solicitações de Compra</h4>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <!-- Empty left template to push the right one to the edge -->
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nova Solicitação" icon="pi pi-plus" class="p-button-success"
+                            (click)="novaSolicitacao()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [value]="solicitacoes" dataKey="id" responsiveLayout="scroll" [rows]="filtro.porPagina"
+                [paginator]="true" [rowHover]="true" [lazy]="true" (onLazyLoad)="loadSolicitacoes($event)"
+                [totalRecords]="totalRecords" [loading]="loading" [rowsPerPageOptions]="[2, 5, 10, 20]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem"></th>
+                        <th>Descrição</th>
+                        <th>Prazo Limite</th>
+                        <th>Situação</th>
+                        <th style="width: 8rem">Ações</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-solicitacao let-expanded="expanded">
+                    <tr>
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="solicitacao"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" pTooltip="Ver Itens"
+                                tooltipPosition="top"></button>
+                        </td>
+                        <td>{{solicitacao.descricao}}</td>
+                        <td>{{solicitacao.dataPrevista | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <p-tag [value]="solicitacao.situacao"
+                                [severity]="getSeverity(solicitacao.situacao)"></p-tag>
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <!-- <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-danger p-button-text" pTooltip="Baixar PDF" tooltipPosition="top" (click)="baixarPdf(solicitacao)"></button> -->
+                                <button pButton pRipple icon="pi pi-sync"
+                                    class="p-button-rounded p-button-info p-button-text" pTooltip="Alterar Situação"
+                                    tooltipPosition="top" (click)="abrirDialogoSituacao(solicitacao)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-solicitacao>
+                    <tr>
+                        <td colspan="5">
+                            <div class="p-3">
+                                <h5>Itens da Solicitação</h5>
+                                <p-table [value]="solicitacao.itens" dataKey="descricao">
+                                    <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">#</th>
+                        <th>Descrição</th>
+                        <th>Nº Catálogo</th>
+                        <th>Quantidade</th>
+                        <th>Foto</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-itemIndex="rowIndex">
+                    <tr>
+                        <td>{{itemIndex + 1}}</td>
+                        <td>{{item.descricao}}</td>
+                        <td>{{item.numeroCatalogo}}</td>
+                        <td>{{item.quantidade}}</td>
+                        <td>
+                            <p-image *ngIf="item.fotoUrl || item.foto" [src]="item.fotoUrl || item.foto" alt="Preview"
+                                width="50" [preview]="true"></p-image>
+                            <span *ngIf="!item.fotoUrl && !item.foto" class="text-color-secondary">Sem foto</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">Nenhum item nesta solicitação.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        </td>
+        </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nenhuma solicitação encontrada.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div>
+</div>
+</div>
+
+<p-dialog [(visible)]="exibirDialogoSituacao" header="Alterar Situação" [modal]="true" [style]="{width: '400px'}">
+    <div class="flex align-items-center flex-column mt-3">
+        <label for="situacao" class="font-bold mb-2">Selecione a nova situação:</label>
+        <p-dropdown id="situacao" [options]="opcoesSituacao" [(ngModel)]="novaSituacao" optionLabel="label"
+            optionValue="value" appendTo="body" placeholder="Selecione..." class="w-full"
+            styleClass="w-full"></p-dropdown>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text p-button-secondary" label="Cancelar"
+            (click)="exibirDialogoSituacao = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-primary" label="Salvar"
+            (click)="salvarSituacao()"></button>
+    </ng-template>
+</p-dialog>
