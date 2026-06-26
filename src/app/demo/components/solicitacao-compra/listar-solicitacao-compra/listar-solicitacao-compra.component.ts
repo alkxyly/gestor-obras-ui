@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SolicitacaoCompraService } from 'src/app/demo/service/solicitacao-compra.service';
+import { SolicitacaoCompraFiltro, SolicitacaoCompraListDTO } from '../../core/model';
 
 @Component({
   selector: 'app-listar-solicitacao-compra',
@@ -8,56 +10,53 @@ import { Router } from '@angular/router';
 })
 export class ListarSolicitacaoCompraComponent implements OnInit {
 
-  solicitacoes: any[] = [];
+  solicitacoes: SolicitacaoCompraListDTO[] = [];
+  totalRecords: number = 0;
+  loading: boolean = false;
+
+  filtro: SolicitacaoCompraFiltro = new SolicitacaoCompraFiltro();
+
   exibirDialogoSituacao: boolean = false;
   solicitacaoSelecionada: any = null;
   novaSituacao: string = '';
   opcoesSituacao: any[] = [
-    { label: 'Aberto', value: 'ABERTO' },
+    { label: 'Aberto', value: 'ABERTA' },
     { label: 'Em Andamento', value: 'EM ANDAMENTO' },
     { label: 'Concluído', value: 'CONCLUIDO' },
     { label: 'Rejeitado', value: 'REJEITADO' }
   ];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private solicitacaoCompraService: SolicitacaoCompraService
+  ) { }
 
   ngOnInit(): void {
-    // Mock de dados
-    this.solicitacoes = [
-      { 
-        id: 1, descricao: 'Materiais de escritório', prazoLimite: '15/10/2026', situacao: 'ABERTO',
-        itens: [
-          { descricao: 'Papel A4', numeroCatalogo: '1029', quantidade: 10, foto: null },
-          { descricao: 'Canetas Azuis', numeroCatalogo: '1030', quantidade: 50, foto: null }
-        ]
+  }
+
+  loadSolicitacoes(event: any): void {
+    this.loading = true;
+    this.filtro.pagina = event.first / event.rows;
+    this.filtro.porPagina = event.rows;
+
+    this.solicitacaoCompraService.listar(this.filtro).subscribe({
+      next: (res) => {
+        this.solicitacoes = res.itens;
+        this.totalRecords = res.total;
+        this.loading = false;
       },
-      { 
-        id: 2, descricao: 'Equipamentos de EPI', prazoLimite: '20/10/2026', situacao: 'EM ANDAMENTO',
-        itens: [
-          { descricao: 'Capacete de segurança', numeroCatalogo: 'EPI-01', quantidade: 15, foto: null }
-        ]
-      },
-      { 
-        id: 3, descricao: 'Ferramentas elétricas', prazoLimite: '05/09/2026', situacao: 'CONCLUIDO',
-        itens: [
-          { descricao: 'Furadeira Bosch', numeroCatalogo: 'FB-200', quantidade: 2, foto: null },
-          { descricao: 'Esmerilhadeira', numeroCatalogo: 'ES-100', quantidade: 1, foto: null }
-        ]
-      },
-      { 
-        id: 4, descricao: 'Cimento e areia', prazoLimite: '01/10/2026', situacao: 'REJEITADO',
-        itens: [
-          { descricao: 'Saco de Cimento 50kg', numeroCatalogo: 'CM-50', quantidade: 100, foto: null }
-        ]
+      error: (err) => {
+        console.error('Erro ao listar solicitações de compra:', err);
+        this.loading = false;
       }
-    ];
+    });
   }
 
   novaSolicitacao(): void {
     this.router.navigate(['/solicitacao-compra/novo']);
   }
 
-  visualizar(id: number): void {
+  visualizar(id: string): void {
     this.router.navigate(['/solicitacao-compra/editar', id]);
   }
 
@@ -83,15 +82,19 @@ export class ListarSolicitacaoCompraComponent implements OnInit {
   getSeverity(status: string): string {
     switch (status) {
       case 'ABERTO':
+      case 'ABERTA':
         return 'info';
       case 'EM ANDAMENTO':
         return 'warning';
       case 'CONCLUIDO':
+      case 'CONCLUÍDO':
         return 'success';
       case 'REJEITADO':
+      case 'REJEITADA':
         return 'danger';
       default:
         return 'info';
     }
   }
 }
+
