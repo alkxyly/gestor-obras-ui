@@ -535,3 +535,48 @@ export enum Role {
     EDITAR_OCORRENCIA = 'ROLE_EDITAR_OCORRENCIA',
     EDITAR_USUARIO = 'ROLE_EDITAR_USUARIO',
 }
+
+export class ItemSolicitacaoCompraDTO {
+    descricao: string;
+    numeroCatalogo: string;
+    quantidade: number;
+    fotoUuid?: string;
+}
+
+export class SolicitacaoCompraDTO {
+    id?: number;
+    descricao: string;
+    dataPrevista: string;
+    itens: ItemSolicitacaoCompraDTO[];
+}
+
+export class ItemSolicitacaoCompraListDTO {
+    id: number;
+    descricao: string;
+    numeroCatalogo?: string;
+    quantidade: number;
+}
+
+export class SolicitacaoCompraListDTO {
+    id: string;
+    descricao: string;
+    situacao: string;
+    dataPrevista: string;
+    dataCadastro: string;
+    dataAtualizacao: string;
+    itens: ItemSolicitacaoCompraListDTO[];
+}
+
+export class PaginationSolicitacaoCompra {
+    currentPage: number;
+    perPage: number;
+    total: number;
+    itens: SolicitacaoCompraListDTO[];
+}
+
+export class SolicitacaoCompraFiltro {
+    pagina: number = 0;
+    porPagina: number = 10;
+    descricao?: string;
+}
+
