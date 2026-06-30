@@ -72,9 +72,9 @@
                         <td>{{item.numeroCatalogo}}</td>
                         <td>{{item.quantidade}}</td>
                         <td>
-                            <p-image *ngIf="item.fotoUrl || item.foto" [src]="item.fotoUrl || item.foto" alt="Preview"
-                                width="50" [preview]="true"></p-image>
-                            <span *ngIf="!item.fotoUrl && !item.foto" class="text-color-secondary">Sem foto</span>
+                            <p-image *ngIf="item.fotoUuid" [src]="item.fotoUuid" alt="Preview" width="50"
+                                [preview]="true"></p-image>
+                            <span *ngIf="!item.fotoUuid" class="text-color-secondary">Sem foto</span>
                         </td>
                     </tr>
                 </ng-template>
