@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="grid">
     <div class="col-12">
         <div class="card">
@@ -23,6 +24,8 @@
                         <th>Descrição</th>
                         <th>Prazo Limite</th>
                         <th>Situação</th>
+                        <th>Data de Cadastro</th>
+                        <th>Última Modificação</th>
                         <th style="width: 8rem">Ações</th>
                     </tr>
                 </ng-template>
@@ -37,8 +40,14 @@
                         <td>{{solicitacao.descricao}}</td>
                         <td>{{solicitacao.dataPrevista | date: 'dd/MM/yyyy'}}</td>
                         <td>
-                            <p-tag [value]="solicitacao.situacao"
-                                [severity]="getSeverity(solicitacao.situacao)"></p-tag>
+                            <span class="situacao-badge situacao-{{ solicitacao.situacao | lowercase }}">
+                                {{ getLabel(solicitacao.situacao) }}
+                            </span>
+                        </td>
+                        <td>{{solicitacao.dataCadastro | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <span *ngIf="solicitacao.dataAtualizacao">{{solicitacao.dataAtualizacao | date: 'dd/MM/yyyy'}}</span>
+                            <span *ngIf="!solicitacao.dataAtualizacao" class="text-color-secondary">—</span>
                         </td>
                         <td>
                             <div class="flex gap-2">
@@ -52,7 +61,7 @@
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-solicitacao>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="7">
                             <div class="p-3">
                                 <h5>Itens da Solicitação</h5>
                                 <p-table [value]="solicitacao.itens" dataKey="descricao">
@@ -90,7 +99,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="5">Nenhuma solicitação encontrada.</td>
+                <td colspan="7">Nenhuma solicitação encontrada.</td>
             </tr>
         </ng-template>
         </p-table>
@@ -109,6 +118,7 @@
         <button pButton pRipple icon="pi pi-times" class="p-button-text p-button-secondary" label="Cancelar"
             (click)="exibirDialogoSituacao = false"></button>
         <button pButton pRipple icon="pi pi-check" class="p-button-primary" label="Salvar"
+            [loading]="salvandoSituacao" [disabled]="salvandoSituacao"
             (click)="salvarSituacao()"></button>
     </ng-template>
 </p-dialog>

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SolicitacaoCompraDTO, PaginationSolicitacaoCompra, SolicitacaoCompraFiltro } from '../components/core/model';
+import { SolicitacaoCompraDTO, PaginationSolicitacaoCompra, SolicitacaoCompraFiltro, AlterarSituacaoSolicitacaoCompraDTO } from '../components/core/model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -28,6 +28,10 @@ export class SolicitacaoCompraService {
     }
     console.log("params" + params.toString());
     return this.http.get<PaginationSolicitacaoCompra>(`${this.url}`, { params });
+  }
+
+  alterarSituacao(id: string, body: AlterarSituacaoSolicitacaoCompraDTO): Observable<void> {
+    return this.http.put<void>(`${this.url}/${id}/alterar-situacao`, body);
   }
 }
 

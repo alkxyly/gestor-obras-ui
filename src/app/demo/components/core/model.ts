@@ -580,3 +580,8 @@ export class SolicitacaoCompraFiltro {
     descricao?: string;
 }
 
+
+export class AlterarSituacaoSolicitacaoCompraDTO {
+    solicitacaoCompraId: string;
+    situacao: string;
+}

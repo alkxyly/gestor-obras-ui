@@ -1,1 +1,38 @@
-/* Add your styles here */
+.situacao-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+
+  // ABERTA — azul
+  &.situacao-aberta {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+    border: 1px solid #93c5fd;
+  }
+
+  // EM_ANDAMENTO — âmbar/laranja
+  &.situacao-em_andamento {
+    background-color: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fcd34d;
+  }
+
+  // CONCLUIDA — verde
+  &.situacao-concluida {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+  }
+
+  // REJEITADA — vermelho
+  &.situacao-rejeitada {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+  }
+}

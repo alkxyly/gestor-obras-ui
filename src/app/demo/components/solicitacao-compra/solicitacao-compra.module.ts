@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { SolicitacaoCompraRoutingModule } from './solicitacao-compra-routing.module';
 import { CadastrarSolicitacaoCompraComponent } from './cadastrar-solicitacao-compra/cadastrar-solicitacao-compra.component';
 import { ListarSolicitacaoCompraComponent } from './listar-solicitacao-compra/listar-solicitacao-compra.component';
@@ -46,7 +47,8 @@ import { TooltipModule } from 'primeng/tooltip';
     DialogModule,
     DropdownModule,
     TooltipModule
-  ]
+  ],
+  providers: [MessageService]
 })
 export class SolicitacaoCompraModule { }
 
