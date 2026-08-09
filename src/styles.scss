@@ -32,3 +32,18 @@ $gutter: 1rem; //for primeflex grid system
 /* Demos */
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
+
+/* Global Action Buttons Styling */
+.action-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    .p-button {
+        transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out !important;
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+    }
+}

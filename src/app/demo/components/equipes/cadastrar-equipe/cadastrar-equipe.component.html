@@ -1,0 +1,87 @@
+<div class="card">
+    <!-- Cabeçalho da Página -->
+    <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+        <div>
+            <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-users text-primary text-2xl"></i>
+                Cadastro de Equipe
+            </h2>
+            <p class="text-500 m-0 mt-1">Cadastre o nome da equipe, escolha o encarregado e adicione os membros</p>
+        </div>
+        <p-button label="Minhas Equipes" icon="pi pi-list" severity="secondary" [outlined]="true"
+            routerLink="/equipes/listar-equipes" styleClass="p-button-sm border-round-lg w-full sm:w-auto">
+        </p-button>
+    </div>
+
+    <form [formGroup]="equipeForm" (ngSubmit)="salvar()" class="p-fluid grid formgrid">
+        
+        <div class="field col-12 md:col-6">
+            <label for="nome" class="block text-900 text-base font-semibold mb-2">Nome da Equipe</label>
+            <input id="nome" type="text" pInputText formControlName="nome" 
+                placeholder="Ex: Equipe de Manutenção Alpha" class="w-full" />
+            <small *ngIf="equipeForm.get('nome')?.invalid && equipeForm.get('nome')?.touched" class="p-error">
+                Nome da equipe é obrigatório (mínimo 3 caracteres).
+            </small>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="usuarioId" class="block text-900 text-base font-semibold mb-2">Encarregado Responsável</label>
+            <p-dropdown id="usuarioId" [options]="encarregados" formControlName="usuarioId" 
+                optionLabel="nome" optionValue="id" placeholder="Selecione o encarregado" 
+                [filter]="true" filterBy="nome" emptyMessage="Nenhum encarregado encontrado" styleClass="w-full">
+                <ng-template let-usuario pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-user text-primary"></i>
+                        <span>{{ usuario.nome }}</span>
+                        <small class="text-500 font-italic" *ngIf="usuario.cargo">({{ usuario.cargo }})</small>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+            <small *ngIf="equipeForm.get('usuarioId')?.invalid && equipeForm.get('usuarioId')?.touched" class="p-error">
+                Seleção do encarregado é obrigatória.
+            </small>
+        </div>
+
+        <div class="col-12 mt-4">
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-3 pb-2 border-bottom-1 surface-border">
+                <label class="block text-900 text-lg font-bold m-0 flex align-items-center gap-2">
+                    <i class="pi pi-user-plus text-primary"></i>
+                    Membros da Equipe
+                </label>
+                <p-button label="Adicionar Membro" icon="pi pi-plus-circle" size="small" severity="success"
+                    [outlined]="true" (onClick)="addMembro()" styleClass="border-round-lg w-full sm:w-auto">
+                </p-button>
+            </div>
+
+            <div formArrayName="membros" class="flex flex-column gap-3">
+                <div *ngFor="let item of membros.controls; let i = index" [formGroupName]="i" 
+                    class="grid align-items-center p-2 surface-50 border-1 surface-border border-round-lg shadow-1 transition-all">
+                    <div class="col-10 sm:col-11 flex align-items-center gap-2">
+                        <span class="badge-index bg-primary-100 text-primary font-bold border-circle flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">
+                            {{ i + 1 }}
+                        </span>
+                        <input pInputText formControlName="nome" placeholder="Nome do membro da equipe" class="w-full" />
+                    </div>
+                    <div class="col-2 sm:col-1 flex justify-content-center">
+                        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true" pTooltip="Remover Membro" tooltipPosition="top" (onClick)="removeMembro(i)">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="membros.length === 0" class="text-center p-4 border-1 border-dashed border-300 border-round-lg surface-50 mt-2 flex flex-column align-items-center gap-2">
+                <i class="pi pi-info-circle text-400 text-2xl"></i>
+                <span class="text-500 font-medium">Nenhum membro adicionado. Clique em "Adicionar Membro".</span>
+            </div>
+        </div>
+
+        <div class="col-12 mt-5 pt-4 border-top-1 surface-border flex flex-column-reverse sm:flex-row justify-content-between align-items-center gap-3">
+            <p-button label="Voltar" icon="pi pi-arrow-left" severity="secondary" [outlined]="true"
+                routerLink="/equipes/listar-equipes" styleClass="w-full sm:w-auto border-round-lg">
+            </p-button>
+            <p-button label="Salvar Equipe" icon="pi pi-check" type="submit" styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto"
+                [disabled]="equipeForm.invalid || salvando" [loading]="salvando">
+            </p-button>
+        </div>
+    </form>
+</div>

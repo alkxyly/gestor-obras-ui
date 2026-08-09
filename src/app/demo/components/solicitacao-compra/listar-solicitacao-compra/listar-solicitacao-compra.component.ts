@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { SolicitacaoCompraService } from 'src/app/demo/service/solicitacao-compra.service';
-import { SolicitacaoCompraFiltro, SolicitacaoCompraListDTO } from '../../core/model';
+import { AlterarSituacaoSolicitacaoCompraDTO, SolicitacaoCompraFiltro, SolicitacaoCompraListDTO } from '../../core/model';
 
 @Component({
   selector: 'app-listar-solicitacao-compra',
@@ -21,14 +22,17 @@ export class ListarSolicitacaoCompraComponent implements OnInit {
   novaSituacao: string = '';
   opcoesSituacao: any[] = [
     { label: 'Aberto', value: 'ABERTA' },
-    { label: 'Em Andamento', value: 'EM ANDAMENTO' },
-    { label: 'Concluído', value: 'CONCLUIDO' },
-    { label: 'Rejeitado', value: 'REJEITADO' }
+    { label: 'Em Andamento', value: 'EM_ANDAMENTO' },
+    { label: 'Concluído', value: 'CONCLUIDA' },
+    { label: 'Rejeitado', value: 'REJEITADA' }
   ];
+
+  salvandoSituacao: boolean = false;
 
   constructor(
     private router: Router,
-    private solicitacaoCompraService: SolicitacaoCompraService
+    private solicitacaoCompraService: SolicitacaoCompraService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -73,27 +77,59 @@ export class ListarSolicitacaoCompraComponent implements OnInit {
   }
 
   salvarSituacao(): void {
-    if (this.solicitacaoSelecionada) {
-      this.solicitacaoSelecionada.situacao = this.novaSituacao;
-    }
-    this.exibirDialogoSituacao = false;
+    if (!this.solicitacaoSelecionada) return;
+
+    const body: AlterarSituacaoSolicitacaoCompraDTO = {
+      solicitacaoCompraId: this.solicitacaoSelecionada.id,
+      situacao: this.novaSituacao
+    };
+
+    this.salvandoSituacao = true;
+    this.solicitacaoCompraService.alterarSituacao(this.solicitacaoSelecionada.id, body).subscribe({
+      next: () => {
+        this.solicitacaoSelecionada.situacao = this.novaSituacao;
+        this.exibirDialogoSituacao = false;
+        this.salvandoSituacao = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Situação alterada com sucesso!'
+        });
+      },
+      error: (err) => {
+        console.error('Erro ao alterar situação:', err);
+        this.salvandoSituacao = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Não foi possível alterar a situação. Tente novamente.'
+        });
+      }
+    });
   }
 
   getSeverity(status: string): string {
     switch (status) {
-      case 'ABERTO':
       case 'ABERTA':
         return 'info';
-      case 'EM ANDAMENTO':
+      case 'EM_ANDAMENTO':
         return 'warning';
-      case 'CONCLUIDO':
-      case 'CONCLUÍDO':
+      case 'CONCLUIDA':
         return 'success';
-      case 'REJEITADO':
       case 'REJEITADA':
         return 'danger';
       default:
         return 'info';
+    }
+  }
+
+  getLabel(status: string): string {
+    switch (status) {
+      case 'ABERTA':       return 'Aberta';
+      case 'EM_ANDAMENTO': return 'Em Andamento';
+      case 'CONCLUIDA':    return 'Concluída';
+      case 'REJEITADA':    return 'Rejeitada';
+      default:             return status;
     }
   }
 }

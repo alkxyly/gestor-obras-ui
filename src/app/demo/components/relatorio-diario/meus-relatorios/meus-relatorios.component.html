@@ -136,9 +136,9 @@
                     </td>
                     <td>
                         <span class="p-column-title">Ações</span>
-                        <div class="flex align-items-center gap-1">
+                        <div class="flex align-items-center gap-1 action-buttons-group">
                             <p-button *ngIf="podeConsultarValorTotal" icon="pi pi-download" [rounded]="true"
-                                [text]="true" pTooltip="Baixar RDO (PDF)" tooltipPosition="top"
+                                [text]="true" severity="help" pTooltip="Baixar RDO (PDF)" tooltipPosition="top"
                                 [loading]="downloadandoIds.has(relatorio.id)"
                                 (onClick)="downloadRelatorio(relatorio.id)">
                             </p-button>

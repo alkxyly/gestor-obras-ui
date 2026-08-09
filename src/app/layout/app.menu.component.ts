@@ -67,6 +67,13 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
+                label: 'Equipes',
+                items: [
+                    { label: 'Cadastrar Equipe', icon: 'pi pi-fw pi-plus', routerLink: ['/equipes'] },
+                    { label: 'Minhas Equipes', icon: 'pi pi-fw pi-list', routerLink: ['/equipes/minhas-equipes'] }
+                ]
+            },
+            {
                 label: 'Solicitação de Compra',
                 items: [
                     { label: 'Cadastrar Solicitação', icon: 'pi pi-fw pi-plus', routerLink: ['/solicitacao-compra/novo'] },

@@ -11,6 +11,31 @@
 4. **RxJS**: Evite `.subscribe()` manual em componentes. Prefira `| async` no template. Se necessário o subscribe, use `takeUntilDestroyed()` ou limpe a inscrição no `ngOnDestroy`
 5. Implemente formulários utilizando ReactiveFormsModule.
 
+## Padrão Visual de Telas (UI/UX - PrimeNG & PrimeFlex)
+1. **Cabeçalhos de Página (Page Headers)**:
+   - Toda página (listagem ou formulário) deve conter um cabeçalho unificado:
+     `<div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">`
+   - Título com ícone temático (`<h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">`) e subtítulo explicativo (`<p class="text-500 m-0 mt-1">`).
+   - Ação primária/navegação no topo direito com `border-round-lg font-bold shadow-2 w-full sm:w-auto`.
+
+2. **Rodapés de Ação em Formulários (Form Footers)**:
+   - Formulários devem finalizar com rodapé responsivo separado por borda:
+     `<div class="col-12 mt-5 pt-4 border-top-1 surface-border flex flex-column-reverse sm:flex-row justify-content-between align-items-center gap-3">`
+   - Esquerda: Botão secundário de retorno (`severity="secondary" [outlined]="true" label="Voltar" icon="pi pi-arrow-left"`).
+   - Direita: Botão primário de ação (`styleClass="p-button-primary border-round-lg font-bold shadow-2"`).
+
+3. **Ações em Tabelas (`.action-buttons-group`)**:
+   - Agrupar ações da tabela usando `<div class="flex gap-1 action-buttons-group">`.
+   - Utilizar botões circulares e discretos (`[rounded]="true" [text]="true"`).
+   - Obrigatório o uso de `pTooltip="..." tooltipPosition="top"` em todas as ações de tabela.
+   - Usar severidades consistentes: `info` (Editar), `danger` (Excluir/Inativar), `success` (Ativar/WhatsApp/Novo), `help` (Download).
+   - Efeito hover global `.action-buttons-group .p-button` com elevação `translateY(-2px)`.
+
+4. **Cards Dinâmicos e FormArrays**:
+   - FormArrays (itens de formulário, membros de equipe, ocorrências) devem utilizar cards individuais estilizados:
+     `class="p-3 surface-50 border-1 surface-border border-round-lg shadow-1 transition-all hover:border-primary-400"`.
+   - Adicionar badges numéricos e botões de remoção circulares (`severity="danger" [outlined]="true" [rounded]="true"`).
+
 ## Integrações
 - Ao criar tabelas, use sempre o componente `<p-table>`.
 - Utilize os ícones da biblioteca `primeicons` 6.0.1.

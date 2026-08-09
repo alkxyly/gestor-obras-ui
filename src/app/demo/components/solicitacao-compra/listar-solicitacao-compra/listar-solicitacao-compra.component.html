@@ -1,18 +1,19 @@
+<p-toast></p-toast>
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <h4>Solicitações de Compra</h4>
-            <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left">
-                    <!-- Empty left template to push the right one to the edge -->
-                </ng-template>
-                <ng-template pTemplate="right">
-                    <div class="my-2">
-                        <button pButton pRipple label="Nova Solicitação" icon="pi pi-plus" class="p-button-success"
-                            (click)="novaSolicitacao()"></button>
-                    </div>
-                </ng-template>
-            </p-toolbar>
+            <!-- Cabeçalho da Página -->
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+                <div>
+                    <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                        <i class="pi pi-shopping-cart text-primary text-2xl"></i>
+                        Solicitações de Compra
+                    </h2>
+                    <p class="text-500 m-0 mt-1">Gerencie os pedidos e requisições de material para as obras</p>
+                </div>
+                <p-button label="Nova Solicitação" icon="pi pi-plus" (onClick)="novaSolicitacao()" styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto">
+                </p-button>
+            </div>
 
             <p-table [value]="solicitacoes" dataKey="id" responsiveLayout="scroll" [rows]="filtro.porPagina"
                 [paginator]="true" [rowHover]="true" [lazy]="true" (onLazyLoad)="loadSolicitacoes($event)"
@@ -23,6 +24,8 @@
                         <th>Descrição</th>
                         <th>Prazo Limite</th>
                         <th>Situação</th>
+                        <th>Data de Cadastro</th>
+                        <th>Última Modificação</th>
                         <th style="width: 8rem">Ações</th>
                     </tr>
                 </ng-template>
@@ -34,25 +37,30 @@
                                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" pTooltip="Ver Itens"
                                 tooltipPosition="top"></button>
                         </td>
-                        <td>{{solicitacao.descricao}}</td>
+                        <td class="font-medium text-900">{{solicitacao.descricao}}</td>
                         <td>{{solicitacao.dataPrevista | date: 'dd/MM/yyyy'}}</td>
                         <td>
-                            <p-tag [value]="solicitacao.situacao"
-                                [severity]="getSeverity(solicitacao.situacao)"></p-tag>
+                            <span class="situacao-badge situacao-{{ solicitacao.situacao | lowercase }}">
+                                {{ getLabel(solicitacao.situacao) }}
+                            </span>
+                        </td>
+                        <td>{{solicitacao.dataCadastro | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <span *ngIf="solicitacao.dataAtualizacao">{{solicitacao.dataAtualizacao | date: 'dd/MM/yyyy'}}</span>
+                            <span *ngIf="!solicitacao.dataAtualizacao" class="text-color-secondary">—</span>
                         </td>
                         <td>
-                            <div class="flex gap-2">
-                                <!-- <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-danger p-button-text" pTooltip="Baixar PDF" tooltipPosition="top" (click)="baixarPdf(solicitacao)"></button> -->
-                                <button pButton pRipple icon="pi pi-sync"
-                                    class="p-button-rounded p-button-info p-button-text" pTooltip="Alterar Situação"
-                                    tooltipPosition="top" (click)="abrirDialogoSituacao(solicitacao)"></button>
+                            <div class="flex gap-2 action-buttons-group">
+                                <p-button icon="pi pi-sync" [rounded]="true" [text]="true" severity="info"
+                                    pTooltip="Alterar Situação" tooltipPosition="top" (onClick)="abrirDialogoSituacao(solicitacao)">
+                                </p-button>
                             </div>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-solicitacao>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="7">
                             <div class="p-3">
                                 <h5>Itens da Solicitação</h5>
                                 <p-table [value]="solicitacao.itens" dataKey="descricao">
@@ -90,7 +98,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="5">Nenhuma solicitação encontrada.</td>
+                <td colspan="7">Nenhuma solicitação encontrada.</td>
             </tr>
         </ng-template>
         </p-table>
@@ -109,6 +117,7 @@
         <button pButton pRipple icon="pi pi-times" class="p-button-text p-button-secondary" label="Cancelar"
             (click)="exibirDialogoSituacao = false"></button>
         <button pButton pRipple icon="pi pi-check" class="p-button-primary" label="Salvar"
+            [loading]="salvandoSituacao" [disabled]="salvandoSituacao"
             (click)="salvarSituacao()"></button>
     </ng-template>
 </p-dialog>
