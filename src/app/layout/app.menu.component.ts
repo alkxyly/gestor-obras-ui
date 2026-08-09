@@ -17,18 +17,18 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
-                label: 'Inicio',
+                label: 'Início',
                 visible: this.authService.temPermissao(Role.CONSULTAR_DASHBOARD),
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-chart-line', routerLink: ['/'] }
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
                 ]
             },
 
             {
                 label: 'Relatório Diário',
                 items: [
-                    { label: 'Cadastrar Relatório Diário', icon: 'pi pi-fw pi-plus', routerLink: ['/relatorio-diario'] },
-                    { label: 'Relatórios Enviados', icon: 'pi pi-fw pi-list', routerLink: ['/relatorio-diario/meus-relatorios'] },
+                    { label: 'Novo RDO', icon: 'pi pi-fw pi-file-edit', routerLink: ['/relatorio-diario'] },
+                    { label: 'Relatórios Enviados', icon: 'pi pi-fw pi-folder-open', routerLink: ['/relatorio-diario/meus-relatorios'] },
                 ]
             },
 
@@ -37,13 +37,13 @@ export class AppMenuComponent implements OnInit {
                 visible: this.authService.temPermissao(Role.EDITAR_CONTRATO) || this.authService.temPermissao(Role.CONSULTAR_CONTRATO),
                 items: [
                     {
-                        label: 'Cadastrar Contratos', icon: 'pi pi-fw pi-plus',
+                        label: 'Cadastrar Contrato', icon: 'pi pi-fw pi-briefcase',
                         routerLink: ['/contratos'],
                         visible: this.authService.temPermissao(Role.EDITAR_CONTRATO)
                     },
                     {
                         label: 'Meus Contratos',
-                        icon: 'pi pi-fw pi-list',
+                        icon: 'pi pi-fw pi-book',
                         routerLink: ['/contratos/meus-contratos'],
                         visible: this.authService.temPermissao(Role.CONSULTAR_CONTRATO)
                     },
@@ -54,8 +54,8 @@ export class AppMenuComponent implements OnInit {
                 label: 'Ocorrências',
                 visible: this.authService.temPermissao(Role.EDITAR_OCORRENCIA),
                 items: [
-                    { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-plus', routerLink: ['/ocorrencias'] },
-                    { label: 'Minhas Ocorrências', icon: 'pi pi-fw pi-list', routerLink: ['/ocorrencias/minhas-ocorrencias'] }
+                    { label: 'Cadastrar Ocorrência', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/ocorrencias'] },
+                    { label: 'Minhas Ocorrências', icon: 'pi pi-fw pi-table', routerLink: ['/ocorrencias/minhas-ocorrencias'] }
                 ]
             },
             {
@@ -69,22 +69,22 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Equipes',
                 items: [
-                    { label: 'Cadastrar Equipe', icon: 'pi pi-fw pi-plus', routerLink: ['/equipes'] },
-                    { label: 'Minhas Equipes', icon: 'pi pi-fw pi-list', routerLink: ['/equipes/minhas-equipes'] }
+                    { label: 'Cadastrar Equipe', icon: 'pi pi-fw pi-users', routerLink: ['/equipes'] },
+                    { label: 'Minhas Equipes', icon: 'pi pi-fw pi-sitemap', routerLink: ['/equipes/minhas-equipes'] }
                 ]
             },
             {
                 label: 'Solicitação de Compra',
                 items: [
-                    { label: 'Cadastrar Solicitação', icon: 'pi pi-fw pi-plus', routerLink: ['/solicitacao-compra/novo'] },
-                    { label: 'Minhas Solicitações', icon: 'pi pi-fw pi-list', routerLink: ['/solicitacao-compra'] },
+                    { label: 'Cadastrar Solicitação', icon: 'pi pi-fw pi-cart-plus', routerLink: ['/solicitacao-compra/novo'] },
+                    { label: 'Minhas Solicitações', icon: 'pi pi-fw pi-shopping-bag', routerLink: ['/solicitacao-compra'] },
                 ]
             },
             {
-                label: 'Relatórios',
+                label: 'Relatórios Gerenciais',
                 visible: this.authService.temPermissao(Role.CONSULTAR_DASHBOARD),
                 items: [
-                    { label: 'Contratos', icon: 'pi pi-fw pi-chart-line', routerLink: ['/relatorios/contrato-relatorio'] },
+                    { label: 'Relatório de Contratos', icon: 'pi pi-fw pi-file-pdf', routerLink: ['/relatorios/contrato-relatorio'] },
                 ]
             }
 
