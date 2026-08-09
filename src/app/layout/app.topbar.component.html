@@ -1,7 +1,7 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="/">
-        <i class="pi pi-building" style="font-size: 1.5rem; margin-right: 0.5rem; color: var(--primary-color);"></i>
-        <span>Gestor de Contratos</span>
+        <i class="pi pi-building text-2xl text-primary mr-2"></i>
+        <span class="font-bold text-xl text-900">Gestor de Obras</span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -12,47 +12,58 @@
         (click)="layoutService.showProfileSidebar()">
         <i class="pi pi-ellipsis-v"></i>
     </button>
-    <div #topbarmenu class="layout-topbar-menu"
-        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}"
-        style="align-items: center; justify-content: center; gap: 20px;">
 
-        <div>
-            <label
-                style="background-color: #f0f0f5; color: #012241;font-weight: bold; padding: 8px 12px; border-radius: 8px; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                {{ nome }}
-            </label>
+    <div #topbarmenu class="layout-topbar-menu flex align-items-center gap-3"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+
+        <!-- Chip de Perfil com Padrão SaaS Market UX -->
+        <div class="user-profile-chip flex align-items-center gap-2 px-3 py-2 border-round-3xl shadow-1"
+            (click)="userPanel.toggle($event)">
+            
+            <div class="avatar-wrapper">
+                <p-avatar [label]="userInitials" shape="circle" size="normal"
+                    styleClass="bg-primary text-white font-bold text-sm shadow-1">
+                </p-avatar>
+                <span class="online-indicator" pTooltip="Conectado" tooltipPosition="top"></span>
+            </div>
+
+            <div class="hidden sm:flex flex-column text-left pl-1 pr-2">
+                <span class="text-900 font-bold text-sm line-height-1 mb-1">{{ nome }}</span>
+                <span class="text-500 font-medium text-xs line-height-1">{{ userRoleLabel }}</span>
+            </div>
+
+            <i class="pi pi-chevron-down text-500 text-xs"></i>
         </div>
-        <div class="notification-container">
-            <!-- <button class="p-link layout-topbar-button" (click)="op.toggle($event)">
-                <i class="pi pi-bell"></i>
-                <span>Notificações</span>
-            </button> -->
-            <p-overlayPanel #op>
-                <div class="flex flex-column gap-3 w-25rem">
-                    <div>
-                        <span class="font-medium text-900 block mb-2">Notificações</span>
-                        <ul class="list-none p-0 m-0 flex flex-column gap-3">
-                            <li *ngFor="let member of members" class="flex align-items-center gap-2">
-                                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/avatar/' + member.image"
-                                    style="width: 32px" />
-                                <div>
-                                    <span class="font-medium">{{ member.name }}</span>
-                                    <div class="text-sm text-color-secondary">{{ member.email }}</div>
-                                </div>
-                                <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
 
-                                </div>
-                            </li>
-                        </ul>
+        <!-- Overlay Panel com Header Elegante & Ações -->
+        <p-overlayPanel #userPanel styleClass="border-round-2xl shadow-5">
+            <div class="p-3" style="width: 270px;">
+                <div class="user-menu-header p-3 mb-2 flex align-items-center gap-3 border-1 surface-border">
+                    <div class="avatar-wrapper">
+                        <p-avatar [label]="userInitials" shape="circle" size="large"
+                            styleClass="bg-primary text-white font-bold text-base shadow-2">
+                        </p-avatar>
+                        <span class="online-indicator" style="width:12px; height:12px;"></span>
+                    </div>
+                    <div class="flex flex-column overflow-hidden">
+                        <span class="text-900 font-bold text-base line-height-2 text-ellipsis overflow-hidden white-space-nowrap" [title]="nome">{{ nome }}</span>
+                        <span class="text-500 text-xs text-ellipsis overflow-hidden white-space-nowrap mb-1" [title]="email">{{ email }}</span>
+                        <span class="inline-flex align-items-center px-2 py-1 border-round-md text-xs font-semibold bg-primary-100 text-primary-700 border-1 border-primary-200" style="width: fit-content;">
+                            <i class="pi pi-shield text-xs mr-1"></i>
+                            {{ userRoleLabel }}
+                        </span>
                     </div>
                 </div>
-            </p-overlayPanel>
-        </div>
 
-        <button class="p-link layout-topbar-button" (click)="logout()">
-            <i class="pi pi-power-off"></i>
-            <span>Logout</span>
-        </button>
+                <p-divider styleClass="my-2"></p-divider>
+
+                <div class="flex flex-column gap-1">
+                    <button pButton label="Sair da Conta" icon="pi pi-power-off"
+                        (click)="logout()" styleClass="p-button-text p-button-danger w-full justify-content-start font-semibold border-round-lg hover:bg-red-50">
+                    </button>
+                </div>
+            </div>
+        </p-overlayPanel>
+
     </div>
-
 </div>

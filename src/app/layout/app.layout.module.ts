@@ -23,6 +23,9 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ChipsModule } from 'primeng/chips';
 import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
+import { AvatarModule } from 'primeng/avatar';
+import { TooltipModule } from 'primeng/tooltip';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
     declarations: [
@@ -51,6 +54,9 @@ import { InputGroupModule } from 'primeng/inputgroup';
         InputGroupModule,
         RippleModule,
         RouterModule,
+        AvatarModule,
+        TooltipModule,
+        DividerModule,
         AppConfigModule
     ],
     exports: [AppLayoutComponent]
