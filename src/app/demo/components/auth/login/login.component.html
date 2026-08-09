@@ -1,110 +1,138 @@
-<div class="min-h-screen flex flex-column surface-0">
+<div class="min-h-screen flex flex-column surface-ground">
 
-    <!-- Header igual ao da landing page -->
+    <!-- Header limpo e moderno -->
     <div class="py-3 px-4 mx-0 md:mx-6 lg:mx-8 lg:px-8 flex align-items-center justify-content-between">
-        <a class="flex align-items-center cursor-pointer" [routerLink]="'/landing'">
+        <a class="flex align-items-center cursor-pointer no-underline gap-2" [routerLink]="'/landing'">
             <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg"
-                alt="Logo" height="50" class="mr-0 lg:mr-2">
-            <span class="text-900 font-medium text-2xl line-height-3">Gestor de Contratos</span>
+                alt="Logo" height="42">
+            <span class="text-900 font-bold text-xl tracking-tight">Gestor de Obras</span>
         </a>
         <div>
-            <button pButton pRipple label="Voltar para o site" [routerLink]="'/landing'"
-                class="p-button-text p-button-rounded border-none font-light line-height-2 text-blue-500">
-            </button>
+            <p-button label="Voltar para o site" icon="pi pi-arrow-left" severity="secondary" [text]="true"
+                [routerLink]="'/landing'" styleClass="border-round-lg">
+            </p-button>
         </div>
     </div>
 
-    <!-- Corpo principal com gradiente igual ao hero da landing -->
-    <div class="flex flex-grow-1"
-        style="background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EEEFAF 0%, #C3E3FA 100%);">
+    <!-- Corpo Principal -->
+    <div class="flex flex-grow-1 align-items-center justify-content-center py-5">
+        <div class="flex flex-column lg:flex-row w-full mx-auto align-items-center justify-content-center px-4" style="max-width: 1200px;">
 
-        <div class="flex flex-column lg:flex-row w-full mx-auto" style="max-width: 1200px;">
+            <!-- Coluna Esquerda: Apresentação Hero (Desktop) -->
+            <div class="hidden lg:flex flex-column justify-content-center align-items-start px-6 py-6 lg:w-6">
+                <div class="inline-flex align-items-center gap-2 px-3 py-1 border-round-2xl bg-primary-50 text-primary font-semibold text-sm mb-4 border-1 border-primary-200 pulse-beacon">
+                    <i class="pi pi-bolt text-xs"></i>
+                    Plataforma Integrada de Obras & Contratos
+                </div>
 
-            <!-- Coluna esquerda: texto informativo (visível apenas em desktop) -->
-            <div class="hidden lg:flex flex-column justify-content-center align-items-start px-6 py-8 lg:w-6">
-                <h1 class="text-6xl font-bold text-gray-900 line-height-2 mt-0">
-                    <span class="font-light block">Gestão Eficiente</span>de Contratos e Obras
+                <h1 class="text-5xl font-extrabold text-900 line-height-2 m-0 mb-3">
+                    Gestão Inteligente de <span class="text-primary">Obras & Equipes</span>
                 </h1>
-                <p class="font-normal text-xl line-height-3 mt-4 text-gray-700">
-                    Centralize a administração de contratos, acompanhe o andamento de obras, gerencie usuários e registre ocorrências em uma única plataforma.
+                
+                <p class="font-normal text-lg line-height-3 text-600 m-0 mb-5">
+                    Centralize RDOs, acompanhe ocorrências, gerencie equipes de campo e controle solicitações de compra em tempo real.
                 </p>
 
-                <div class="mt-5 flex flex-column gap-3">
-                    <div class="flex align-items-center gap-3">
-                        <div class="flex align-items-center justify-content-center bg-yellow-200"
-                            style="width:2.5rem;height:2.5rem;border-radius:8px;flex-shrink:0;">
-                            <i class="pi pi-file text-yellow-700"></i>
+                <!-- Cards com Destaques Visuais -->
+                <div class="grid w-full gap-3 mt-2">
+                    <div class="col-12 sm:col-5 p-3 surface-card border-round-xl border-1 surface-border shadow-1 flex align-items-center gap-3 hover-lift-card card-motion-1">
+                        <div class="flex align-items-center justify-content-center bg-blue-100 text-blue-700 border-round-lg" style="width: 2.75rem; height: 2.75rem;">
+                            <i class="pi pi-file-edit text-xl"></i>
                         </div>
-                        <span class="text-gray-700 text-lg">Gestão completa de contratos e aditivos</span>
+                        <div>
+                            <span class="block text-900 font-bold text-base">RDO Diário</span>
+                            <span class="text-500 text-xs">Relatórios em tempo real</span>
+                        </div>
                     </div>
-                    <div class="flex align-items-center gap-3">
-                        <div class="flex align-items-center justify-content-center bg-cyan-200"
-                            style="width:2.5rem;height:2.5rem;border-radius:8px;flex-shrink:0;">
-                            <i class="pi pi-home text-cyan-700"></i>
+
+                    <div class="col-12 sm:col-5 p-3 surface-card border-round-xl border-1 surface-border shadow-1 flex align-items-center gap-3 hover-lift-card card-motion-2">
+                        <div class="flex align-items-center justify-content-center bg-green-100 text-green-700 border-round-lg" style="width: 2.75rem; height: 2.75rem;">
+                            <i class="pi pi-users text-xl"></i>
                         </div>
-                        <span class="text-gray-700 text-lg">Acompanhamento físico-financeiro de obras</span>
+                        <div>
+                            <span class="block text-900 font-bold text-base">Gestão de Equipes</span>
+                            <span class="text-500 text-xs">Encarregados & Membros</span>
+                        </div>
                     </div>
-                    <div class="flex align-items-center gap-3">
-                        <div class="flex align-items-center justify-content-center bg-blue-200"
-                            style="width:2.5rem;height:2.5rem;border-radius:8px;flex-shrink:0;">
-                            <i class="pi pi-shield text-blue-700"></i>
+
+                    <div class="col-12 sm:col-5 p-3 surface-card border-round-xl border-1 surface-border shadow-1 flex align-items-center gap-3 hover-lift-card card-motion-3">
+                        <div class="flex align-items-center justify-content-center bg-orange-100 text-orange-700 border-round-lg" style="width: 2.75rem; height: 2.75rem;">
+                            <i class="pi pi-shopping-cart text-xl"></i>
                         </div>
-                        <span class="text-gray-700 text-lg">Segurança e controle de acesso por perfis</span>
+                        <div>
+                            <span class="block text-900 font-bold text-base">Solicitações</span>
+                            <span class="text-500 text-xs">Controle de suprimentos</span>
+                        </div>
                     </div>
-                    <div class="flex align-items-center gap-3">
-                        <div class="flex align-items-center justify-content-center bg-pink-200"
-                            style="width:2.5rem;height:2.5rem;border-radius:8px;flex-shrink:0;">
-                            <i class="pi pi-chart-line text-pink-700"></i>
+
+                    <div class="col-12 sm:col-5 p-3 surface-card border-round-xl border-1 surface-border shadow-1 flex align-items-center gap-3 hover-lift-card card-motion-4">
+                        <div class="flex align-items-center justify-content-center bg-purple-100 text-purple-700 border-round-lg" style="width: 2.75rem; height: 2.75rem;">
+                            <i class="pi pi-chart-line text-xl"></i>
                         </div>
-                        <span class="text-gray-700 text-lg">Relatórios e dashboards gerenciais</span>
+                        <div>
+                            <span class="block text-900 font-bold text-base">Dashboards</span>
+                            <span class="text-500 text-xs">Métricas de produção</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Coluna direita: formulário de login -->
-            <div class="flex flex-column justify-content-center align-items-center px-4 py-8 w-full lg:w-6">
-                <form #formulario="ngForm" autocomplete="off" class="w-full" style="max-width: 420px;">
-                    <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-                        <div class="surface-card py-7 px-5 sm:px-7" style="border-radius:53px;">
+            <!-- Coluna Direita: Card de Form de Login (Modern SaaS) -->
+            <div class="flex flex-column justify-content-center align-items-center px-3 py-4 w-full lg:w-6">
+                <form (ngSubmit)="login()" autocomplete="off" class="w-full" style="max-width: 440px;">
+                    <div class="surface-card p-4 sm:p-6 border-round-2xl shadow-3 border-1 surface-border shine-effect hover-lift-card">
 
-                            <div class="text-center mb-5">
-                                <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg"
-                                    alt="Logo" height="50" class="mb-3">
-                                <h2 class="text-900 text-2xl font-medium mb-1">Bem-vindo de volta</h2>
-                                <span class="text-600">Acesse sua conta para continuar</span>
+                        <!-- Header do Card -->
+                        <div class="text-center mb-5">
+                            <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg"
+                                alt="Logo" height="44" class="mb-3">
+                            <h2 class="text-900 text-2xl font-bold m-0">Bem-vindo de volta</h2>
+                            <p class="text-500 text-sm m-0 mt-1">Acesse sua conta para continuar</p>
+                        </div>
+
+                        <!-- Form Fields -->
+                        <div class="flex flex-column gap-3">
+                            <div>
+                                <label for="email1" class="block text-900 text-sm font-semibold mb-2">E-mail</label>
+                                <span class="p-input-icon-left w-full">
+                                    <i class="pi pi-envelope text-500"></i>
+                                    <input id="email1" type="email" placeholder="seu.email@empresa.com" name="email" pInputText
+                                        class="w-full border-round-lg p-3 pl-6" [(ngModel)]="email" required />
+                                </span>
                             </div>
 
                             <div>
-                                <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                                <input id="email1" type="text" placeholder="seu@email.com" name="email" pInputText
-                                    class="w-full mb-4" style="padding:1rem" [(ngModel)]="email">
-
-                                <label for="password1" class="block text-900 font-medium text-xl mb-2">Senha</label>
-                                <p-password id="password1" [(ngModel)]="senha" name="senha" placeholder="Sua senha"
-                                    [toggleMask]="true" styleClass="mb-4" inputStyleClass="w-full p-3">
-                                </p-password>
-
-                                <div class="flex align-items-center justify-content-between mb-5 gap-3">
-                                    <div class="flex align-items-center">
-                                        <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
-                                        <label for="rememberme1" class="text-900">Lembrar-se</label>
-                                    </div>
-                                    <a class="font-medium no-underline text-right cursor-pointer"
-                                        style="color: var(--primary-color)">Esqueceu a senha?</a>
-                                </div>
-
-                                <button pButton pRipple label="Entrar" class="w-full p-3 text-xl mb-4"
-                                    (click)="login()"></button>
-
-                                <div class="text-center">
-                                    <span class="text-600">Não tem uma conta? </span>
-                                    <a class="font-medium no-underline cursor-pointer"
-                                        style="color: var(--primary-color)"
-                                        [routerLink]="'/auth/login/cadastrar'">Criar conta</a>
-                                </div>
+                                <label for="password1" class="block text-900 text-sm font-semibold mb-2">Senha</label>
+                                <span class="p-input-icon-left w-full">
+                                    <i class="pi pi-lock text-500"></i>
+                                    <p-password id="password1" [(ngModel)]="senha" name="senha" placeholder="Digite sua senha"
+                                        [toggleMask]="true" [feedback]="false" styleClass="w-full" inputStyleClass="w-full p-3 pl-6 border-round-lg">
+                                    </p-password>
+                                </span>
                             </div>
 
+                            <!-- Opções Secundárias -->
+                            <div class="flex align-items-center justify-content-between my-2 gap-2">
+                                <div class="flex align-items-center">
+                                    <p-checkbox id="rememberme1" [binary]="true" [(ngModel)]="rememberMe" name="rememberMe" styleClass="mr-2"></p-checkbox>
+                                    <label for="rememberme1" class="text-700 text-sm cursor-pointer">Lembrar-me</label>
+                                </div>
+                                <a class="text-primary font-semibold text-sm no-underline hover:underline cursor-pointer">Esqueceu a senha?</a>
+                            </div>
+
+                            <!-- Botão Entrar -->
+                            <p-button label="Entrar no Sistema" type="submit" [loading]="carregando"
+                                styleClass="p-button-primary border-round-lg font-bold w-full p-3 shadow-2 text-base">
+                            </p-button>
+
+                            <!-- Footer Criar Conta -->
+                            <div class="text-center mt-3 pt-3 border-top-1 surface-border">
+                                <span class="text-600 text-sm">Não possui uma conta? </span>
+                                <a class="text-primary font-bold text-sm no-underline hover:underline cursor-pointer"
+                                    [routerLink]="'/auth/login/cadastrar'">Criar nova conta</a>
+                            </div>
                         </div>
+
                     </div>
                 </form>
             </div>
@@ -112,9 +140,9 @@
         </div>
     </div>
 
-    <!-- Rodapé simples -->
-    <div class="text-center py-3 text-600 text-sm surface-0">
-        &copy; {{ currentYear }} Gestor de Contratos. Todos os direitos reservados.
+    <!-- Footer Simples -->
+    <div class="text-center py-3 text-500 text-xs surface-0 border-top-1 surface-border">
+        &copy; {{ currentYear }} Gestor de Obras & Contratos. Todos os direitos reservados.
     </div>
 
 </div>

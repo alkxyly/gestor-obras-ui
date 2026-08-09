@@ -1,11 +1,14 @@
 <div class="card">
-    <div
-        class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4">
+    <!-- Cabeçalho da Página -->
+    <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
         <div>
-            <h4 class="text-900 font-bold m-0">Minhas Equipes</h4>
+            <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-users text-primary text-2xl"></i>
+                Minhas Equipes
+            </h2>
             <p class="text-500 m-0 mt-1">Listagem de equipes cadastradas, encarregados e membros</p>
         </div>
-        <p-button label="Nova Equipe" icon="pi pi-plus" (onClick)="novaEquipe()" styleClass="w-full sm:w-auto">
+        <p-button label="Nova Equipe" icon="pi pi-plus" (onClick)="novaEquipe()" styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto">
         </p-button>
     </div>
 
@@ -18,7 +21,6 @@
                 <th>Nome da Equipe</th>
                 <th>Encarregado Responsável</th>
                 <th>Membros da Equipe</th>
-
             </tr>
         </ng-template>
 
@@ -31,8 +33,8 @@
                 <td>
                     <span class="p-column-title">Encarregado</span>
                     <div class="flex align-items-center gap-2">
-                        <i class="pi pi-user text-primary"></i>
-                        <span class="font-medium">{{ getEncarregadoNome(equipe) }}</span>
+                        <i class="pi pi-user text-primary font-semibold"></i>
+                        <span class="font-medium text-900">{{ getEncarregadoNome(equipe) }}</span>
                     </div>
                 </td>
                 <td>
@@ -40,7 +42,7 @@
                     <div class="flex flex-wrap gap-1"
                         *ngIf="equipe.membros && equipe.membros.length > 0; else noMembros">
                         <span *ngFor="let membro of equipe.membros"
-                            class="inline-flex align-items-center px-2 py-1 border-round text-sm font-medium bg-blue-50 text-blue-700 border-1 border-blue-200">
+                            class="inline-flex align-items-center px-2 py-1 border-round-lg text-sm font-medium bg-blue-50 text-blue-700 border-1 border-blue-200">
                             <i class="pi pi-user mr-1 text-xs"></i>
                             {{ membro.nome }}
                         </span>
@@ -54,7 +56,7 @@
 
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="4" class="text-center p-4">
+                <td colspan="4" class="text-center p-5">
                     <div class="flex flex-column align-items-center gap-2">
                         <i class="pi pi-users text-400 text-4xl"></i>
                         <span class="text-600 font-medium">Nenhuma equipe encontrada.</span>

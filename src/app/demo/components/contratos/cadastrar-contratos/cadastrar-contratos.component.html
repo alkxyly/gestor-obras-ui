@@ -1,11 +1,24 @@
 <div class="grid">
     <div class="col-12">
-        <p-card [header]="modoEdicao ? 'Editar Contrato' : 'Cadastrar Contrato'">
+        <p-card>
+            <!-- Cabeçalho da Página -->
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+                <div>
+                    <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                        <i class="pi pi-briefcase text-primary text-2xl"></i>
+                        {{ modoEdicao ? 'Editar Contrato' : 'Cadastrar Contrato' }}
+                    </h2>
+                    <p class="text-500 m-0 mt-1">Preencha os dados do contrato, responsáveis, prazos e ocorrências associadas</p>
+                </div>
+                <p-button label="Meus Contratos" icon="pi pi-list" severity="secondary" [outlined]="true"
+                    routerLink="/contratos/meus-contratos" styleClass="p-button-sm border-round-lg w-full sm:w-auto">
+                </p-button>
+            </div>
 
             <div class="p-fluid p-formgrid grid">
 
-                <div class="field col-6">
-                    <label htmlFor="nome">Nome do Contrato</label>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="nome" class="block text-900 text-base font-semibold mb-2">Nome do Contrato</label>
                     <input pInputText id="nome" type="text" [(ngModel)]="contrato.nome" placeholder="Ex: GE/4081"
                         required #nome="ngModel" />
                     <small class="p-error" *ngIf="nome.invalid && (nome.dirty || nome.touched)">
@@ -13,18 +26,18 @@
                     </small>
                 </div>
 
-                <div class="field  col-6">
-                    <label for="usuarios" class="block text-900 text-xl font-medium mb-2">Engenheiro Responsável</label>
+                <div class="field col-12 md:col-6">
+                    <label for="usuarios" class="block text-900 text-base font-semibold mb-2">Engenheiro Responsável</label>
                     <p-dropdown [options]="usuarios" [(ngModel)]="usuarioSelecionado" optionLabel="nome"
-                        placeholder="Selecione um usuário">
+                        placeholder="Selecione um usuário" styleClass="w-full">
                     </p-dropdown>
                 </div>
 
                 <div class="field col-12">
-                    <div class="flex align-items-center gap-3">
+                    <div class="flex align-items-center gap-3 p-3 surface-50 border-1 surface-border border-round-lg">
                         <p-inputSwitch [(ngModel)]="isContratoManutencao" inputId="manutencao"></p-inputSwitch>
-                        <label for="manutencao" class="cursor-pointer font-medium">
-                            <i class="pi pi-wrench mr-2" style="color: var(--primary-color)"></i>
+                        <label for="manutencao" class="cursor-pointer font-semibold text-900 m-0 flex align-items-center">
+                            <i class="pi pi-wrench text-primary mr-2"></i>
                             Contrato de Manutenção
                         </label>
                     </div>
@@ -32,30 +45,30 @@
 
                 <div class="field col-12 md:col-6" *ngIf="isContratoManutencao"
                     style="animation: fadein 0.3s ease-in-out">
-                    <label htmlFor="valorManutencao">Valor do Contrato de Manutenção</label>
+                    <label htmlFor="valorManutencao" class="block text-900 text-base font-semibold mb-2">Valor do Contrato de Manutenção</label>
                     <p-inputNumber id="valorManutencao" [(ngModel)]="valorManutencao" mode="currency" currency="BRL"
-                        locale="pt-BR" placeholder="R$ 0,00" [minFractionDigits]="2">
+                        locale="pt-BR" placeholder="R$ 0,00" [minFractionDigits]="2" styleClass="w-full">
                     </p-inputNumber>
                 </div>
 
                 <div class="field col-12">
-                    <label for="funcionarios" class="block text-900 text-xl font-medium mb-2">Funcionários</label>
+                    <label for="funcionarios" class="block text-900 text-base font-semibold mb-2">Funcionários</label>
                     <p-multiSelect [options]="funcionarios" [(ngModel)]="funcionariosSelecionados" optionLabel="nome"
-                        defaultLabel="Selecione os funcionários" display="chip">
+                        defaultLabel="Selecione os funcionários" display="chip" styleClass="w-full">
                     </p-multiSelect>
                 </div>
 
                 <div class="field col-12">
-                    <label htmlFor="descricao">Descrição do Contrato</label>
+                    <label htmlFor="descricao" class="block text-900 text-base font-semibold mb-2">Descrição do Contrato</label>
                     <textarea id="descricao" pInputTextarea [(ngModel)]="contrato.descricao" required rows="3" cols="30"
                         placeholder="Descrição do Contrato" #descricao="ngModel">
                     </textarea>
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label htmlFor="dataInicio">Data de Início</label>
+                    <label htmlFor="dataInicio" class="block text-900 text-base font-semibold mb-2">Data de Início</label>
                     <p-calendar id="dataInicio" [(ngModel)]="contrato.dataInicio" [showIcon]="true"
-                        dateFormat="dd/mm/yy" placeholder="00/00/0000" required #dataInicio="ngModel">
+                        dateFormat="dd/mm/yy" placeholder="00/00/0000" required #dataInicio="ngModel" styleClass="w-full">
                     </p-calendar>
                     <small class="p-error" *ngIf="dataInicio.invalid && (dataInicio.dirty || dataInicio.touched)">
                         A data de início é obrigatória.
@@ -63,28 +76,28 @@
                 </div>
 
                 <div class="field col-12 md:col-6">
-                    <label htmlFor="dataFim">Data de Fim</label>
+                    <label htmlFor="dataFim" class="block text-900 text-base font-semibold mb-2">Data de Fim</label>
                     <p-calendar id="dataFim" [(ngModel)]="contrato.dataFim" [showIcon]="true" dateFormat="dd/mm/yy"
-                        placeholder="00/00/0000" required #dataFim="ngModel">
+                        placeholder="00/00/0000" required #dataFim="ngModel" styleClass="w-full">
                     </p-calendar>
                     <small class="p-error" *ngIf="dataFim.invalid && (dataFim.dirty || dataFim.touched)">
                         A data de fim é obrigatória.
                     </small>
                 </div>
 
-                <div class="field col-12">
-                    <label for="pickList">Ocorrências do Contrato</label>
+                <div class="field col-12 mt-2">
+                    <label for="pickList" class="block text-900 text-base font-semibold mb-2">Ocorrências do Contrato</label>
                     <p-pickList [source]="ocorrencias" [target]="ocorrenciasTarget" sourceHeader="Disponíveis"
                         targetHeader="Selecionados" [dragdrop]="true" [responsive]="true"
-                        [sourceStyle]="{ height: '30rem' }" [targetStyle]="{ height: '30rem' }" breakpoint="1400px">
+                        [sourceStyle]="{ height: '25rem' }" [targetStyle]="{ height: '25rem' }" breakpoint="1400px">
 
                         <ng-template let-item pTemplate="item">
                             <div class="flex flex-wrap p-2 align-items-center gap-3">
                                 <div class="flex-1 flex flex-column gap-2">
-                                    <span class="font-bold">{{ item.descricao }}</span>
+                                    <span class="font-bold text-900">{{ item.descricao }}</span>
                                     <div class="flex align-items-center gap-2">
-                                        <i class="pi pi-tag text-sm"></i>
-                                        <span>{{ item.valor | currency:'BRL' }}</span>
+                                        <i class="pi pi-tag text-primary text-sm"></i>
+                                        <span class="font-semibold text-green-600">{{ item.valor | currency:'BRL' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -93,11 +106,12 @@
                     </p-pickList>
                 </div>
 
-                <div class="col-12 flex justify-content-end mt-4">
-                    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text mr-2"
-                        routerLink="/contratos/meus-contratos"></button>
-                    <button pButton [label]="modoEdicao ? 'Atualizar Contrato' : 'Salvar Contrato'" icon="pi pi-check"
-                        (click)="salvar()"></button>
+                <div class="col-12 mt-5 pt-4 border-top-1 surface-border flex flex-column-reverse sm:flex-row justify-content-between align-items-center gap-3">
+                    <p-button label="Voltar" icon="pi pi-arrow-left" severity="secondary" [outlined]="true"
+                        routerLink="/contratos/meus-contratos" styleClass="w-full sm:w-auto border-round-lg">
+                    </p-button>
+                    <p-button [label]="modoEdicao ? 'Atualizar Contrato' : 'Salvar Contrato'" icon="pi pi-check" styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto"
+                        (onClick)="salvar()"></p-button>
                 </div>
 
             </div>

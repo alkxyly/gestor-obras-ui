@@ -1,21 +1,30 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <h5>Gestão de Ocorrências</h5>
+            <!-- Cabeçalho da Página -->
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+                <div>
+                    <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                        <i class="pi pi-exclamation-circle text-primary text-2xl"></i>
+                        Gestão de Ocorrências
+                    </h2>
+                    <p class="text-500 m-0 mt-1">Gerencie a tabela de preços, descrições e unidades de medida de ocorrências</p>
+                </div>
+                <p-button label="Nova Ocorrência" icon="pi pi-plus" [routerLink]="['/ocorrencias']" styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto">
+                </p-button>
+            </div>
 
             <p-table #dt [value]="ocorrencias" responsiveLayout="stack" [breakpoint]="'960px'" [rows]="10"
                 [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="multiple" [rowHover]="true"
-                dataKey="id">
+                dataKey="id" styleClass="p-datatable-striped">
 
                 <ng-template pTemplate="caption">
-                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center pb-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left w-full md:w-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                                placeholder="Buscar ocorrência..." />
+                                placeholder="Buscar ocorrência..." class="w-full md:w-auto" />
                         </span>
-                        <button pButton label="Cadastrar" icon="pi pi-plus" class="p-button-success mr-2"
-                            [routerLink]="['/ocorrencias']"></button>
                     </div>
                 </ng-template>
 
@@ -24,7 +33,7 @@
                         <th pSortableColumn="descricao">Descrição <p-sortIcon field="descricao"></p-sortIcon></th>
                         <th pSortableColumn="valor">Valor <p-sortIcon field="valor"></p-sortIcon></th>
                         <th pSortableColumn="unidade">Unidade <p-sortIcon field="unidade"></p-sortIcon></th>
-                        <th>Ações</th>
+                        <th style="width: 8rem">Ações</th>
                     </tr>
                 </ng-template>
 
@@ -32,31 +41,22 @@
                     <tr>
                         <td>
                             <span class="p-column-title">Descrição</span>
-                            {{ocorrencia.descricao}}
+                            <span class="font-semibold text-900">{{ocorrencia.descricao}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">Valor</span>
-                            {{ ocorrencia.valor | currency:'BRL':'symbol':'1.2-2' }}
+                            <span class="font-semibold text-green-600">{{ ocorrencia.valor | currency:'BRL':'symbol':'1.2-2' }}</span>
                         </td>
                         <td>
                             <span class="p-column-title">Unidade</span>
                             {{ocorrencia.unidade}}
                         </td>
                         <td>
-                            <div class="flex gap-2">
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Ocorrência"
-                                    tooltipPosition="bottom" [routerLink]="['/ocorrencias/editar', ocorrencia.id]">
-                                </button>
-
-                                <!-- <button 
-                                    pButton 
-                                    pRipple 
-                                    icon="pi pi-trash" 
-                                    class="p-button-rounded p-button-text p-button-danger" 
-                                    pTooltip="Excluir Ocorrência" 
-                                    tooltipPosition="bottom">
-                                </button> -->
+                            <div class="flex gap-1 action-buttons-group">
+                                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info"
+                                    pTooltip="Editar Ocorrência" tooltipPosition="top"
+                                    [routerLink]="['/ocorrencias/editar', ocorrencia.id]">
+                                </p-button>
                             </div>
                         </td>
                     </tr>

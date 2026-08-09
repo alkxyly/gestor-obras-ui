@@ -1,21 +1,30 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <h5>Gestão de Usuários</h5>
+            <!-- Cabeçalho da Página -->
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+                <div>
+                    <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                        <i class="pi pi-users text-primary text-2xl"></i>
+                        Gestão de Usuários
+                    </h2>
+                    <p class="text-500 m-0 mt-1">Gerencie os usuários cadastrados e suas permissões no sistema</p>
+                </div>
+                <p-button label="Novo Usuário" icon="pi pi-plus" routerLink="/usuarios" styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto">
+                </p-button>
+            </div>
 
             <p-table #dt [value]="usuarios" [columns]="cols" responsiveLayout="stack" [breakpoint]="'960px'" [rows]="10"
                 [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="multiple" [rowHover]="true"
-                dataKey="id">
+                dataKey="id" styleClass="p-datatable-striped">
 
                 <ng-template pTemplate="caption">
-                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center pb-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left w-full md:w-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                                placeholder="Buscar usuário..." />
+                                placeholder="Buscar usuário..." class="w-full md:w-auto" />
                         </span>
-                        <button pButton label="Novo Usuário" icon="pi pi-plus" class="p-button-success"
-                            routerLink="/usuarios"></button>
                     </div>
                 </ng-template>
 
@@ -27,7 +36,7 @@
                         <th pSortableColumn="perfil">Perfil <p-sortIcon field="perfil"></p-sortIcon></th>
                         <th pSortableColumn="telefone">Telefone <p-sortIcon field="telefone"></p-sortIcon></th>
                         <th pSortableColumn="ativo">Ativo <p-sortIcon field="ativo"></p-sortIcon></th>
-                        <th>Ações</th>
+                        <th style="width: 10rem">Ações</th>
                     </tr>
                 </ng-template>
 
@@ -35,7 +44,7 @@
                     <tr>
                         <td>
                             <span class="p-column-title">Nome</span>
-                            {{usuario.nome}}
+                            <span class="font-semibold text-900">{{usuario.nome}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">Email</span>
@@ -51,12 +60,9 @@
                         </td>
                         <td>
                             <span class="p-column-title">Telefone</span>
-
                             <div class="flex align-items-center gap-2">
                                 <span>{{usuario.telefone}}</span>
                             </div>
-
-
                         </td>
                         <td>
                             <span class="p-column-title">Ativo</span>
@@ -64,25 +70,25 @@
                                 [ngClass]="{'true-icon pi-check-circle text-green-500': usuario.ativo, 'false-icon pi-times-circle text-pink-500': !usuario.ativo}"></i>
                         </td>
                         <td>
-                            <div class="flex gap-4">
+                            <div class="flex gap-1 action-buttons-group">
+                                <p-button icon="pi pi-whatsapp" [rounded]="true" [text]="true" severity="success"
+                                    pTooltip="Enviar mensagem WhatsApp" tooltipPosition="top"
+                                    (onClick)="enviarMensagemWhatsapp(usuario.telefone)">
+                                </p-button>
 
-                                <p-button icon="pi pi-whatsapp" [rounded]="true" [text]="true"
-                                    (click)="enviarMensagemWhatsapp(usuario.telefone)" styleClass="p-button-success" />
+                                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info"
+                                    pTooltip="Editar Usuário" tooltipPosition="top">
+                                </p-button>
 
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Usuário"
-                                    tooltipPosition="bottom">
-                                </button>
+                                <p-button *ngIf="usuario.ativo" icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                                    pTooltip="Inativar Usuário" tooltipPosition="top"
+                                    (onClick)="inativarUsuario(usuario)">
+                                </p-button>
 
-                                <button *ngIf="usuario.ativo" pButton pRipple icon="pi pi-trash"
-                                    class="p-button-rounded p-button-text p-button-danger" pTooltip="Inativar Usuário"
-                                    tooltipPosition="bottom" (click)="inativarUsuario(usuario)">
-                                </button>
-
-                                <button *ngIf="!usuario.ativo" pButton pRipple icon="pi pi-check"
-                                    class="p-button-rounded p-button-text p-button-success" pTooltip="Ativar Usuário"
-                                    tooltipPosition="bottom" (click)="ativarUsuario(usuario)">
-                                </button>
+                                <p-button *ngIf="!usuario.ativo" icon="pi pi-check" [rounded]="true" [text]="true" severity="success"
+                                    pTooltip="Ativar Usuário" tooltipPosition="top"
+                                    (onClick)="ativarUsuario(usuario)">
+                                </p-button>
                             </div>
                         </td>
                     </tr>

@@ -1,13 +1,18 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mb-4">
-                <h5 class="m-0 mb-3 md:mb-0">Relatório de Contratos</h5>
+            <!-- Cabeçalho da Página -->
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
                 <div>
-                    <p-button icon="pi pi-file-pdf" label="PDF" styleClass="p-button-danger p-button-outlined mr-2"
+                    <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                        <i class="pi pi-chart-bar text-primary text-2xl"></i>
+                        Relatório de Contratos
+                    </h2>
+                    <p class="text-500 m-0 mt-1">Consolidação de produção por usuário, quilometragens e total de ocorrências</p>
+                </div>
+                <div>
+                    <p-button icon="pi pi-file-pdf" label="Exportar PDF" styleClass="p-button-danger border-round-lg font-bold shadow-2"
                         (onClick)="exportPdf()"></p-button>
-                    <!-- <p-button icon="pi pi-file-excel" label="Excel" styleClass="p-button-success p-button-outlined"
-                        (onClick)="exportExcel()"></p-button> -->
                 </div>
             </div>
 

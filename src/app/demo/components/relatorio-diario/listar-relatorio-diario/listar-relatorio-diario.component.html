@@ -1,27 +1,41 @@
 <form [formGroup]="reportForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
 
-    <p-card [header]="isEditMode ? 'Editar Relatório Diário' : 'Relatório Diário de Atividades'">
+    <p-card>
+        <!-- Header da Página e Ações Rápidas -->
+        <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+            <div>
+                <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                    <i class="pi pi-file-edit text-primary text-2xl"></i>
+                    {{ isEditMode ? 'Editar Relatório Diário' : 'Relatório Diário de Atividades (RDO)' }}
+                </h2>
+                <p class="text-500 m-0 mt-1">Preencha e gerencie os registros e ocorrências diárias da obra</p>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto justify-content-end">
+                <p-button label="Meus Relatórios" icon="pi pi-list" severity="secondary" [outlined]="true"
+                    routerLink="/relatorio-diario/meus-relatorios" styleClass="p-button-sm border-round-lg w-full sm:w-auto">
+                </p-button>
+            </div>
+        </div>
 
         <div class="p-fluid p-formgrid grid">
 
-
-            <div class="field  col-6">
-                <label for="contratos" class="block text-900 text-xl font-medium mb-2">Contrato</label>
+            <div class="field col-12 md:col-6">
+                <label for="contratos" class="block text-900 text-base font-semibold mb-2">Contrato</label>
                 <p-dropdown [options]="contratos" [(ngModel)]="contratoSelecionado" optionLabel="nome" dataKey="id"
                     [ngModelOptions]="{standalone: true}" placeholder="Selecione um contrato"
-                    (onChange)="onContratoChange($event)">
+                    (onChange)="onContratoChange($event)" styleClass="w-full">
                 </p-dropdown>
             </div>
 
-            <div class="field  col-6">
-                <label for="date" class="font-bold">Data do Relatório</label>
+            <div class="field col-12 md:col-6">
+                <label for="date" class="block text-900 text-base font-semibold mb-2">Data do Relatório</label>
                 <p-calendar id="date" formControlName="dataCadastro" [showIcon]="true" dateFormat="dd/mm/yy"
-                    placeholder="Selecione a data">
+                    placeholder="Selecione a data" styleClass="w-full">
                 </p-calendar>
             </div>
 
             <div class="field col-12">
-                <label class="font-bold mb-2 block">Condição Climática</label>
+                <label class="block text-900 text-base font-semibold mb-2">Condição Climática</label>
                 <div class="weather-selector">
                     <p-selectButton [options]="climaOptions" formControlName="condicaoClimatica" optionLabel="label"
                         optionValue="value" styleClass="w-full">
@@ -34,40 +48,39 @@
             </div>
 
             <div class="field col-12">
-                <label class="font-bold">Localização</label>
+                <label class="block text-900 text-base font-semibold mb-2">Localização</label>
                 <app-select-localidade formControlName="localizacao"></app-select-localidade>
             </div>
 
-            <div class="field  col-12">
-                <label for="titulo" class="font-bold">Título da Atividade</label>
-                <input pInputText id="titulo" formControlName="titulo" placeholder="Ex: Relatório Diário" />
+            <div class="field col-12">
+                <label for="titulo" class="block text-900 text-base font-semibold mb-2">Título da Atividade</label>
+                <input pInputText id="titulo" formControlName="titulo" placeholder="Ex: Relatório Diário de Obra" />
             </div>
 
-            <div class="field  col-12">
-                <label for="descricao" class="font-bold">Descrição das Atividades</label>
-                <textarea pInputTextarea id="descricao" formControlName="descricao" rows="5" [autoResize]="true"
-                    maxlength="5000" placeholder="Descreva o que foi realizado hoje...">
+            <div class="field col-12">
+                <label for="descricao" class="block text-900 text-base font-semibold mb-2">Descrição das Atividades</label>
+                <textarea pInputTextarea id="descricao" formControlName="descricao" rows="4" [autoResize]="true"
+                    maxlength="5000" placeholder="Descreva detalhadamente o que foi realizado hoje...">
                 </textarea>
             </div>
 
-            <div class="field  col-4">
-                <label for="linha" class="font-bold">Linha</label>
-                <input pInputText id="linha" formControlName="linha" placeholder="" />
+            <div class="field col-12 md:col-4">
+                <label for="linha" class="block text-900 text-base font-semibold mb-2">Linha</label>
+                <input pInputText id="linha" formControlName="linha" placeholder="Ex: Linha 01" />
             </div>
 
-            <div class="field  col-4">
-                <label for="estrutura" class="font-bold">Estrutura</label>
-                <input pInputText id="estrutura" formControlName="estrutura" placeholder="" />
+            <div class="field col-12 md:col-4">
+                <label for="estrutura" class="block text-900 text-base font-semibold mb-2">Estrutura</label>
+                <input pInputText id="estrutura" formControlName="estrutura" placeholder="Ex: Torre 12" />
             </div>
 
-            <div class="field  col-4">
-                <label for="kmPercorrido" class="font-bold">Quilômetro Percorrido</label>
-                <p-inputNumber formControlName="kmPercorrido" inputId="kmPercorrido" suffix=" KM" />
+            <div class="field col-12 md:col-4">
+                <label for="kmPercorrido" class="block text-900 text-base font-semibold mb-2">Quilômetro Percorrido</label>
+                <p-inputNumber formControlName="kmPercorrido" inputId="kmPercorrido" suffix=" KM" styleClass="w-full" />
             </div>
-
 
             <div class="col-12 flex flex-column gap-2 mb-3">
-                <label for="funcionariosAusentesId" class="font-bold">Funcionários Ausentes</label>
+                <label for="funcionariosAusentesId" class="block text-900 text-base font-semibold mb-1">Funcionários Ausentes</label>
                 <p-multiSelect id="funcionariosAusentesId" [options]="equipe" dataKey="id"
                     formControlName="funcionariosAusentesId" optionLabel="nome" placeholder="Selecione quem faltou hoje"
                     [maxSelectedLabels]="100" display="chip" [filter]="true"
@@ -87,67 +100,83 @@
                         </div>
                     </ng-template>
                 </p-multiSelect>
-                <small class="text-gray-500">Se todos estiverem presentes, deixe em branco.</small>
+                <small class="text-500">Se todos estiverem presentes, deixe em branco.</small>
             </div>
 
+            <!-- Seção de Ocorrências com Ações Melhoradas -->
             <div class="col-12 mt-4">
-                <div class="flex justify-content-between align-items-center mb-2">
-                    <h3 class="m-0 text-xl font-bold text-800">Ocorrências do Dia</h3>
-                    <p-button label="Adicionar Ocorrência" icon="pi pi-plus" size="small" severity="success"
-                        [outlined]="true" (onClick)="addOcorrencia()">
+                <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center mb-3 gap-2 pb-2 border-bottom-1 surface-border">
+                    <div>
+                        <h3 class="m-0 text-xl font-bold text-900 flex align-items-center gap-2">
+                            <i class="pi pi-list-check text-primary"></i>
+                            Ocorrências do Dia
+                        </h3>
+                        <span class="text-sm text-500">Adicione os serviços e itens executados durante o dia</span>
+                    </div>
+                    <p-button label="Adicionar Ocorrência" icon="pi pi-plus-circle" size="small" severity="success"
+                        [outlined]="true" (onClick)="addOcorrencia()" styleClass="border-round-lg hover:shadow-1 transition-all">
                     </p-button>
                 </div>
 
                 <div formArrayName="ocorrencias">
                     <div *ngFor="let item of ocorrencias.controls; let i = index" [formGroupName]="i"
-                        class="grid align-items-end mb-2 border-bottom-1 border-gray-200 pb-2">
+                        class="ocorrencia-card p-3 mb-3 surface-50 border-1 surface-border border-round-lg shadow-1 transition-all">
 
-                        <div class="col-12 md:col-7 flex flex-column gap-2">
-                            <label class="font-bold text-sm">Tipo de Ocorrência</label>
-                            <p-dropdown formControlName="tipo" [options]="tiposOcorrencias" optionLabel="descricao"
-                                optionValue="id" placeholder="Selecione a ocorrência" [filter]="true" appendTo="body"
-                                styleClass="w-full">
-                            </p-dropdown>
-                        </div>
+                        <div class="grid align-items-center">
+                            <div class="col-12 md:col-7 flex flex-column gap-2">
+                                <label class="font-semibold text-sm text-700 flex align-items-center gap-2">
+                                    <span class="badge-index bg-primary-100 text-primary font-bold border-circle flex align-items-center justify-content-center" style="width: 22px; height: 22px; font-size: 0.75rem;">
+                                        {{ i + 1 }}
+                                    </span>
+                                    Tipo de Ocorrência
+                                </label>
+                                <p-dropdown formControlName="tipo" [options]="tiposOcorrencias" optionLabel="descricao"
+                                    optionValue="id" placeholder="Selecione a ocorrência" [filter]="true" appendTo="body"
+                                    styleClass="w-full">
+                                </p-dropdown>
+                            </div>
 
-                        <div class="col-8 md:col-3 flex flex-column gap-2">
-                            <label [for]="'qtd-' + i" class="text-sm font-semibold">Qtd.</label>
-                            <p-inputNumber [id]="'qtd-' + i" formControlName="quantidade" [showButtons]="true"
-                                buttonLayout="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus"
-                                decrementButtonIcon="pi pi-minus" [min]="1" styleClass="w-full">
-                            </p-inputNumber>
-                        </div>
+                            <div class="col-8 md:col-3 flex flex-column gap-2">
+                                <label [for]="'qtd-' + i" class="text-sm font-semibold text-700">Quantidade</label>
+                                <p-inputNumber [id]="'qtd-' + i" formControlName="quantidade" [showButtons]="true"
+                                    buttonLayout="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus"
+                                    decrementButtonIcon="pi pi-minus" [min]="1" styleClass="w-full">
+                                </p-inputNumber>
+                            </div>
 
-                        <div class="col-4 md:col-1 flex justify-content-center">
-                            <p-button icon="pi pi-trash" severity="danger" [text]="true"
-                                (onClick)="removeOcorrencia(i)">
-                            </p-button>
+                            <div class="col-4 md:col-2 flex justify-content-end md:justify-content-center align-self-end pb-1">
+                                <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true"
+                                    pTooltip="Remover esta ocorrência" tooltipPosition="top"
+                                    (onClick)="removeOcorrencia(i)" styleClass="hover:bg-red-50">
+                                </p-button>
+                            </div>
                         </div>
 
                     </div>
                 </div>
 
                 <div *ngIf="ocorrencias.length === 0"
-                    class="text-center p-4 border-1 border-dashed border-300 border-round bg-gray-50">
-                    <p class="text-gray-500 m-0">Nenhuma ocorrência registrada hoje.</p>
+                    class="text-center p-4 border-1 border-dashed border-300 border-round-lg surface-50 flex flex-column align-items-center gap-2">
+                    <i class="pi pi-exclamation-circle text-400 text-3xl"></i>
+                    <p class="text-500 m-0 font-medium">Nenhuma ocorrência registrada hoje.</p>
+                    <p-button label="Adicionar Primeira Ocorrência" icon="pi pi-plus" severity="success" [text]="true" size="small" (onClick)="addOcorrencia()"></p-button>
                 </div>
 
                 <div *ngIf="ocorrencias.length > 0 && podeConsultarValorTotal"
-                    class="flex justify-content-between align-items-center mt-3 p-3 border-round total-card">
+                    class="flex justify-content-between align-items-center mt-3 p-3 border-round-lg total-card">
                     <div class="flex align-items-center gap-2">
                         <i class="pi pi-money-bill text-green-500 text-xl"></i>
-                        <span class="text-gray-600 font-medium">Valor Total</span>
+                        <span class="text-700 font-semibold">Valor Total Estimado</span>
                     </div>
-                    <span class="text-xl font-bold text-900">{{ totalValorOcorrencias | currency:'BRL' }}</span>
+                    <span class="text-xl font-bold text-green-700">{{ totalValorOcorrencias | currency:'BRL' }}</span>
                 </div>
             </div>
 
-
-            <div class="field col-12">
-                <label class="font-bold">Fotos do Dia</label>
+            <div class="field col-12 mt-3">
+                <label class="block text-900 text-base font-semibold mb-2">Fotos do Dia</label>
                 <p-fileUpload #fileUpload mode="advanced" name="demo[]" accept="image/*" [maxFileSize]="3000000"
                     [multiple]="true" [fileLimit]="3" [showUploadButton]="false" [showCancelButton]="false"
-                    chooseLabel="Escolher" (onSelect)="onSelect($event)" (onRemove)="onRemove($event)"
+                    chooseLabel="Escolher Imagens" (onSelect)="onSelect($event)" (onRemove)="onRemove($event)"
                     (onClear)="onClear()" invalidFileLimitMessageDetail="Limite máximo de 3 fotos excedido."
                     invalidFileLimitMessageSummary="Atenção:">
 
@@ -158,12 +187,21 @@
                 </p-fileUpload>
             </div>
 
-            <div class="field col-12 flex gap-2">
-                <p-button [label]="isEditMode ? 'Atualizar' : 'Salvar'" icon="pi pi-check" type="submit"
-                    [disabled]="reportForm.invalid">
+            <!-- Footer de Ações do Formulário -->
+            <div class="col-12 mt-4 pt-4 border-top-1 surface-border flex flex-column-reverse sm:flex-row justify-content-between align-items-center gap-3">
+                <p-button label="Voltar para Meus Relatórios" icon="pi pi-arrow-left" severity="secondary" [outlined]="true"
+                    routerLink="/relatorio-diario/meus-relatorios" styleClass="w-full sm:w-auto border-round-lg">
                 </p-button>
-                <p-button *ngIf="isEditMode" label="Cancelar" icon="pi pi-times" severity="secondary" [outlined]="true"
-                    routerLink="/relatorio-diario/meus-relatorios"></p-button>
+
+                <div class="flex flex-column sm:flex-row gap-2 w-full sm:w-auto">
+                    <p-button *ngIf="isEditMode" label="Cancelar" icon="pi pi-times" severity="secondary" [text]="true"
+                        routerLink="/relatorio-diario/meus-relatorios" styleClass="w-full sm:w-auto border-round-lg">
+                    </p-button>
+                    <p-button [label]="isEditMode ? 'Atualizar RDO' : 'Salvar RDO'" [icon]="isEditMode ? 'pi pi-refresh' : 'pi pi-check'"
+                        type="submit" [disabled]="reportForm.invalid" [loading]="uploading"
+                        styleClass="p-button-primary w-full sm:w-auto border-round-lg font-bold shadow-2">
+                    </p-button>
+                </div>
             </div>
         </div>
     </p-card>

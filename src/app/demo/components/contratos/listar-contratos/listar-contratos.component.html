@@ -1,21 +1,31 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <h5>Gestão de Contratos</h5>
+            <!-- Cabeçalho da Página -->
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+                <div>
+                    <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                        <i class="pi pi-briefcase text-primary text-2xl"></i>
+                        Gestão de Contratos
+                    </h2>
+                    <p class="text-500 m-0 mt-1">Gerencie os contratos de obras, engenheiros e encarregados</p>
+                </div>
+                <p-button label="Novo Contrato" icon="pi pi-plus" routerLink="/contratos"
+                    *ngIf="authService.temPermissao(Role.EDITAR_CONTRATO)" styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto">
+                </p-button>
+            </div>
 
             <p-table #dt [value]="contratos" [columns]="cols" responsiveLayout="stack" [breakpoint]="'960px'"
                 [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="multiple"
-                [rowHover]="true" dataKey="id">
+                [rowHover]="true" dataKey="id" styleClass="p-datatable-striped">
 
                 <ng-template pTemplate="caption">
-                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center pb-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left w-full md:w-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                                placeholder="Buscar contrato..." />
+                                placeholder="Buscar contrato..." class="w-full md:w-auto" />
                         </span>
-                        <button pButton label="Novo Contrato" icon="pi pi-plus" class="p-button-success"
-                            routerLink="/contratos" *ngIf="authService.temPermissao(Role.EDITAR_CONTRATO)"></button>
                     </div>
                 </ng-template>
 
@@ -29,7 +39,7 @@
                         <th pSortableColumn="dataInicio">Início <p-sortIcon field="dataInicio"></p-sortIcon></th>
                         <th pSortableColumn="dataFim">Fim <p-sortIcon field="dataFim"></p-sortIcon></th>
                         <th *ngIf="authService.temPermissao(Role.CONSULTAR_DASHBOARD)">Valor Manutenção</th>
-                        <th>Ações</th>
+                        <th style="width: 8rem">Ações</th>
                     </tr>
                 </ng-template>
 
@@ -37,7 +47,7 @@
                     <tr>
                         <td>
                             <span class="p-column-title">Nome</span>
-                            {{contrato.nome}}
+                            <span class="font-semibold text-900">{{contrato.nome}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">Descrição</span>
@@ -69,29 +79,23 @@
                         </td>
                         <td *ngIf="authService.temPermissao(Role.CONSULTAR_DASHBOARD)">
                             <span class="p-column-title">Valor Manutenção</span>
-                            <span *ngIf="contrato.valorManutencao; else semValor" class="font-bold">
+                            <span *ngIf="contrato.valorManutencao; else semValor" class="font-bold text-green-600">
                                 {{ contrato.valorManutencao | currency:'BRL' }}
                             </span>
                             <ng-template #semValor>-</ng-template>
                         </td>
                         <td>
-                            <div class="flex gap-2">
-                                <button pButton pRipple icon="pi pi-user"
-                                    class="p-button-rounded p-button-text p-button-success"
-                                    (click)="abrirDialogEncarregado(contrato)" pTooltip="Definir Encarregado"
-                                    tooltipPosition="bottom">
-                                </button>
+                            <div class="flex gap-1 action-buttons-group">
+                                <p-button icon="pi pi-user text-green-600" [rounded]="true" [text]="true" severity="success"
+                                    pTooltip="Definir Encarregado" tooltipPosition="top"
+                                    (onClick)="abrirDialogEncarregado(contrato)">
+                                </p-button>
 
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-text p-button-info" pTooltip="Editar Contrato"
-                                    tooltipPosition="bottom" [routerLink]="['/contratos/editar', contrato.id]"
+                                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info"
+                                    pTooltip="Editar Contrato" tooltipPosition="top"
+                                    [routerLink]="['/contratos/editar', contrato.id]"
                                     *ngIf="authService.temPermissao(Role.EDITAR_CONTRATO)">
-                                </button>
-
-                                <!-- <button pButton pRipple icon="pi pi-trash" (click)="delete(contrato)"
-                                    class="p-button-rounded p-button-text p-button-danger" pTooltip="Excluir Contrato"
-                                    tooltipPosition="bottom">
-                                </button> -->
+                                </p-button>
                             </div>
                         </td>
                     </tr>

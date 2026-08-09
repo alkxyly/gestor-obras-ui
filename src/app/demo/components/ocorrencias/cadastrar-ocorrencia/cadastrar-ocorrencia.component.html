@@ -1,58 +1,76 @@
-<div class="card p-fluid">
-    <h5>{{ isEditMode ? 'Edição de Ocorrência' : 'Cadastro de Ocorrência' }}</h5>
-    <form [formGroup]="ocorrenciaForm" (ngSubmit)="onSubmit()" class="grid">
+<div class="card">
+    <!-- Cabeçalho da Página -->
+    <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4 pb-3 border-bottom-1 surface-border">
+        <div>
+            <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-exclamation-circle text-primary text-2xl"></i>
+                {{ isEditMode ? 'Edição de Ocorrência' : 'Cadastro de Ocorrência' }}
+            </h2>
+            <p class="text-500 m-0 mt-1">Informe a descrição, unidade de medida e o valor de tabela da ocorrência</p>
+        </div>
+        <p-button label="Minhas Ocorrências" icon="pi pi-list" severity="secondary" [outlined]="true"
+            [routerLink]="['/ocorrencias/minhas-ocorrencias']" styleClass="p-button-sm border-round-lg w-full sm:w-auto">
+        </p-button>
+    </div>
+
+    <form [formGroup]="ocorrenciaForm" (ngSubmit)="onSubmit()" class="p-fluid grid formgrid">
       
       <div class="col-12 md:col-6 field">
-        <label for="description">Descrição</label>
+        <label for="description" class="block text-900 text-base font-semibold mb-2">Descrição</label>
         <input 
           id="description" 
           type="text" 
           pInputText 
           formControlName="descricao" 
-          placeholder="Ex: Substituição de Cadeia de Isolador e Ferragens" />
+          placeholder="Ex: Substituição de Cadeia de Isolador e Ferragens" class="w-full" />
         <small class="p-error" *ngIf="isFieldInvalid('description')">
           A descrição é obrigatória.
         </small>
       </div>
   
       <div class="col-6 md:col-3 field">
-        <label for="unit">Unidade</label>
+        <label for="unit" class="block text-900 text-base font-semibold mb-2">Unidade</label>
         <p-dropdown 
           id="unit" 
           [options]="units" 
           formControlName="unidade" 
           placeholder="Selecione"
           optionLabel="label"
-          optionValue="value">
+          optionValue="value"
+          styleClass="w-full">
         </p-dropdown>
       </div>
   
       <div class="col-6 md:col-3 field">
-        <label for="price">Preço</label>
+        <label for="price" class="block text-900 text-base font-semibold mb-2">Preço</label>
         <p-inputNumber 
           id="price" 
           formControlName="valor" 
           mode="currency" 
           currency="BRL" 
           locale="pt-BR"
-          placeholder="R$ 0,00">
+          placeholder="R$ 0,00"
+          styleClass="w-full">
         </p-inputNumber>
       </div>
   
-      <div class="col-12 flex justify-content-end mt-3">
+      <div class="col-12 mt-5 pt-4 border-top-1 surface-border flex flex-column-reverse sm:flex-row justify-content-between align-items-center gap-3">
         <p-button 
-          label="Cancelar" 
-          icon="pi pi-times" 
-          styleClass="p-button-text mr-2"
+          label="Voltar" 
+          icon="pi pi-arrow-left" 
+          severity="secondary"
+          [outlined]="true"
+          styleClass="w-full sm:w-auto border-round-lg"
           [routerLink]="['/ocorrencias/minhas-ocorrencias']">
         </p-button>
         <p-button 
-          label="Salvar" 
+          label="Salvar Ocorrência" 
           icon="pi pi-check" 
           type="submit" 
+          styleClass="p-button-primary border-round-lg font-bold shadow-2 w-full sm:w-auto"
           [disabled]="ocorrenciaForm.invalid">
         </p-button>
       </div>
   
     </form>
-  </div>
+</div>
