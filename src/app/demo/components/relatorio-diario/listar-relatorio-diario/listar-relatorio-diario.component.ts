@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
-import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UploadRequestDTO, UsuarioDTO, ImageDTO, Role } from '../../core/model';
+import { ContratoDTO, OcorrenciaDTO, RelatorioDiarioDTO, UploadRequestDTO, UsuarioDTO, ImageDTO, Role, EquipeDTO } from '../../core/model';
 import { ContratoService } from 'src/app/demo/service/contrato.service';
 import { OcorrenciaService } from 'src/app/demo/service/ocorrencia.service';
 import { relatorioDiarioService } from 'src/app/demo/service/relatorio-diario.service';
@@ -12,6 +12,7 @@ import { UploadService } from 'src/app/demo/service/upload.service';
 import { AuthService } from 'src/app/demo/components/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EquipeService } from 'src/app/demo/service/equipe.service';
 
 interface StatusOption {
   label: string;
@@ -26,7 +27,7 @@ interface StatusOption {
 export class ListarRelatorioDiarioComponent implements OnInit {
 
   reportForm!: FormGroup;
-  funcionarios: UsuarioDTO[] = [];
+  equipe: EquipeDTO[] = [];
   contratos: ContratoDTO[] = [];
   contratoSelecionado: ContratoDTO;
   tiposOcorrencias: OcorrenciaDTO[] = [];
@@ -52,6 +53,7 @@ export class ListarRelatorioDiarioComponent implements OnInit {
     private usuarioService: UsuarioService,
     private uploadService: UploadService,
     private authService: AuthService,
+    private equipeService: EquipeService,
     private route: ActivatedRoute,
     private router: Router,
     private sanitizer: DomSanitizer,
@@ -83,7 +85,7 @@ export class ListarRelatorioDiarioComponent implements OnInit {
           this.contratoSelecionado = this.contratos.find(c => c.id == relatorioContratoId) || relatorioContratoId;
           const cid = typeof this.contratoSelecionado === 'object' ? this.contratoSelecionado.id : relatorioContratoId;
           this.listarOcorrenciasPorContrato(cid);
-          this.listarFuncionarios(cid);
+          this.listarEquipe(cid);
         }
 
         let localizacao = null;
@@ -105,7 +107,11 @@ export class ListarRelatorioDiarioComponent implements OnInit {
 
         let funcionariosObjArray = [];
         if (relatorio.funcionariosAusentes && Array.isArray(relatorio.funcionariosAusentes)) {
-          funcionariosObjArray = relatorio.funcionariosAusentes;
+          funcionariosObjArray = relatorio.funcionariosAusentes.map((f: any) => ({
+            ...f,
+            usuarioId: f.usuarioId || f.id,
+            id: f.id || f.usuarioId
+          }));
         }
 
         if (relatorio.fotos && Array.isArray(relatorio.fotos)) {
@@ -208,10 +214,10 @@ export class ListarRelatorioDiarioComponent implements OnInit {
   }
 
 
-  listarFuncionarios(contratoId: number) {
-    this.contratoService.listarFuncionariosDoContrato(contratoId).subscribe(response => {
-      this.funcionarios = response;
-    })
+  listarEquipe(contratoId: number) {
+    this.equipeService.buscarPorContrato(contratoId).subscribe(response => {
+      this.equipe = response;
+    });
   }
 
 
@@ -357,7 +363,7 @@ export class ListarRelatorioDiarioComponent implements OnInit {
           valor: ocorrenciaTipo ? ocorrenciaTipo.valor : (item.valor || 0)
         };
       }),
-      funcionariosAusentesId: reportData.funcionariosAusentesId ? reportData.funcionariosAusentesId.map((usuario: UsuarioDTO) => usuario.id) : [],
+      funcionariosAusentesId: reportData.funcionariosAusentesId ? reportData.funcionariosAusentesId.map((membro: any) => membro.id !== undefined ? membro.id : membro) : [],
       fotos: fotos,
       linha: reportData.linha,
       estrutura: reportData.estrutura,
@@ -405,9 +411,11 @@ export class ListarRelatorioDiarioComponent implements OnInit {
 
     if (contrato && contrato.id) {
       this.listarOcorrenciasPorContrato(contrato.id);
-      this.listarFuncionarios(contrato.id);
+      this.listarEquipe(contrato.id);
     } else {
       this.tiposOcorrencias = [];
+      this.equipe = [];
     }
   }
 }
+

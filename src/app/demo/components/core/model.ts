@@ -585,3 +585,13 @@ export class AlterarSituacaoSolicitacaoCompraDTO {
     solicitacaoCompraId: string;
     situacao: string;
 }
+
+export class EquipeDTO {
+    equipeId: number;
+    id: number;
+    nome: string;
+    nomeEncarregado: string;
+    nomeEquipe: string;
+    usuarioId: string;
+}
+
