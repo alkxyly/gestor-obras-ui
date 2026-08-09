@@ -21,7 +21,8 @@ import { AuthGuard } from './demo/components/auth/auth.guard';
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },
                     { path: 'blocks', loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
-                    { path: 'solicitacao-compra', loadChildren: () => import('./demo/components/solicitacao-compra/solicitacao-compra.module').then(m => m.SolicitacaoCompraModule) }
+                    { path: 'solicitacao-compra', loadChildren: () => import('./demo/components/solicitacao-compra/solicitacao-compra.module').then(m => m.SolicitacaoCompraModule) },
+                    { path: 'equipes', loadChildren: () => import('./demo/components/equipes/equipes.module').then(m => m.EquipesModule) }
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

@@ -1,0 +1,66 @@
+<div class="card">
+    <div
+        class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-4">
+        <div>
+            <h4 class="text-900 font-bold m-0">Minhas Equipes</h4>
+            <p class="text-500 m-0 mt-1">Listagem de equipes cadastradas, encarregados e membros</p>
+        </div>
+        <p-button label="Nova Equipe" icon="pi pi-plus" (onClick)="novaEquipe()" styleClass="w-full sm:w-auto">
+        </p-button>
+    </div>
+
+    <p-table [value]="equipes" [lazy]="true" (onLazyLoad)="loadEquipes($event)" responsiveLayout="scroll"
+        [paginator]="true" [rows]="rowsPerPage" [totalRecords]="totalRecords" [loading]="loading"
+        [rowsPerPageOptions]="[5, 10, 20, 50]" styleClass="p-datatable-striped p-datatable-gridlines">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nome da Equipe</th>
+                <th>Encarregado Responsável</th>
+                <th>Membros da Equipe</th>
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-equipe>
+            <tr>
+                <td>
+                    <span class="p-column-title">Nome da Equipe</span>
+                    <span class="font-semibold text-900">{{ equipe.nome }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Encarregado</span>
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-user text-primary"></i>
+                        <span class="font-medium">{{ getEncarregadoNome(equipe) }}</span>
+                    </div>
+                </td>
+                <td>
+                    <span class="p-column-title">Membros</span>
+                    <div class="flex flex-wrap gap-1"
+                        *ngIf="equipe.membros && equipe.membros.length > 0; else noMembros">
+                        <span *ngFor="let membro of equipe.membros"
+                            class="inline-flex align-items-center px-2 py-1 border-round text-sm font-medium bg-blue-50 text-blue-700 border-1 border-blue-200">
+                            <i class="pi pi-user mr-1 text-xs"></i>
+                            {{ membro.nome }}
+                        </span>
+                    </div>
+                    <ng-template #noMembros>
+                        <span class="text-500 font-italic text-sm">Nenhum membro</span>
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4" class="text-center p-4">
+                    <div class="flex flex-column align-items-center gap-2">
+                        <i class="pi pi-users text-400 text-4xl"></i>
+                        <span class="text-600 font-medium">Nenhuma equipe encontrada.</span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
