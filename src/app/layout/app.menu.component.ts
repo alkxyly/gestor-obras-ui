@@ -68,6 +68,7 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Equipes',
+                visible: this.authService.temPermissao(Role.EDITAR_CONTRATO),
                 items: [
                     { label: 'Cadastrar Equipe', icon: 'pi pi-fw pi-users', routerLink: ['/equipes'] },
                     { label: 'Minhas Equipes', icon: 'pi pi-fw pi-sitemap', routerLink: ['/equipes/minhas-equipes'] }
@@ -75,6 +76,7 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Solicitação de Compra',
+                visible: this.authService.temPermissao(Role.EDITAR_CONTRATO),
                 items: [
                     { label: 'Cadastrar Solicitação', icon: 'pi pi-fw pi-cart-plus', routerLink: ['/solicitacao-compra/novo'] },
                     { label: 'Minhas Solicitações', icon: 'pi pi-fw pi-shopping-bag', routerLink: ['/solicitacao-compra'] },
