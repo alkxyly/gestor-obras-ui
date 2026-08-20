@@ -39,12 +39,17 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           summary = 'Não Encontrado';
           detail = 'O recurso solicitado não foi encontrado.';
           break;
+        case 409:
+          summary = error.error?.title || 'Conflito de Dados';
+          detail = error.error?.detail || 'O registro está sendo utilizado em outro cadastro.';
+          break;
         case 500:
           summary = 'Erro Interno';
           detail = 'Erro no servidor. Nossa equipe técnica já foi notificada.';
           break;
         default:
-          detail = `Erro desconhecido: ${error.status}`;
+          summary = error.error?.title || 'Erro';
+          detail = error.error?.detail || `Erro desconhecido: ${error.status}`;
       }
 
       messageService.add({

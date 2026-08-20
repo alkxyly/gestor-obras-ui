@@ -13,6 +13,10 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,11 @@ import { TableModule } from 'primeng/table';
     CardModule,
     ToastModule,
     TableModule,
+    DialogModule,
+    ConfirmDialogModule,
+    TooltipModule,
     EquipesRoutingModule
-  ]
+  ],
+  providers: [ConfirmationService]
 })
 export class EquipesModule { }
