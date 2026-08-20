@@ -21,6 +21,7 @@
                 <th>Nome da Equipe</th>
                 <th>Encarregado Responsável</th>
                 <th>Membros da Equipe</th>
+                <th style="width: 10rem; text-align: center;">Ações</th>
             </tr>
         </ng-template>
 
@@ -51,6 +52,19 @@
                         <span class="text-500 font-italic text-sm">Nenhum membro</span>
                     </ng-template>
                 </td>
+                <td>
+                    <span class="p-column-title">Ações</span>
+                    <div class="flex gap-1 action-buttons-group">
+                        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info"
+                            pTooltip="Editar Equipe" tooltipPosition="top"
+                            (onClick)="abrirDialogoEdicao(equipe)">
+                        </p-button>
+                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                            pTooltip="Excluir Equipe" tooltipPosition="top"
+                            (onClick)="confirmarExclusao(equipe)">
+                        </p-button>
+                    </div>
+                </td>
             </tr>
         </ng-template>
 
@@ -66,3 +80,92 @@
         </ng-template>
     </p-table>
 </div>
+
+<!-- ========== DIÁLOGO DE EDIÇÃO ========== -->
+<p-dialog header="Editar Equipe" [(visible)]="exibirDialogoEdicao" [modal]="true" [closable]="true"
+    [style]="{ width: '650px' }" [breakpoints]="{ '768px': '95vw' }" styleClass="p-fluid">
+
+    <form [formGroup]="equipeEditForm" class="grid formgrid mt-2">
+        <!-- Nome da Equipe -->
+        <div class="field col-12">
+            <label for="editNome" class="block text-900 text-base font-semibold mb-2">Nome da Equipe</label>
+            <input id="editNome" type="text" pInputText formControlName="nome"
+                placeholder="Ex: Equipe de Manutenção Alpha" class="w-full" />
+            <small *ngIf="equipeEditForm.get('nome')?.invalid && equipeEditForm.get('nome')?.touched" class="p-error">
+                Nome da equipe é obrigatório (mínimo 3 caracteres).
+            </small>
+        </div>
+
+        <!-- Encarregado -->
+        <div class="field col-12">
+            <label for="editUsuarioId" class="block text-900 text-base font-semibold mb-2">Encarregado Responsável</label>
+            <p-dropdown id="editUsuarioId" [options]="encarregados" formControlName="usuarioId"
+                optionLabel="nome" optionValue="id" placeholder="Selecione o encarregado"
+                [filter]="true" filterBy="nome" emptyMessage="Nenhum encarregado encontrado" styleClass="w-full">
+                <ng-template let-usuario pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-user text-primary"></i>
+                        <span>{{ usuario.nome }}</span>
+                        <small class="text-500 font-italic" *ngIf="usuario.cargo">({{ usuario.cargo }})</small>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+            <small *ngIf="equipeEditForm.get('usuarioId')?.invalid && equipeEditForm.get('usuarioId')?.touched"
+                class="p-error">
+                Seleção do encarregado é obrigatória.
+            </small>
+        </div>
+
+        <!-- Membros -->
+        <div class="col-12 mt-2">
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-start sm:align-items-center gap-3 mb-3 pb-2 border-bottom-1 surface-border">
+                <label class="block text-900 text-lg font-bold m-0 flex align-items-center gap-2">
+                    <i class="pi pi-user-plus text-primary"></i>
+                    Membros da Equipe
+                </label>
+                <p-button label="Adicionar Membro" icon="pi pi-plus-circle" size="small" severity="success"
+                    [outlined]="true" (onClick)="addMembroEdicao()" styleClass="border-round-lg w-full sm:w-auto">
+                </p-button>
+            </div>
+
+            <div formArrayName="membros" class="flex flex-column gap-3" style="max-height: 300px; overflow-y: auto;">
+                <div *ngFor="let item of membrosEdicao.controls; let i = index" [formGroupName]="i"
+                    class="grid align-items-center p-2 surface-50 border-1 surface-border border-round-lg shadow-1 transition-all">
+                    <div class="col-10 sm:col-11 flex align-items-center gap-2">
+                        <span class="badge-index bg-primary-100 text-primary font-bold border-circle flex align-items-center justify-content-center"
+                            style="width: 24px; height: 24px; font-size: 0.75rem;">
+                            {{ i + 1 }}
+                        </span>
+                        <input pInputText formControlName="nome" placeholder="Nome do membro da equipe" class="w-full" />
+                    </div>
+                    <div class="col-2 sm:col-1 flex justify-content-center">
+                        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true"
+                            pTooltip="Remover Membro" tooltipPosition="top" (onClick)="removeMembroEdicao(i)">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="membrosEdicao.length === 0"
+                class="text-center p-4 border-1 border-dashed border-300 border-round-lg surface-50 mt-2 flex flex-column align-items-center gap-2">
+                <i class="pi pi-info-circle text-400 text-2xl"></i>
+                <span class="text-500 font-medium">Nenhum membro adicionado. Clique em "Adicionar Membro".</span>
+            </div>
+        </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Cancelar" icon="pi pi-times" severity="secondary" [outlined]="true"
+                (onClick)="exibirDialogoEdicao = false" styleClass="border-round-lg">
+            </p-button>
+            <p-button label="Salvar Alterações" icon="pi pi-check" (onClick)="salvarEdicao()"
+                [disabled]="equipeEditForm.invalid || salvandoEdicao" [loading]="salvandoEdicao"
+                styleClass="p-button-primary border-round-lg font-bold">
+            </p-button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<!-- ========== DIÁLOGO DE CONFIRMAÇÃO DE EXCLUSÃO ========== -->
+<p-confirmDialog styleClass="border-round-lg"></p-confirmDialog>
