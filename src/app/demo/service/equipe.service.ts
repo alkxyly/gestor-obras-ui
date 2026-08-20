@@ -16,7 +16,7 @@ export interface EquipeItemDTO {
   nome: string;
   usuarioId: string;
   nomeEncarregado?: string;
-  membros: { nome: string }[];
+  membros: { id?: number; nome: string }[];
 }
 
 @Injectable({
@@ -40,5 +40,17 @@ export class EquipeService {
 
   cadastrar(equipe: any): Observable<any> {
     return this.http.post<any>(`${this.url}`, equipe);
+  }
+
+  buscarPorId(id: number): Observable<any> {
+    return this.http.get<any>(`${this.url}/${id}`);
+  }
+
+  atualizar(id: number, equipe: any): Observable<any> {
+    return this.http.put<any>(`${this.url}/${id}`, equipe);
+  }
+
+  excluir(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.url}/${id}`);
   }
 }
